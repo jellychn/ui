@@ -1,7 +1,6 @@
 import React from 'react';
 import Cart from '../components/Cart';
-import Address from '../components/Address';
-import Payment from '../components/Payment';
+import Order from '../components/Order';
 
 class Checkout extends React.Component {
     constructor(props) {
@@ -18,10 +17,8 @@ class Checkout extends React.Component {
     content = () => {
         if (this.state.page === 'CART') {
             return <Cart/>
-        } else if (this.state.page === 'ADDRESS') {
-            return <Address/>
-        } else if (this.state.page === 'PAYMENT') {
-            return <Payment/>
+        } else if (this.state.page === 'ORDER') {
+            return <Order/>
         }
     }
 
@@ -32,8 +29,7 @@ class Checkout extends React.Component {
                     <h1 className='directory'>{this.state.page}</h1>
                     <div className='navigation'>
                         <h2 onClick={() => {this.navigation('CART')}}>CART</h2>
-                        <h2 onClick={() => {this.navigation('ADDRESS')}}>ADDRESS</h2>
-                        <h2 onClick={() => {this.navigation('PAYMENT')}}>PAYMENT</h2>
+                        <h2 onClick={() => {this.navigation('ORDER')}}>ORDER</h2>
                     </div>
                 </div>
                 {this.content()}
