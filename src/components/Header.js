@@ -22,7 +22,6 @@ class Header extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.location.pathname !== prevProps.location.pathname) {
             this.checkHeader();
-            console.log('hi')
         }
     }
 
@@ -31,7 +30,7 @@ class Header extends React.Component {
         if (window.location.pathname.split('/')[1] === 'display') {
             this.setState({displayPage: true});
         } else {
-            this.setState({displayPage: false});
+            this.setState({displayPage: false, filter: false});
         }
     }
 
