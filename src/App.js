@@ -21,23 +21,25 @@ function App() {
         <Router>
         <Header/>
         <body>
-          <Switch>
-            <Route path='/cart'>
-              <Checkout/>
-            </Route>
-            <Route path='/item'>
-              <Item/>
-            </Route>
-            <Route path='/profile'>
-              <Profile/>
-            </Route>
-            <Route path={'/display' || '/display/women' || '/display/men'}>
-              <Display/>
-            </Route>
-            <Route path='/'>
-              <Home/>
-            </Route>
-          </Switch>
+          <div className='container'>
+            <Switch>
+              <Route path='/cart'>
+                <Checkout/>
+              </Route>
+              <Route path='/item'>
+                <Item/>
+              </Route>
+              <Route path='/profile'>
+                <Profile/>
+              </Route>
+              <Route path={'/display' || '/display/women' || '/display/men'}>
+                <Display/>
+              </Route>
+              <Route path='/'>
+                <Home/>
+              </Route>
+            </Switch>
+          </div>
         </body>
         <Footer/>
         </Router>

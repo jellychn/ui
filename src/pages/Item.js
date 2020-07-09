@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import img from '../assets/icons/primary.jpg';
 
 class Item extends React.Component {
@@ -45,36 +46,42 @@ class Item extends React.Component {
                 <div className='item-bottom'>
                     <h1>YOU MIGHT ALSO LIKE</h1>
                     <div className='item-options-container'>
-                        <div className='item-option' style={{margin: '0 10px 0 0'}}>
+                        <div className='item-option'>
                             <div className='item-option-inner'>
-                                <img src={img}/>
-                                <div className='input-align'>
-                                    <p style={{fontSize: '15px', fontWeight: 'bold'}}>TOM AND JERRY</p>
-                                    <p style={{marginLeft: 'auto', fontSize: '15px'}}>$150</p>
-                                </div>
-                                <p style={{fontSize: '15px'}}>SHIRT</p>
+                                <Link to='/item'>
+                                    <img src={img}/>
+                                    <div className='input-align'>
+                                        <p style={{fontWeight: 'bold'}}>TOM AND JERRY</p>
+                                        <p style={{marginLeft: 'auto'}}>$150</p>
+                                    </div>
+                                    <p>SHIRT</p>
+                                </Link>
                             </div>
                         </div>
 
-                        <div className='item-option' style={{margin: '0 10px 0 10px'}}>
+                        <div className='item-option'>
                             <div className='item-option-inner'>
-                                <img src={img}/>
-                                <div className='input-align'>
-                                    <p style={{fontSize: '15px', fontWeight: 'bold'}}>TOM AND JERRY</p>
-                                    <p style={{marginLeft: 'auto', fontSize: '15px'}}>$150</p>
-                                </div>
-                                <p style={{fontSize: '15px'}}>SHIRT</p>
+                                <Link to='/item'>
+                                    <img src={img}/>
+                                    <div className='input-align'>
+                                        <p style={{fontWeight: 'bold'}}>TOM AND JERRY</p>
+                                        <p style={{marginLeft: 'auto'}}>$150</p>
+                                    </div>
+                                    <p>SHIRT</p>
+                                </Link>
                             </div>
                         </div>
 
-                        <div className='item-option' style={{margin: '0 0 0 10px'}}>
+                        <div className='item-option'>
                             <div className='item-option-inner'>
-                                <img src={img}/>
-                                <div className='input-align'>
-                                    <p style={{fontSize: '15px', fontWeight: 'bold'}}>TOM AND JERRY</p>
-                                    <p style={{marginLeft: 'auto', fontSize: '15px'}}>$150</p>
-                                </div>
-                                <p style={{fontSize: '15px'}}>SHIRT</p>
+                                <Link to='/item'>
+                                    <img src={img}/>
+                                    <div className='input-align'>
+                                        <p style={{fontWeight: 'bold'}}>TOM AND JERRY</p>
+                                        <p style={{marginLeft: 'auto'}}>$150</p>
+                                    </div>
+                                    <p>SHIRT</p>
+                                </Link>
                             </div>
                         </div>
                     </div>

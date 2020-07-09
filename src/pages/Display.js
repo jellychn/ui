@@ -23,17 +23,60 @@ class Display extends React.Component {
                     <p>PANTS</p>
                 </div>
 
-                <Link to='/item' className='display-item'>
+                <div to='/item' className='display-item'>
                     <div className='display-item-inner'>
-                        <div className='like'/>
-                        <img src={img}/>
-                        <div className='input-align'>
-                            <p style={{fontSize: '15px', fontWeight: 'bold'}}>TOM AND JERRY</p>
-                            <p style={{marginLeft: 'auto', fontSize: '15px'}}>$150</p>
-                        </div>
-                        <p style={{fontSize: '15px'}}>SHIRT</p>
+                        <Link to='/item'>
+                            <div className='like'/>
+                            <img src={img}/>
+                            <div className='input-align'>
+                                <p style={{fontSize: '15px', fontWeight: 'bold'}}>TOM AND JERRY</p>
+                                <p style={{marginLeft: 'auto', fontSize: '15px'}}>$150</p>
+                            </div>
+                            <p style={{fontSize: '15px'}}>SHIRT</p>
+                        </Link>
                     </div>
-                </Link>
+                </div>
+                
+                <div to='/item' className='display-item'>
+                    <div className='display-item-inner'>
+                        <Link to='/item'>
+                            <div className='like'/>
+                            <img src={img}/>
+                            <div className='input-align'>
+                                <p style={{fontSize: '15px', fontWeight: 'bold'}}>TOM AND JERRY</p>
+                                <p style={{marginLeft: 'auto', fontSize: '15px'}}>$150</p>
+                            </div>
+                            <p style={{fontSize: '15px'}}>SHIRT</p>
+                        </Link>
+                    </div>
+                </div>
+                <div to='/item' className='display-item'>
+                    <div className='display-item-inner'>
+                        <Link to='/item'>
+                            <div className='like'/>
+                            <img src={img}/>
+                            <div className='input-align'>
+                                <p style={{fontSize: '15px', fontWeight: 'bold'}}>TOM AND JERRY</p>
+                                <p style={{marginLeft: 'auto', fontSize: '15px'}}>$150</p>
+                            </div>
+                            <p style={{fontSize: '15px'}}>SHIRT</p>
+                        </Link>
+                    </div>
+                </div>
+                <div to='/item' className='display-item'>
+                    <div className='display-item-inner'>
+                        <Link to='/item'>
+                            <div className='like'/>
+                            <img src={img}/>
+                            <div className='input-align'>
+                                <p style={{fontSize: '15px', fontWeight: 'bold'}}>TOM AND JERRY</p>
+                                <p style={{marginLeft: 'auto', fontSize: '15px'}}>$150</p>
+                            </div>
+                            <p style={{fontSize: '15px'}}>SHIRT</p>
+                        </Link>
+                    </div>
+                </div>
+
             </div>
         )
     }

@@ -6,42 +6,15 @@ function Cart() {
         <div className='cart'>
             <div className='cart-items-container'>
                 <div className='order-item'>
-                    <div className='input-align'>
+                    <div className='order-item-inner'>
                         <img src={img}/>
                         <div className='order-info'>
-                            <p style={{fontSize: '20px', fontWeight: 'bold', color: 'black'}}>TOM AND JERRY</p>
+                            <p style={{fontWeight: 'bold', color: 'black'}}>TOM AND JERRY</p>
                             <p>TEE</p>
                             <p>SIZE L</p>
                             <p>COLOR WHITE</p>
-                            <button>REMOVE</button>
                         </div>
-                        <p style={{margin: '0 0 0 auto', fontWeight: 'bold', textAlign: 'right'}}>2 X $80</p>
-                    </div>
-                </div>
-                <div className='order-item'>
-                    <div className='input-align'>
-                        <img src={img}/>
-                        <div className='order-info'>
-                            <p style={{fontSize: '20px', fontWeight: 'bold', color: 'black'}}>TOM AND JERRY</p>
-                            <p>TEE</p>
-                            <p>SIZE L</p>
-                            <p>COLOR WHITE</p>
-                            <button>REMOVE</button>
-                        </div>
-                        <p style={{margin: '0 0 0 auto', fontWeight: 'bold', textAlign: 'right'}}>2 X $80</p>
-                    </div>
-                </div>
-                <div className='order-item'>
-                    <div className='input-align'>
-                        <img src={img}/>
-                        <div className='order-info'>
-                            <p style={{fontSize: '20px', fontWeight: 'bold', color: 'black'}}>TOM AND JERRY</p>
-                            <p>TEE</p>
-                            <p>SIZE L</p>
-                            <p>COLOR WHITE</p>
-                            <button>REMOVE</button>
-                        </div>
-                        <p style={{margin: '0 0 0 auto', fontWeight: 'bold', textAlign: 'right'}}>2 X $80</p>
+                        <p style={{margin: '0 0 0 auto', fontWeight: 'bold'}}>2 X $80</p>
                     </div>
                 </div>
             </div>
