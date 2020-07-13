@@ -11,7 +11,8 @@ class Header extends React.Component {
         super(props);
         this.state = {
             filter: false,
-            displayPage: false
+            displayPage: false,
+            filterMsg: 'SHOW FILTERS'
         }
     }
 
@@ -30,12 +31,16 @@ class Header extends React.Component {
         if (window.location.pathname.split('/')[1] === 'display') {
             this.setState({displayPage: true});
         } else {
-            this.setState({displayPage: false, filter: false});
+            this.setState({displayPage: false, filter: false, filterMsg: 'SHOW FILTERS'});
         }
     }
 
     toggleFilter = () => {
-        this.setState({filter: !this.state.filter})
+        if (this.state.filter === false) {
+            this.setState({filter: true, filterMsg: 'HIDE FILTERS'});
+        } else {
+            this.setState({filter: false, filterMsg: 'SHOW FILTERS'});
+        }
     }
 
     render () {
@@ -56,7 +61,7 @@ class Header extends React.Component {
 
                     <div className='display-header' style={{display: this.state.displayPage ? 'flex':'none'}}>
                         <h2 className='display-directory'>WOMAN / SHIRTS</h2>
-                        <p className='filter' onClick={this.toggleFilter}>FILTERS</p>
+                        <p className='filter' onClick={this.toggleFilter}>{this.state.filterMsg}</p>
                         <select className='options'>
                             <option>LOW PRICE</option>
                             <option>HIGH PRICE</option>

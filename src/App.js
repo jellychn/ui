@@ -26,7 +26,7 @@ function App() {
               <Route path='/cart'>
                 <Checkout/>
               </Route>
-              <Route path='/item'>
+              <Route path='/item/:id'>
                 <Item/>
               </Route>
               <Route path='/profile'>
