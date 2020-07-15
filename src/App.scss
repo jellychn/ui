@@ -1,7 +1,7 @@
 
 // header
 .header {
-  z-index: 1;
+  z-index: 2;
   background-color: white;
   position: fixed;
   top: 0px;
@@ -34,8 +34,75 @@
       .header-icons {
         background-size: cover;
         cursor: pointer;
+
+        .cart-indicator, .favorites-indicator {
+          margin: 0 0 0 auto;
+          border-radius: 100%;
+        }
+
+        .cart-indicator {
+          background-color: #42aaf5;
+        }
+
+        .favorites-indicator {
+          background-color: #f76d63;
+        }
       }
     }
+  }
+}
+
+// modal
+.modal {
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background-color: rgba($color: #000000, $alpha: 0.5);
+  position: fixed;
+}
+
+.header-modal {
+  position: fixed;
+  background-color: white;
+
+  h1 {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  .img-container {
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .item-info {
+    margin: 10px 0 0 0;
+
+    p {
+      font-size: 12px;
+    }
+  }
+
+  .cart-button, .continue-button {
+    width: 100%;
+    padding: 20px;
+    border-radius: 30px;
+    border: none;
+    margin: 20px 0 0 0;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .cart-button {
+    background-color: black;
+    color: white;
+  }
+
+  .continue-button {
+    background-color: #eee;
+    color: black;
   }
 }
 
@@ -80,6 +147,7 @@
       right: 30px;
       top: 30px;
       background-size: cover;
+      cursor: pointer;
 
       &:hover {
         background-color: white;
@@ -107,7 +175,7 @@
       border-radius: 20px;
       border: 1px solid gray;
       color: gray;
-      
+      cursor: pointer;
       outline: none;
 
       &:hover {
@@ -313,10 +381,15 @@
 
   .order-item-inner {
 
-    img {
-      height: 100%;
+    .img-link {
       margin-right: 20px;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }  
     }
+
     .order-info {
       margin: auto 0;
       height: 100%;
@@ -370,15 +443,14 @@
     font-weight: bold;
     cursor: pointer;
     outline: none;
-    border: 1px solid black;
     background-color: black;
     color: white;
+    border: none;
   }
 
   .paypal {
     margin-top: 20px;
     background-color: #eee;
-    border: 1px solid gray;
     color: black;
   }
 }
@@ -427,7 +499,8 @@
 
     .item-left {
       flex: 1;
-      width: 50%;
+      width: 100%;
+      overflow: auto;
 
       img {
         width: 50%;
@@ -476,17 +549,16 @@
         font-weight: bold;
         cursor: pointer;
         outline: none;
+        border: none;
       }
   
       .add {
         color: white;
         background-color: black;
-        border: 1px solid black;
       }
   
       .favorite {
-        border: 1px solid #eee;
-        background-color: white;
+        background-color: #eee;
       }
     }
   }

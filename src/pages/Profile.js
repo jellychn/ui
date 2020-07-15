@@ -1,14 +1,10 @@
 import React from 'react';
 import Settings from '../components/Settings';
 import Orders from '../components/Orders';
-import Favorites from '../components/Favorites';
 
 class Profile extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            page: 'SETTINGS' // take from url insted
-        }
+    state = {
+        page: window.location.pathname.split('/')[2].toUpperCase() // take from url insted
     }
 
     navigation = (to) => {
@@ -20,10 +16,7 @@ class Profile extends React.Component {
             return <Settings/>
         } else if (this.state.page === 'ORDERS') {
             return <Orders/>
-        } else if (this.state.page === 'FAVORITES') {
-            return <Favorites/>
         }
-
     }
 
     render () {
@@ -33,7 +26,6 @@ class Profile extends React.Component {
                     <h1 className='directory'>{this.state.page}</h1>
                     <div className='navigation'>
                         <h2 onClick={() => {this.navigation('SETTINGS')}}>SETTINGS</h2>
-                        <h2 onClick={() => {this.navigation('FAVORITES')}}>FAVORITES</h2>
                         <h2 onClick={() => {this.navigation('ORDERS')}}>ORDERS</h2>
                     </div>
                 </div>

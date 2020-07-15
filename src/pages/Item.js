@@ -1,20 +1,72 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
+import {connect} from 'react-redux';
+import * as actions from '../actions/actions';
+import itemFunctions from '../tools/itemFunctions';
 import img from '../assets/icons/primary.jpg';
 
 class Item extends React.Component {
     state = {
         item: {},
-        loaded: false
+        loaded: false,
+        size: '',
+        color: '',
+        quantity: 1
     };
 
     componentDidMount() {
         const itemId = window.location.pathname.split('/')[2];
         axios.get('http://localhost:4001/api/items/' + itemId).then(res => {
-            this.setState({item:res.data, loaded: true});
+            const keys = Object.keys(res.data.colors);
+            this.setState({item:res.data, loaded: true, size: res.data.sizes[0], color: keys[0]});
         });
     };
+
+    addItemToCart = () => {
+        if (localStorage.getItem('cart') === null) {
+            localStorage.setItem('cart', JSON.stringify([]));
+        }
+        
+        let inCart = false;
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        const newItem = {
+            '_id': this.state.item._id,
+            'name': this.state.item.name,
+            'price': this.state.item.price,
+            'type': this.state.item.type,
+            'size': this.state.size,
+            'color': this.state.color,
+            'colors': this.state.item.colors,
+            'images': this.state.item.images,
+            'quantity': this.state.quantity
+        }
+
+        for (let i=0; i<cart.length; i++) {
+            if (cart[i]._id === newItem._id && cart[i].size === newItem.size && cart[i].color === newItem.color) {
+                cart[i].quantity = cart[i].quantity += newItem.quantity;
+                inCart = true;
+            }
+        }
+
+        if (inCart === false) {
+            cart.push(newItem);
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        this.props.checkCartHasItems();
+        this.props.itemAdded(newItem, 'CART');
+        this.props.openModel();
+    };
+
+    onChange = (e) => {
+        if (e.target.name === 'size') {
+            this.setState({'size': e.target.value});
+        } else if (e.target.name === 'color') {
+            this.setState({'color': e.target.value});
+        } else if (e.target.name === 'quantity') {
+            this.setState({'quantity': parseInt(e.target.value)});
+        }
+    }
 
     render () {
         if (this.state.loaded === true) {
@@ -23,11 +75,11 @@ class Item extends React.Component {
             });
 
             let size = this.state.item.sizes.map((size, index) => {
-                return <option key={index}>{size}</option>
+                return <option key={index} value={size}>{size}</option>
             });
 
-            let color = this.state.item.colors.map((color, index) => {
-                return <option key={index}>{color}</option>
+            let color = Object.keys(this.state.item.colors).map((color, index) => {
+                return <option key={index} value={color}>{color}</option>
             });
 
             return (
@@ -43,15 +95,23 @@ class Item extends React.Component {
                             </div>
                             <h1 className='item-name'>{this.state.item.name}</h1>
                             <p className='item-select-info'>SIZE</p>
-                            <select name='size'>
+                            <select name='size' onChange={(e) => {this.onChange(e)}}>
                                 {size}
                             </select>
                             <p className='item-select-info'>COLOR</p>
-                            <select name='color'>
+                            <select name='color' onChange={(e) => {this.onChange(e)}}>
                                 {color}
                             </select>
-                            <button className='add'>ADD</button>
-                            <button className='favorite'>FAVORITE</button>
+                            <p className='item-select-info'>QUANTITY</p>
+                            <select name='quantity' onChange={(e) => {this.onChange(e)}}>
+                                <option value={1}>1</option>
+                                <option value={2}>2</option>
+                                <option value={3}>3</option>
+                                <option value={4}>4</option>
+                                <option value={5}>5</option>
+                            </select>
+                            <button className='add' onClick={this.addItemToCart}>ADD</button>
+                            <button className='favorite' onClick={() => {itemFunctions.favorite(this.state.item, this.props.checkFavoritesHasItems); this.props.itemAdded(this.state.item, 'FAVORITES'); this.props.openModel()}}>FAVORITE</button>
                         </div>
                     </div>
                     <div className='item-bottom'>
@@ -105,4 +165,13 @@ class Item extends React.Component {
     }
 }
 
-export default Item;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        checkCartHasItems: () => dispatch(actions.checkCartHasItems()),
+        checkFavoritesHasItems: () => dispatch(actions.checkFavoritesHasItems()),
+        itemAdded: (item, added) => dispatch(actions.itemAdded(item, added)),
+        openModel: () => dispatch({type: 'OPEN_MODEL'})
+    }
+};
+
+export default connect(null, mapDispatchToProps)(Item);

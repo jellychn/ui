@@ -54,6 +54,21 @@ code {
     .end-icon {
       margin: auto 0 0 3px;
     }
+
+    .cart-indicator, .favorites-indicator {
+      width: 6px;
+      height: 6px;
+    }
+  }
+
+  .header-modal {
+    padding: 80px 40px 20px 40px;
+    height: 100vh;
+    top: 0px;
+
+    .img-container {
+      width: 100%;
+    }
   }
 
   .item-container {
@@ -142,7 +157,7 @@ code {
   .order-item-inner {
     display: block;
 
-    img {
+    .img-link {
       width: 100%;
       margin: 0 0 10px 0;
     }
@@ -176,6 +191,21 @@ code {
 
     .end-icon {
       margin: auto 0 0 3px;
+    }
+
+    .cart-indicator, .favorites-indicator {
+      width: 6px;
+      height: 6px;
+    }
+  }
+
+  .header-modal {
+    padding: 80px 40px 20px 40px;
+    height: 100vh;
+    top: 0px;
+
+    .img-container {
+      width: 100%;
     }
   }
 
@@ -259,7 +289,7 @@ code {
   .order-item-inner {
     display: flex;
 
-    img {
+    .img-link {
       width: 30%;
     }
 
@@ -292,6 +322,22 @@ code {
 
     .end-icon {
       margin: auto 0 0 10px;
+    }
+
+    .cart-indicator, .favorites-indicator {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  .header-modal {
+    height: auto;
+    padding: 100px 20px 20px 20px;
+    right: 0;
+    top: 0;
+
+    .img-container {
+      width: 300px;
     }
   }
 
@@ -371,7 +417,7 @@ code {
   .order-item-inner {
     display: flex;
 
-    img {
+    .img-link {
       width: 20%;
     }
 
@@ -409,6 +455,22 @@ code {
     .end-icon {
       margin: auto 0 0 10px;
     }
+
+    .cart-indicator, .favorites-indicator {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  .header-modal {
+    height: auto;
+    padding: 100px 20px 20px 20px;
+    right: 0;
+    top: 0;
+
+    .img-container {
+      width: 300px;
+    }
   }
 
   .item-container {
@@ -489,7 +551,7 @@ code {
   .order-item-inner {
     display: flex;
 
-    img {
+    .img-link {
       width: 20%;
     }
 
@@ -526,6 +588,22 @@ code {
     .end-icon {
       margin: auto 0 0 10px;
     }
+
+    .cart-indicator, .favorites-indicator {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  .header-modal {
+    height: auto;
+    padding: 100px 20px 20px 20px;
+    right: 0;
+    top: 0;
+
+    .img-container {
+      width: 300px;
+    }
   }
 
   .item-container {
@@ -606,7 +684,7 @@ code {
   .order-item-inner {
     display: flex;
 
-    img {
+    .img-link {
       width: 20%;
     }
 

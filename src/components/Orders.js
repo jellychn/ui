@@ -15,7 +15,9 @@ function Orders() {
                 <div className='order-body'>
                     <div className='order-item'>
                         <div className='order-item-inner'>
-                            <img src={img}/>
+                            <div className='img-link'>
+                                <img src={img}/>
+                            </div>
                             <div className='order-info'>
                                 <p style={{fontWeight: 'bold', color: 'black'}}>TOM AND JERRY</p>
                                 <p>TEE</p>
@@ -27,7 +29,9 @@ function Orders() {
                     </div>
                     <div className='order-item'>
                         <div className='order-item-inner'>
-                            <img src={img}/>
+                            <div className='img-link'>
+                                <img src={img}/>
+                            </div>
                             <div className='order-info'>
                                 <p style={{fontWeight: 'bold', color: 'black'}}>TOM AND JERRY</p>
                                 <p>TEE</p>
