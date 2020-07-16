@@ -15,7 +15,7 @@ class HeaderModal extends React.Component {
                         <div className='item-info'>
                             <div style={{display:'flex'}}>
                                 <p>{this.props.item.name}</p>
-                                <p style={{margin: '0 0 0 auto'}}>{'$' + this.props.item.price}</p>
+                                <p style={{margin: '0 0 0 auto'}}>{this.props.item.quantity + ' X $' + this.props.item.price}</p>
                             </div>
                             <p>{this.props.item.type}</p>
                         </div>
@@ -30,7 +30,7 @@ class HeaderModal extends React.Component {
                     <div className='header-modal'>
                         <h1>{'ITEM ADDED TO ' + this.props.added} </h1>
                         <div className='img-container'>
-                            <img src={this.props.item.images[0]}/>
+                            <img src={this.props.item.colors[this.props.item.color]}/>
                         </div>
                         <div className='item-info'>
                             <div style={{display:'flex'}}>

@@ -30,7 +30,8 @@ export const checkFavoritesHasItems = () => {
     }
 };
 
-export const itemAdded = (item, added) => {
+export const itemAdded = (item, added, color) => {
+    item.color = color;
     return {
         type: ITEM_ADDED,
         item: item,

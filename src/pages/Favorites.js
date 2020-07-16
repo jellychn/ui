@@ -29,7 +29,7 @@ class Favorites extends React.Component {
                     <div className='favorite-item-inner'>
                         <div className='remove' onClick={() => {this.removeItem(item)}}/>
                         <Link to={'/item/' + item._id}>
-                            <img src={item.images[0]}/>
+                            <img src={item.colors[item.color]}/>
                             <div className='input-align'>
                                 <p style={{fontSize: '15px', fontWeight: 'bold'}}>{item.name}</p>
                                 <p style={{marginLeft: 'auto', fontSize: '15px'}}>{'$' + item.price}</p>

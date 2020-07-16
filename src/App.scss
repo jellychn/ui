@@ -144,8 +144,7 @@
       height: 30px;
       border-radius: 100%;
       background-color: rgba(255,255,255,0.5);
-      right: 30px;
-      top: 30px;
+      margin-left: auto;
       background-size: cover;
       cursor: pointer;
 
@@ -156,10 +155,14 @@
 
     .like {
       background-image: url('./assets/icons/heart.svg');
+      right: 30px;
+      top: 65px;
     }
 
     .remove {
       background-image: url('./assets/icons/cross.svg');
+      right: 30px;
+      top: 30px;
     }
 
     img {
@@ -181,6 +184,19 @@
       &:hover {
         color: black;
       }
+    }
+  }
+
+  .color-view-container {
+    display: flex;
+    margin-bottom: 10px;
+
+    .color-view {
+      width: 25px;
+      height: 25px;
+      border-radius: 100%;
+      cursor: pointer;
+      border: 1px solid #eee;
     }
   }
 }

@@ -54,7 +54,7 @@ class Item extends React.Component {
         }
         localStorage.setItem('cart', JSON.stringify(cart));
         this.props.checkCartHasItems();
-        this.props.itemAdded(newItem, 'CART');
+        this.props.itemAdded(newItem, 'CART', this.state.color);
         this.props.openModel();
     };
 
@@ -111,7 +111,7 @@ class Item extends React.Component {
                                 <option value={5}>5</option>
                             </select>
                             <button className='add' onClick={this.addItemToCart}>ADD</button>
-                            <button className='favorite' onClick={() => {itemFunctions.favorite(this.state.item, this.props.checkFavoritesHasItems); this.props.itemAdded(this.state.item, 'FAVORITES'); this.props.openModel()}}>FAVORITE</button>
+                            <button className='favorite' onClick={() => {itemFunctions.favorite(this.state.item, this.props.checkFavoritesHasItems, this.state.color); this.props.itemAdded(this.state.item, 'FAVORITES', this.state.color); this.props.openModel()}}>FAVORITE</button>
                         </div>
                     </div>
                     <div className='item-bottom'>
@@ -169,7 +169,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         checkCartHasItems: () => dispatch(actions.checkCartHasItems()),
         checkFavoritesHasItems: () => dispatch(actions.checkFavoritesHasItems()),
-        itemAdded: (item, added) => dispatch(actions.itemAdded(item, added)),
+        itemAdded: (item, added, color) => dispatch(actions.itemAdded(item, added, color)),
         openModel: () => dispatch({type: 'OPEN_MODEL'})
     }
 };
