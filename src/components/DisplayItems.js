@@ -13,9 +13,19 @@ class DisplayItem extends React.Component {
         colors: {
             'Black': '#000000',
             'White': '#FFFFFF',
+            'gray': '#b4b8b8',
             'Blue': '#42aaf5',
             'Dark Blue': '#3266a8',
-            'Red': '#f76d63'
+            'Light Blue': '#8cddff',
+            'Red': '#f76d63',
+            'Dark Red': '#a62d2d',
+            'Pink': '#facfcf',
+            'Green': '#adfca9',
+            'Dark Green': '#87c284',
+            'Purple': '#deaae6',
+            'Orange': '#ebac38',
+            'Yellow': '#fffca1',
+            'Brown': '#d47948'
         }
     }
 
