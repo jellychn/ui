@@ -558,7 +558,6 @@
   
       button {
         display: block;
-        margin-bottom: 20px;
         width: 100%;
         padding: 20px;
         border-radius: 30px;
@@ -571,10 +570,25 @@
       .add {
         color: white;
         background-color: black;
+        margin-bottom: 20px;
       }
-  
-      .favorite {
-        background-color: #eee;
+
+      .favorite-container {
+        display: flex;
+
+        .favorite-icon {
+          height: 50px;
+          width: 50px;
+          background-color: #eee;
+          border-radius: 100%;
+          margin: auto 0 auto 10px;
+          background-size: cover;
+        }
+
+        .favorite {
+          background-color: #eee;
+          flex: 1;
+        }
       }
     }
   }

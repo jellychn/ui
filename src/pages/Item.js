@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 import * as actions from '../actions/actions';
 import itemFunctions from '../tools/itemFunctions';
 import img from '../assets/icons/primary.jpg';
+import heart_img from '../assets/icons/heart.svg';
+import heart_focus_img from '../assets/icons/heart-focus.svg';
 
 class Item extends React.Component {
     state = {
@@ -12,7 +14,8 @@ class Item extends React.Component {
         loaded: false,
         size: '',
         color: '',
-        quantity: 1
+        quantity: 1,
+        favorited: false
     };
 
     componentDidMount() {
@@ -20,6 +23,7 @@ class Item extends React.Component {
         axios.get('http://localhost:4001/api/items/' + itemId).then(res => {
             const keys = Object.keys(res.data.colors);
             this.setState({item:res.data, loaded: true, size: res.data.sizes[0], color: keys[0]});
+            this.checkFavorited(keys[0]);
         });
     };
 
@@ -63,10 +67,62 @@ class Item extends React.Component {
             this.setState({'size': e.target.value});
         } else if (e.target.name === 'color') {
             this.setState({'color': e.target.value});
+            this.checkFavorited(e.target.value);
         } else if (e.target.name === 'quantity') {
             this.setState({'quantity': parseInt(e.target.value)});
         }
     }
+
+    checkFavorited = (color) => {
+        if (localStorage.getItem('favorites') === null) {
+            localStorage.setItem('favorites', JSON.stringify([]))
+        }
+        const favorites = JSON.parse(localStorage.getItem('favorites'));
+        let inFavorites = false;
+
+        for (let i=0;i<favorites.length;i++) {
+            if (this.state.item._id === favorites[i]._id && favorites[i].color === color) {
+                inFavorites = true;
+                break;
+            }
+        }
+
+        this.setState({favorited: inFavorites});
+    };
+
+    favorite = (item, checkFavoritesHasItems, color) => {
+        if (localStorage.getItem('favorites') === null) {
+            localStorage.setItem('favorites', JSON.stringify([]));
+        }
+    
+        let favorites = JSON.parse(localStorage.getItem('favorites'));
+        let inArray = false;
+        let index = 0;
+        item.color = color;
+    
+        for (let i=0;i<favorites.length;i++) {
+            if (favorites[i]._id === item._id && favorites[i].color === color) {
+                inArray = true;
+                break;
+            }
+            index += 1;
+        };
+
+        if (inArray) {
+            // remove
+            favorites.splice(index, 1);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            this.setState({favorited: false});
+        } else {
+            // add
+            favorites.push(item);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            this.setState({favorited: true});
+            this.props.openModel()
+        }
+        checkFavoritesHasItems();
+        this.checkFavorited(color);
+    };
 
     render () {
         if (this.state.loaded === true) {
@@ -111,7 +167,10 @@ class Item extends React.Component {
                                 <option value={5}>5</option>
                             </select>
                             <button className='add' onClick={this.addItemToCart}>ADD</button>
-                            <button className='favorite' onClick={() => {itemFunctions.favorite(this.state.item, this.props.checkFavoritesHasItems, this.state.color); this.props.itemAdded(this.state.item, 'FAVORITES', this.state.color); this.props.openModel()}}>FAVORITE</button>
+                            <div className='favorite-container'>
+                                <button className='favorite' onClick={() => {this.favorite(this.state.item, this.props.checkFavoritesHasItems, this.state.color); this.props.itemAdded(this.state.item, 'FAVORITES', this.state.color);}}>FAVORITE</button>
+                                <div className='favorite-icon' style={{backgroundImage: this.state.favorited ? `url(${heart_focus_img})`:`url(${heart_img})`}}/>
+                            </div>
                         </div>
                     </div>
                     <div className='item-bottom'>
