@@ -2,8 +2,11 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import {connect} from 'react-redux';
-import * as actions from '../actions/actions';
-import itemFunctions from '../tools/itemFunctions';
+import {
+    checkCartHasItems,
+    checkFavoritesHasItems,
+    itemAdded
+} from '../actions/itemsActions';
 import img from '../assets/icons/primary.jpg';
 import heart_img from '../assets/icons/heart.svg';
 import heart_focus_img from '../assets/icons/heart-focus.svg';
@@ -12,7 +15,7 @@ class Item extends React.Component {
     state = {
         item: {},
         loaded: false,
-        size: '',
+        size: '-',
         color: '',
         quantity: 1,
         favorited: false
@@ -22,47 +25,50 @@ class Item extends React.Component {
         const itemId = window.location.pathname.split('/')[2];
         axios.get('http://localhost:4001/api/items/' + itemId).then(res => {
             const keys = Object.keys(res.data.colors);
-            this.setState({item:res.data, loaded: true, size: res.data.sizes[0], color: keys[0]});
+            this.setState({item:res.data, loaded: true, color: keys[0]});
             this.checkFavorited(keys[0]);
         });
     };
 
     addItemToCart = () => {
-        if (localStorage.getItem('cart') === null) {
-            localStorage.setItem('cart', JSON.stringify([]));
-        }
-        
-        let inCart = false;
-        let cart = JSON.parse(localStorage.getItem('cart'));
-        const newItem = {
-            '_id': this.state.item._id,
-            'name': this.state.item.name,
-            'price': this.state.item.price,
-            'type': this.state.item.type,
-            'size': this.state.size,
-            'color': this.state.color,
-            'colors': this.state.item.colors,
-            'images': this.state.item.images,
-            'quantity': this.state.quantity
-        }
-
-        for (let i=0; i<cart.length; i++) {
-            if (cart[i]._id === newItem._id && cart[i].size === newItem.size && cart[i].color === newItem.color) {
-                cart[i].quantity = cart[i].quantity += newItem.quantity;
-                inCart = true;
+        if (this.state.size !== '-') {
+            if (localStorage.getItem('cart') === null) {
+                localStorage.setItem('cart', JSON.stringify([]));
             }
+            
+            let inCart = false;
+            let cart = JSON.parse(localStorage.getItem('cart'));
+            const newItem = {
+                '_id': this.state.item._id,
+                'name': this.state.item.name,
+                'price': this.state.item.price,
+                'type': this.state.item.type,
+                'size': this.state.size,
+                'color': this.state.color,
+                'colors': this.state.item.colors,
+                'images': this.state.item.images,
+                'quantity': this.state.quantity
+            }
+    
+            for (let i=0; i<cart.length; i++) {
+                if (cart[i]._id === newItem._id && cart[i].size === newItem.size && cart[i].color === newItem.color) {
+                    cart[i].quantity = cart[i].quantity += newItem.quantity;
+                    inCart = true;
+                }
+            }
+    
+            if (inCart === false) {
+                cart.push(newItem);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            this.props.checkCartHasItems();
+            this.props.itemAdded(newItem, 'CART', this.state.color);
+            this.props.openModel();
         }
-
-        if (inCart === false) {
-            cart.push(newItem);
-        }
-        localStorage.setItem('cart', JSON.stringify(cart));
-        this.props.checkCartHasItems();
-        this.props.itemAdded(newItem, 'CART', this.state.color);
-        this.props.openModel();
     };
 
     onChange = (e) => {
+        console.log(e.target.value)
         if (e.target.name === 'size') {
             this.setState({'size': e.target.value});
         } else if (e.target.name === 'color') {
@@ -99,6 +105,7 @@ class Item extends React.Component {
         let inArray = false;
         let index = 0;
         item.color = color;
+        item.size = this.state.size;
     
         for (let i=0;i<favorites.length;i++) {
             if (favorites[i]._id === item._id && favorites[i].color === color) {
@@ -152,6 +159,7 @@ class Item extends React.Component {
                             <h1 className='item-name'>{this.state.item.name}</h1>
                             <p className='item-select-info'>SIZE</p>
                             <select name='size' onChange={(e) => {this.onChange(e)}}>
+                                <option value='-'>-</option>
                                 {size}
                             </select>
                             <p className='item-select-info'>COLOR</p>
@@ -226,9 +234,9 @@ class Item extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        checkCartHasItems: () => dispatch(actions.checkCartHasItems()),
-        checkFavoritesHasItems: () => dispatch(actions.checkFavoritesHasItems()),
-        itemAdded: (item, added, color) => dispatch(actions.itemAdded(item, added, color)),
+        checkCartHasItems: () => dispatch(checkCartHasItems()),
+        checkFavoritesHasItems: () => dispatch(checkFavoritesHasItems()),
+        itemAdded: (item, added, color) => dispatch(itemAdded(item, added, color)),
         openModel: () => dispatch({type: 'OPEN_MODEL'})
     }
 };

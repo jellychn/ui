@@ -1,7 +1,8 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import * as actions from '../actions/actions';
+import {
+    checkCartHasItems
+} from '../actions/itemsActions';
 import CartItem from '../components/CartItems';
 
 class Cart extends React.Component {
@@ -69,7 +70,7 @@ class Cart extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        checkCartHasItems: () => dispatch(actions.checkCartHasItems())
+        checkCartHasItems: () => dispatch(checkCartHasItems())
     }
 };
 

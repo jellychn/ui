@@ -1,20 +1,18 @@
 import React from 'react';
-import axios from 'axios';
+import {connect} from 'react-redux';
+import {
+    getItems
+} from '../actions/searchActions';
 import DisplayItem from '../components/DisplayItems';
 
-class Display extends React.Component {
-    state = {
-        items: []
-    };
 
+class Display extends React.Component {
     componentDidMount() {
-        axios.get('http://localhost:4001/api/items').then(res => {
-            this.setState({items: res.data});
-        });
+        this.props.getItems();
     };
 
     render () {
-        let items = this.state.items.map((item, index) => {
+        let items = this.props.items.map((item, index) => {
             return <DisplayItem key={index} item={item} index={index}/>
         });
 
@@ -26,4 +24,16 @@ class Display extends React.Component {
     }
 }
 
-export default Display;
+const mapStateToProps = (state) => {
+    return {
+        items: state.search.items
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getItems: () => {dispatch(getItems())}
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Display);

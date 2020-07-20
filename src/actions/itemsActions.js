@@ -1,4 +1,8 @@
-import {CHECK_CART_HAS_ITEMS, CHECK_FAVORITES_HAS_ITEMS, ITEM_ADDED} from './actionTypes';
+import {
+    CHECK_CART_HAS_ITEMS,
+    CHECK_FAVORITES_HAS_ITEMS,
+    ITEM_ADDED
+} from './actionTypes';
 
 export const checkCartHasItems = () => {
     const cart = JSON.parse(localStorage.getItem('cart'));

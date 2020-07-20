@@ -2,6 +2,9 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {
+    changeCategory
+} from '../actions/searchActions';
 
 import cart_img from '../assets/icons/cart.svg';
 import profile_img from '../assets/icons/profile.svg';
@@ -12,7 +15,13 @@ class Header extends React.Component {
     state = {
         filter: false,
         displayPage: false,
-        filterMsg: 'SHOW FILTERS'
+        filterMsg: 'SHOW FILTERS',
+        filters: [
+            'shirts',
+            'pants',
+            'shorts',
+            'tees'
+        ]
     }
 
     componentDidMount() {
@@ -24,7 +33,6 @@ class Header extends React.Component {
             this.checkHeader();
         }
     }
-
 
     checkHeader = () => {
         if (window.location.pathname.split('/')[1] === 'display') {
@@ -43,6 +51,10 @@ class Header extends React.Component {
     }
 
     render () {
+        const filters = this.state.filters.map((filter, index) => {
+            return <Link onClick={() => {this.props.changeCategory(filter)}} key={index} to={`/display/woman/${filter}`}><p>{filter.toUpperCase()}</p></Link>
+        });
+
         return (
             <div className='header' onClick={this.props.closeModal}>
                 <div className='header-inner'>
@@ -70,9 +82,7 @@ class Header extends React.Component {
                             </select>
                         </div>
                         <div className='item-type-container' style={{display: this.state.filter ? 'block':'none'}}>
-                            <p>SHIRT</p>
-                            <p>SHORTS</p>
-                            <p>PANTS</p>
+                            {filters}
                         </div>
                     </div>
                 </div>
@@ -83,16 +93,17 @@ class Header extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        cart: state.cart,
-        favorites: state.favorites,
-        modal: state.modal
+        cart: state.item.cart,
+        favorites: state.item.favorites,
+        modal: state.item.modal
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        closeModal: () => dispatch({type: 'CLOSE_MODEL'})
-    }
+        closeModal: () => dispatch({type: 'CLOSE_MODEL'}),
+        changeCategory: (category) => {changeCategory(category)}
+    } 
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

@@ -1,7 +1,10 @@
 import React from 'react';
 import './App.scss';
 import {connect} from 'react-redux';
-import * as actions from './actions/actions';
+import {
+  checkCartHasItems,
+  checkFavoritesHasItems
+} from './actions/itemsActions';
 
 import {
   BrowserRouter as Router,
@@ -56,7 +59,7 @@ class App extends React.Component {
                 <Route path='/profile/:page'>
                   <Profile/>
                 </Route>
-                <Route path={'/display' || '/display/women' || '/display/men'}>
+                <Route path={'/display' || '/display/women/:directory' || '/display/men/:directory'}>
                   <Display/>
                 </Route>
                 <Route path='/'>
@@ -74,8 +77,8 @@ class App extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    checkCartHasItems: () => dispatch(actions.checkCartHasItems()),
-    checkFavoritesHasItems: () => dispatch(actions.checkFavoritesHasItems())
+    checkCartHasItems: () => dispatch(checkCartHasItems()),
+    checkFavoritesHasItems: () => dispatch(checkFavoritesHasItems())
   }
 };
 

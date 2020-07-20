@@ -1,7 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import * as actions from '../actions/actions';
+import {
+    checkFavoritesHasItems,
+    itemAdded
+} from '../actions/itemsActions';
 
 import heart_img from '../assets/icons/heart.svg';
 import heart_focus_img from '../assets/icons/heart-focus.svg';
@@ -64,6 +67,7 @@ class DisplayItem extends React.Component {
         let inArray = false;
         let index = 0;
         item.color = color;
+        item.size = '-';
     
         for (let i=0;i<favorites.length;i++) {
             if (favorites[i]._id === item._id && favorites[i].color === color) {
@@ -125,8 +129,8 @@ class DisplayItem extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        checkFavoritesHasItems: () => dispatch(actions.checkFavoritesHasItems()),
-        itemAdded: (item, added, color) => dispatch(actions.itemAdded(item, added, color)),
+        checkFavoritesHasItems: () => dispatch(checkFavoritesHasItems()),
+        itemAdded: (item, added, color) => dispatch(itemAdded(item, added, color)),
         openModel: () => dispatch({type:'OPEN_MODEL'})
     }
 };

@@ -50,9 +50,9 @@ class HeaderModal extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        modal: state.modal,
-        item: state.headerModalItem,
-        added: state.headerModalAdded
+        modal: state.item.modal,
+        item: state.item.headerModalItem,
+        added: state.item.headerModalAdded
     }
 };
 
