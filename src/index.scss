@@ -165,6 +165,10 @@ code {
     p, button {
       font-size: 10px;
     }
+
+    .quantity-container {
+      margin: 20px 0 0 auto;
+    }
   }
 }
 
@@ -294,7 +298,11 @@ code {
     }
 
     p, button {
-      font-size: 10px;
+      font-size: 15px;
+    }
+
+    .quantity-container {
+      margin: 0 0 0 auto;
     }
   }
 }
@@ -423,6 +431,10 @@ code {
 
     p, button {
       font-size: 15px;
+    }
+
+    .quantity-container {
+      margin: 0 0 0 auto;
     }
   }
 }
@@ -558,6 +570,10 @@ code {
     p, button {
       font-size: 15px;
     }
+
+    .quantity-container {
+      margin: 0 0 0 auto;
+    }
   }
 }
 
@@ -690,6 +706,10 @@ code {
 
     p, button {
       font-size: 15px;
+    }
+
+    .quantity-container {
+      margin: 0 0 0 auto;
     }
   }
 }

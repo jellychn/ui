@@ -2,10 +2,10 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as actions from '../actions/actions';
+import CartItem from '../components/CartItems';
 
 class Cart extends React.Component {
     state = {
-        cart: [],
         subtotal: 0,
         total: 0,
         delivery: 10
@@ -24,41 +24,30 @@ class Cart extends React.Component {
 
     subtotal = () => {
         let subtotal = 0;
-        this.state.cart.map((item) => {
+        JSON.parse(localStorage.getItem('cart')).map((item) => {
             subtotal += parseInt(item.quantity) * parseInt(item.price);
         });
         this.setState({subtotal: subtotal, total: subtotal + this.state.delivery});
     };
 
     remove = (item) => {
-        const index = this.state.cart.indexOf(item);
-        let tempArray = this.state.cart; 
-        tempArray.splice(index, 1)
-        this.setState({cart: tempArray});
-        localStorage.setItem('cart', JSON.stringify(tempArray));
+        let index = 0;
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        for (let i=0;i<cart.length;i++) {
+            if (cart[i]._id === item._id && cart[i].size === item.size && cart[i].color === item.color) {
+                break;
+            }
+            index += 1;
+        }
+        cart.splice(index, 1)
+        localStorage.setItem('cart', JSON.stringify(cart));
         this.subtotal();
         this.props.checkCartHasItems();
     };
 
     render () {
-        let cartItems = this.state.cart.map((item, index) => {
-            return (
-                <div key={index} className='order-item'>
-                    <div className='order-item-inner'>
-                        <Link className='img-link' to={'/item/' + item._id}>
-                            <img src={item.colors[item.color]}/>
-                        </Link>
-                        <div className='order-info'>
-                            <p style={{fontWeight: 'bold', color: 'black'}}>{item.name}</p>
-                            <p>{item.type}</p>
-                            <p>{'SIZE ' + item.size}</p>
-                            <p>{'COLOR ' + item.color}</p>
-                            <button onClick={() => {this.remove(item)}}>REMOVE</button>
-                        </div>
-                        <p style={{margin: '0 0 0 auto', fontWeight: 'bold'}}>{item.quantity + ' X ' + '$' + item.price}</p>
-                    </div>
-                </div>
-            )
+        let cartItems = JSON.parse(localStorage.getItem('cart')).map((item, index) => {
+            return <CartItem index={index} item={item} subtotal={this.subtotal} remove={this.remove}/>
         });
 
         return (

@@ -22,8 +22,57 @@ class Favorites extends React.Component {
         this.props.checkFavoritesHasItems();
     };
 
+    onChangeSize = (e) => {
+        this.setState({size: e.target.value});
+        console.log(e.target.value)
+    };
+
+    addItemToCart = (item, name) => {
+        if (localStorage.getItem('cart') === null) {
+            localStorage.setItem('cart', JSON.stringify([]));
+        }
+        
+        let inCart = false;
+        let cart = JSON.parse(localStorage.getItem('cart'));
+
+        var e = document.getElementsByName(name)[0];
+        var size = e.options[e.selectedIndex].value;
+        const newItem = {
+            '_id': item._id,
+            'name': item.name,
+            'price': item.price,
+            'type': item.type,
+            'size': size,
+            'color': item.color,
+            'colors': item.colors,
+            'images': item.images,
+            'quantity': 1
+        }
+
+        for (let i=0; i<cart.length; i++) {
+            if (cart[i]._id === newItem._id && cart[i].size === newItem.size && cart[i].color === newItem.color) {
+                cart[i].quantity = cart[i].quantity += newItem.quantity;
+                inCart = true;
+            }
+        }
+
+        if (inCart === false) {
+            cart.push(newItem);
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        this.props.checkCartHasItems();
+        this.props.itemAdded(newItem, 'CART', item.color);
+        this.props.openModel();
+
+        this.removeItem(item);
+    };
+
     render () {
         const favorites = this.state.favorites.map((item, index) => {
+            const sizes = item.sizes.map((size, index) => {
+                return <option key={index} value={size}>{size}</option>
+            });
+
             return (
                 <div key={index} className='favorite-item'>
                     <div className='favorite-item-inner'>
@@ -36,7 +85,10 @@ class Favorites extends React.Component {
                             </div>
                             <p style={{fontSize: '15px'}}>{item.type}</p>
                         </Link>
-                        <button>ADD</button>
+                        <select name={index} onChange={(e) => {this.onChangeSize(e)}}>
+                            {sizes}
+                        </select>
+                        <button onClick={() => {this.addItemToCart(item, index)}}>ADD</button>
                     </div>
                 </div>
             )
@@ -57,7 +109,10 @@ class Favorites extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        checkFavoritesHasItems: () => dispatch(actions.checkFavoritesHasItems())
+        checkCartHasItems: () => dispatch(actions.checkCartHasItems()),
+        checkFavoritesHasItems: () => dispatch(actions.checkFavoritesHasItems()),
+        itemAdded: (item, added, color) => dispatch(actions.itemAdded(item, added, color)),
+        openModel: () => dispatch({type: 'OPEN_MODEL'})
     }
 };
 

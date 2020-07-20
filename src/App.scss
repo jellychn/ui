@@ -172,8 +172,16 @@
       margin-bottom: 10px;
     }
 
+    select {
+      flex: 1;
+      padding: 10px;
+      margin: 20px 10px 0 0;
+      border: 1px solid gray;
+      border-radius: 3px;
+    }
+
     button {
-      margin-top: 20px;
+      margin: 20px 0 0 auto;
       padding: 10px 20px;
       border-radius: 20px;
       border: 1px solid gray;
@@ -421,6 +429,25 @@
         cursor: pointer;
         color: gray;
         outline: none;
+      }
+    }
+
+    .quantity-container {
+      display: flex;
+      // margin: 0 0 0 auto;
+
+      button {
+        width: 20px;
+        height: 20px;
+        border-radius: 100%;
+        border: none;
+        background-color: #eee;
+        cursor: pointer;
+        outline: none;
+      }
+
+      p {
+        font-size: 15px;
       }
     }
   }
