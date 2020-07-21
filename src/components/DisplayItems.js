@@ -5,35 +5,45 @@ import {
     checkFavoritesHasItems,
     itemAdded
 } from '../actions/itemsActions';
-
+import {
+    setItemArrayChangedFalse
+} from '../actions/searchActions';
 import heart_img from '../assets/icons/heart.svg';
 import heart_focus_img from '../assets/icons/heart-focus.svg';
 
 class DisplayItem extends React.Component {
     state = {
-        color: Object.keys(this.props.item.colors)[0],
+        color: null,
         favorited: false,
         colors: {
-            'Black': '#000000',
-            'White': '#FFFFFF',
+            'black': '#000000',
+            'white': '#FFFFFF',
             'gray': '#b4b8b8',
-            'Blue': '#42aaf5',
-            'Dark Blue': '#3266a8',
-            'Light Blue': '#8cddff',
-            'Red': '#f76d63',
-            'Dark Red': '#a62d2d',
-            'Pink': '#facfcf',
-            'Green': '#adfca9',
-            'Dark Green': '#87c284',
-            'Purple': '#deaae6',
-            'Orange': '#ebac38',
-            'Yellow': '#fffca1',
-            'Brown': '#d47948'
+            'blue': '#42aaf5',
+            'dark blue': '#3266a8',
+            'light blue': '#8cddff',
+            'red': '#f76d63',
+            'dark red': '#a62d2d',
+            'pink': '#facfcf',
+            'green': '#adfca9',
+            'dark green': '#87c284',
+            'purple': '#deaae6',
+            'orange': '#ebac38',
+            'yellow': '#fffca1',
+            'brown': '#d47948'
         }
     }
 
     componentWillMount () {
         this.checkFavorited(this.state.color);
+        this.setState({color: Object.keys(this.props.item.colors)[0]});
+    };
+
+    componentDidUpdate () {
+        if (this.props.itemArrayChanged) {
+            this.changeColor(Object.keys(this.props.item.colors)[0]);
+            this.props.setItemArrayChangedFalse();
+        }
     };
 
     checkFavorited = (color) => {
@@ -116,10 +126,10 @@ class DisplayItem extends React.Component {
                     <Link to={'/item/' + this.props.item._id}>
                         <img src={this.props.item.colors[this.state.color]}/>
                         <div className='input-align'>
-                            <p style={{fontSize: '15px', fontWeight: 'bold'}}>{this.props.item.name}</p>
+                            <p style={{fontSize: '15px', fontWeight: 'bold'}}>{this.props.item.name.toUpperCase()}</p>
                             <p style={{marginLeft: 'auto', fontSize: '15px'}}>{'$' + this.props.item.price}</p>
                         </div>
-                        <p style={{fontSize: '15px'}}>{this.props.item.type}</p>
+                        <p style={{fontSize: '15px'}}>{this.props.item.type.toUpperCase()}</p>
                     </Link>
                 </div>
             </div>
@@ -127,12 +137,19 @@ class DisplayItem extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        itemArrayChanged: state.search.itemArrayChanged
+    }
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         checkFavoritesHasItems: () => dispatch(checkFavoritesHasItems()),
         itemAdded: (item, added, color) => dispatch(itemAdded(item, added, color)),
-        openModel: () => dispatch({type:'OPEN_MODEL'})
+        openModel: () => dispatch({type:'OPEN_MODEL'}),
+        setItemArrayChangedFalse: () => dispatch(setItemArrayChangedFalse())
     }
 };
 
-export default connect(null, mapDispatchToProps)(DisplayItem);
+export default connect(mapStateToProps, mapDispatchToProps)(DisplayItem);

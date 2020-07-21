@@ -1,8 +1,13 @@
+import {store} from '../index';
 import {
     REQUEST_ITEMS,
     RECIEVE_ITEMS_SUCCESS,
     RECIEVE_ITEMS_FAILURE,
-    CHANGE_CATEGORY
+    UPDATE_SEARCH_QUERY,
+    CHANGE_CATEGORY,
+    UPDATE_GENDER,
+    CHANGE_SORT_BY,
+    SET_ITEM_ARRAY_CHANGED_FALSE
 } from './actionTypes';
 import axios from 'axios';
 
@@ -27,8 +32,13 @@ export const recieveItemsFailure = error => {
 export const getItems = () => {
    return (dispatch) => {
         dispatch(requestItems());
-
-        axios.get('http://localhost:4001/api/items').then(res => {
+        let url ='';
+        if (store.getState().search.q === undefined || store.getState().search.q === null || store.getState().search.q === '') {
+            url = 'http://localhost:4001/api/items';
+        } else {
+            url = 'http://localhost:4001/api/items?q=' + store.getState().search.q;
+        }
+        axios.get(url, {params: {gender:store.getState().search.gender, catergory: store.getState().search.catergory}}).then(res => {
             dispatch(recieveItemsSuccess(res.data));
         }).catch(err => {
             dispatch(recieveItemsFailure(err));
@@ -36,9 +46,36 @@ export const getItems = () => {
     }
 };
 
-export const changeCategory = (catergory) => {
+export const updateSearchQuery = (q) => {
+    return {
+        type: UPDATE_SEARCH_QUERY,
+        q: q
+    }
+};
+
+export const changeCategory = (category) => {
     return {
         type: CHANGE_CATEGORY,
-        category: catergory
+        category: category
+    }
+};
+
+export const updateGender = (gender) => {
+    return {
+        type: UPDATE_GENDER,
+        gender: gender
+    }
+};
+
+export const changeSortBy = (sortBy) => {
+    return {
+        type: CHANGE_SORT_BY,
+        sortBy: sortBy
+    }
+};
+
+export const setItemArrayChangedFalse = () => {
+    return {
+        type: SET_ITEM_ARRAY_CHANGED_FALSE
     }
 };

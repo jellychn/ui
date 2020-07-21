@@ -42,10 +42,10 @@ class CartItem extends React.Component {
                         <img src={this.props.item.colors[this.props.item.color]}/>
                     </Link>
                     <div className='order-info'>
-                        <p style={{fontWeight: 'bold', color: 'black'}}>{this.props.item.name}</p>
-                        <p>{this.props.item.type}</p>
-                        <p>{'SIZE ' + this.props.item.size}</p>
-                        <p>{'COLOR ' + this.props.item.color}</p>
+                        <p style={{fontWeight: 'bold', color: 'black'}}>{this.props.item.name.toUpperCase()}</p>
+                        <p>{this.props.item.type.toUpperCase()}</p>
+                        <p>{'SIZE ' + this.props.item.size.toUpperCase()}</p>
+                        <p>{'COLOR ' + this.props.item.color.toUpperCase()}</p>
                         <button onClick={() => {this.props.remove(this.props.item)}}>REMOVE</button>
                     </div>
                     <div className='quantity-container'>

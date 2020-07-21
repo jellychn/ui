@@ -4,6 +4,10 @@ import women_img from '../assets/icons/women_img.jpg';
 import men_img from '../assets/icons/men_img.jpg';
 
 class Home extends React.Component {
+    componentDidMount () {
+        window.scrollTo(0,0);
+    };
+
     render () {
         return (
             <div className='home'>

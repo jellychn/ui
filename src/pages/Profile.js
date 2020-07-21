@@ -7,6 +7,10 @@ class Profile extends React.Component {
         page: window.location.pathname.split('/')[2].toUpperCase() // take from url insted
     }
 
+    componentDidMount () {
+        window.scrollTo(0,0);
+    };
+
     navigation = (to) => {
         this.setState({page: to});
     }
@@ -17,7 +21,7 @@ class Profile extends React.Component {
         } else if (this.state.page === 'ORDERS') {
             return <Orders/>
         }
-    }
+    };
 
     render () {
         return (
@@ -32,7 +36,7 @@ class Profile extends React.Component {
                 {this.content()}
             </div>
         )
-    }
-}
+    };
+};
 
 export default Profile;

@@ -16,6 +16,10 @@ class Favorites extends React.Component {
         this.setState({favorites: JSON.parse(localStorage.getItem('favorites'))});
     };
 
+    componentDidMount () {
+        window.scrollTo(0,0);
+    };
+
     removeItem = (item) => {
         const index = this.state.favorites.indexOf(item);
         let favorites = this.state.favorites;
@@ -78,7 +82,7 @@ class Favorites extends React.Component {
                 if (item.size === size) {
                     return <option selected key={index} value={size}>{size}</option>
                 } else {
-                    return <option key={index} value={size}>{size}</option>
+                    return <option key={index} value={size}>{size.toUpperCase()}</option>
                 }
             });
 
@@ -89,10 +93,10 @@ class Favorites extends React.Component {
                         <Link to={'/item/' + item._id}>
                             <img src={item.colors[item.color]}/>
                             <div className='input-align'>
-                                <p style={{fontSize: '15px', fontWeight: 'bold'}}>{item.name}</p>
+                                <p style={{fontSize: '15px', fontWeight: 'bold'}}>{item.name.toUpperCase()}</p>
                                 <p style={{marginLeft: 'auto', fontSize: '15px'}}>{'$' + item.price}</p>
                             </div>
-                            <p style={{fontSize: '15px'}}>{item.type}</p>
+                            <p style={{fontSize: '15px'}}>{item.type.toUpperCase()}</p>
                         </Link>
                         <select name={index} onChange={(e) => {this.onChangeSize(e)}}>
                             <option value='-'>-</option>

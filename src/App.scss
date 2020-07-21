@@ -19,17 +19,31 @@
       .logo {
         cursor: pointer;
         font-weight: bold;
+        padding: 5px 15px 5px 0;
+        border-bottom: 3px solid #eee;
       }
   
       .display-link {
         cursor: pointer;
         font-weight: bold;
+        padding: 5px 0;
       }
     }
   
     .header-icons-container {
       display: flex;
       margin: 0 0 0 auto;
+
+      input {
+        border: 1px solid lightgray;
+        outline: none;
+        padding: 0 5px;
+        border-radius: 3px;
+        
+        &:focus {
+          border: 1px solid gray;
+        }
+      }
   
       .header-icons {
         background-size: cover;
@@ -49,6 +63,25 @@
         }
       }
     }
+  }
+}
+
+// loading
+.loading-container {
+  position: relative;
+  width: 100vh;
+  height: 100vh;
+  margin: auto;
+
+  .loader {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url('./assets/icons//loader.gif');
   }
 }
 
@@ -279,13 +312,22 @@
   .options {
     border: none;
     outline: none;
+  }
+
+  .sort-by-container {
+    display: flex;
     margin: auto 0 0 0;
+
+    p {
+      padding-top: 1px;
+    }
   }
 }
 
 .item-type-container {
   margin: 0 auto;
   padding: 10px 0 0 0;
+  margin: auto 0 0 0;
 
   p {
     margin: 5px 0;

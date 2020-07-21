@@ -14,10 +14,10 @@ class HeaderModal extends React.Component {
                         </div>
                         <div className='item-info'>
                             <div style={{display:'flex'}}>
-                                <p>{this.props.item.name}</p>
+                                <p>{this.props.item.name.toUpperCase()}</p>
                                 <p style={{margin: '0 0 0 auto'}}>{this.props.item.quantity + ' X $' + this.props.item.price}</p>
                             </div>
-                            <p>{this.props.item.type}</p>
+                            <p>{this.props.item.type.toUpperCase()}</p>
                         </div>
                         <Link to='/cart'><button className='cart-button' onClick={this.props.closeModel}>VIEW CART</button></Link>
                         <button className='continue-button' onClick={this.props.closeModel}>CONTINUE SHOPPING</button>

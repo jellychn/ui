@@ -22,6 +22,7 @@ class Item extends React.Component {
     };
 
     componentDidMount() {
+        window.scrollTo(0,0);
         const itemId = window.location.pathname.split('/')[2];
         axios.get('http://localhost:4001/api/items/' + itemId).then(res => {
             const keys = Object.keys(res.data.colors);
@@ -132,17 +133,17 @@ class Item extends React.Component {
     };
 
     render () {
-        if (this.state.loaded === true) {
+        if (this.state.loaded) {
             let images = this.state.item.images.map((img, index) => {
                 return <img key={index} style={{padding: '0 10px 10px 0'}} src={img}/>
             });
 
             let size = this.state.item.sizes.map((size, index) => {
-                return <option key={index} value={size}>{size}</option>
+                return <option key={index} value={size}>{size.toUpperCase()}</option>
             });
 
             let color = Object.keys(this.state.item.colors).map((color, index) => {
-                return <option key={index} value={color}>{color}</option>
+                return <option key={index} value={color}>{color.toUpperCase()}</option>
             });
 
             return (
@@ -153,10 +154,10 @@ class Item extends React.Component {
                         </div>
                         <div className='item-right'>
                             <div className='item-info'>
-                                <p className='item-type'>{this.state.item.type}</p>
+                                <p className='item-type'>{this.state.item.type.toUpperCase()}</p>
                                 <p className='item-price'>{'$' + this.state.item.price}</p>
                             </div>
-                            <h1 className='item-name'>{this.state.item.name}</h1>
+                            <h1 className='item-name'>{this.state.item.name.toUpperCase()}</h1>
                             <p className='item-select-info'>SIZE</p>
                             <select name='size' onChange={(e) => {this.onChange(e)}}>
                                 <option value='-'>-</option>
@@ -227,7 +228,7 @@ class Item extends React.Component {
                 </div>
             )
         } else {
-            return <div></div>
+            return <div className='loading-container'><div className='loader'/></div>
         }
     }
 }

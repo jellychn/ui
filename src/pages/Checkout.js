@@ -10,6 +10,10 @@ class Checkout extends React.Component {
         }
     }
 
+    componentDidMount () {
+        window.scrollTo(0,0);
+    };
+
     navigation = (to) => {
         this.setState({page: to});
     }
