@@ -9,7 +9,7 @@ import {
 const initialState = {
     cart: false,
     favorites: false,
-    headerModalItem: {'colors':[],'color':'', 'images':[]},
+    headerModalItem: {'colors':[],'color':'', 'images':[], name:'', category:''},
     headerModalAdded: '',
     modal: false
 };

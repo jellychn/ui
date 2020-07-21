@@ -16,7 +16,7 @@ function Orders() {
                     <div className='order-item'>
                         <div className='order-item-inner'>
                             <div className='img-link'>
-                                <img src={img}/>
+                                <img alt='' src={img}/>
                             </div>
                             <div className='order-info'>
                                 <p style={{fontWeight: 'bold', color: 'black'}}>TOM AND JERRY</p>
@@ -30,7 +30,7 @@ function Orders() {
                     <div className='order-item'>
                         <div className='order-item-inner'>
                             <div className='img-link'>
-                                <img src={img}/>
+                                <img alt='' src={img}/>
                             </div>
                             <div className='order-info'>
                                 <p style={{fontWeight: 'bold', color: 'black'}}>TOM AND JERRY</p>

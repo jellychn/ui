@@ -8,15 +8,12 @@ import DisplayItem from '../components/DisplayItems';
 
 
 class Display extends React.Component {
-    componentWillMount () {
+    componentDidMount () {
+        window.scrollTo(0,0);
         if (window.location.pathname.split('/').includes('women') || window.location.pathname.split('/').includes('men')) {
             this.props.updateGender(window.location.pathname.split('/')[2]);
         }
-    };
-
-    componentDidMount () {
         this.props.getItems();
-        window.scrollTo(0,0);
     };
 
     render () {

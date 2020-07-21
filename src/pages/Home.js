@@ -15,11 +15,11 @@ class Home extends React.Component {
                     <h1>SHOP</h1>
                     <div className='display-item-body'>
                         <Link to='/display/women' className='display-item-home left-img'>
-                            <img src={women_img}/>
+                            <img alt='women' src={women_img}/>
                             <h4 className='msg'>Womens's</h4>
                         </Link>
                         <Link to='/display/men' className='display-item-home right-img'>
-                            <img src={men_img}/>
+                            <img alt='men' src={men_img}/>
                             <h4 className='msg'>Men's</h4>
                         </Link>
                     </div>

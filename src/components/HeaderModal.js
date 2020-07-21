@@ -10,14 +10,14 @@ class HeaderModal extends React.Component {
                     <div className='header-modal'>
                         <h1>{'ITEM ADDED TO ' + this.props.added} </h1>
                         <div className='img-container'>
-                            <img src={this.props.item.colors[this.props.item.color]}/>
+                            <img alt={this.props.item.name} src={this.props.item.colors[this.props.item.color]}/>
                         </div>
                         <div className='item-info'>
                             <div style={{display:'flex'}}>
                                 <p>{this.props.item.name.toUpperCase()}</p>
                                 <p style={{margin: '0 0 0 auto'}}>{this.props.item.quantity + ' X $' + this.props.item.price}</p>
                             </div>
-                            <p>{this.props.item.type.toUpperCase()}</p>
+                            <p>{this.props.item.category.toUpperCase()}</p>
                         </div>
                         <Link to='/cart'><button className='cart-button' onClick={this.props.closeModel}>VIEW CART</button></Link>
                         <button className='continue-button' onClick={this.props.closeModel}>CONTINUE SHOPPING</button>
@@ -30,14 +30,14 @@ class HeaderModal extends React.Component {
                     <div className='header-modal'>
                         <h1>{'ITEM ADDED TO ' + this.props.added} </h1>
                         <div className='img-container'>
-                            <img src={this.props.item.colors[this.props.item.color]}/>
+                            <img alt={this.props.item.name} src={this.props.item.colors[this.props.item.color]}/>
                         </div>
                         <div className='item-info'>
                             <div style={{display:'flex'}}>
-                                <p>{this.props.item.name}</p>
+                                <p>{this.props.item.name.toUpperCase()}</p>
                                 <p style={{margin: '0 0 0 auto'}}>{'$' + this.props.item.price}</p>
                             </div>
-                            <p>{this.props.item.type}</p>
+                            <p>{this.props.item.category.toUpperCase()}</p>
                         </div>
                         <Link to='/favorites'><button className='cart-button' onClick={this.props.closeModel}>VIEW FAVORITES</button></Link>
                         <button className='continue-button' onClick={this.props.closeModel}>CONTINUE SHOPPING</button>

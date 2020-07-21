@@ -73,8 +73,16 @@ class Header extends React.Component {
     }
 
     handleKeyPress = (e) => {
-        if (e.key === 'Enter') this.props.getItems();
+        if (e.key === 'Enter') {
+            this.props.getItems();
+            this.props.history.push('/display/' + this.props.gender);
+        }
     }
+
+    handleOnClick = () => {
+        this.props.getItems();
+        this.props.history.push('/display/' + this.props.gender);
+    };
 
     sortBy = () => {
         const e = document.getElementById("sort");
@@ -96,7 +104,7 @@ class Header extends React.Component {
                         <Link className='display-link' to='/display/women' style={{borderBottom: this.props.gender === 'women' && this.state.onDisplayPage ? '3px solid black':'3px solid #eee'}} onClick={() => {this.props.updateGender('women')}}>WOMEN</Link>
                         <Link className='display-link' to='/display/men' style={{borderBottom: this.props.gender === 'men' && this.state.onDisplayPage ? '3px solid black':'3px solid #eee'}} onClick={() => {this.props.updateGender('men')}}>MEN</Link>
                         <div className='header-icons-container'>
-                            <div className='header-icons' onClick={() => {this.props.getItems()}} style={{backgroundImage: `url(${search_img})`}}></div>
+                            <div className='header-icons' onClick={() => {this.handleOnClick()}} style={{backgroundImage: `url(${search_img})`}}></div>
                             <input type='search' onKeyPress={(e) => {this.handleKeyPress(e)}} onChange={(e) => {this.props.updateSearchQuery(e.target.value)}}/>
                             <Link to='/profile/settings' className='header-icons' style={{backgroundImage: `url(${profile_img})`}}></Link>
                             <Link to='/favorites' className='header-icons' style={{backgroundImage: `url(${favorite_img})`}}><div style={{display: this.props.favorites ? 'block':'none'}} className='favorites-indicator'/></Link>

@@ -13,7 +13,7 @@ import heart_focus_img from '../assets/icons/heart-focus.svg';
 
 class DisplayItem extends React.Component {
     state = {
-        color: null,
+        color: Object.keys(this.props.item.colors)[0],
         favorited: false,
         colors: {
             'black': '#000000',
@@ -34,9 +34,8 @@ class DisplayItem extends React.Component {
         }
     }
 
-    componentWillMount () {
+    componentDidMount () {
         this.checkFavorited(this.state.color);
-        this.setState({color: Object.keys(this.props.item.colors)[0]});
     };
 
     componentDidUpdate () {
@@ -124,12 +123,12 @@ class DisplayItem extends React.Component {
                             />
                     </div>
                     <Link to={'/item/' + this.props.item._id}>
-                        <img src={this.props.item.colors[this.state.color]}/>
+                        <img alt={this.props.item.name} src={this.props.item.colors[this.state.color]}/>
                         <div className='input-align'>
                             <p style={{fontSize: '15px', fontWeight: 'bold'}}>{this.props.item.name.toUpperCase()}</p>
                             <p style={{marginLeft: 'auto', fontSize: '15px'}}>{'$' + this.props.item.price}</p>
                         </div>
-                        <p style={{fontSize: '15px'}}>{this.props.item.type.toUpperCase()}</p>
+                        <p style={{fontSize: '15px'}}>{this.props.item.category.toUpperCase()}</p>
                     </Link>
                 </div>
             </div>

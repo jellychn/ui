@@ -23,19 +23,18 @@ import Favorites from './pages/Favorites';
 import HeaderModal from './components/HeaderModal';
 
 class App extends React.Component {
-  componentWillMount () {
+  componentDidMount () {
     if (localStorage.getItem('cart') === null) {
       localStorage.setItem('cart', JSON.stringify([]));
-    };
+    } else {
+      this.props.checkCartHasItems();
+    }
 
     if (localStorage.getItem('favorites') === null) {
       localStorage.setItem('favorites', JSON.stringify([]));
-    };
-  }
-
-  componentDidMount () {
-    this.props.checkCartHasItems();
-    this.props.checkFavoritesHasItems();
+    } else {
+      this.props.checkFavoritesHasItems();
+    }
   };
 
   render () {
@@ -44,7 +43,7 @@ class App extends React.Component {
           <Router>
           <Header/>
           <HeaderModal/>
-          <body>
+          <div className='app-body'>
             <div className='container'>
               <Switch>
                 <Route path='/favorites'>
@@ -67,7 +66,7 @@ class App extends React.Component {
                 </Route>
               </Switch>
             </div>
-          </body>
+          </div>
           <Footer/>
           </Router>
       </div>

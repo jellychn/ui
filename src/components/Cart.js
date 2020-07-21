@@ -9,25 +9,23 @@ class Cart extends React.Component {
     state = {
         subtotal: 0,
         total: 0,
-        delivery: 10
-    }
-
-    componentWillMount () {
-        if (localStorage.getItem('cart') === null) {
-            localStorage.setItem('cart', JSON.stringify([]));
-        }
-        this.setState({cart: JSON.parse(localStorage.getItem('cart'))});
+        delivery: 10,
+        cart: JSON.parse(localStorage.getItem('cart'))
     }
 
     componentDidMount () {
+        if (localStorage.getItem('cart') === null) {
+            localStorage.setItem('cart', JSON.stringify([]));
+        }
         this.subtotal();
     }
 
     subtotal = () => {
         let subtotal = 0;
-        JSON.parse(localStorage.getItem('cart')).map((item) => {
-            subtotal += parseInt(item.quantity) * parseInt(item.price);
-        });
+        const cart = JSON.parse(localStorage.getItem('cart'))
+        for (let i=0;i<cart.length;i++) {
+            subtotal += parseInt(cart[i].quantity) * parseInt(cart[i].price);
+        }
         this.setState({subtotal: subtotal, total: subtotal + this.state.delivery});
     };
 
@@ -48,7 +46,7 @@ class Cart extends React.Component {
 
     render () {
         let cartItems = JSON.parse(localStorage.getItem('cart')).map((item, index) => {
-            return <CartItem index={index} item={item} subtotal={this.subtotal} remove={this.remove}/>
+            return <CartItem key={index} index={index} item={item} subtotal={this.subtotal} remove={this.remove}/>
         });
 
         return (

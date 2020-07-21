@@ -18,7 +18,8 @@ class Item extends React.Component {
         size: '-',
         color: '',
         quantity: 1,
-        favorited: false
+        favorited: false,
+        sizeChosen: true
     };
 
     componentDidMount() {
@@ -33,6 +34,7 @@ class Item extends React.Component {
 
     addItemToCart = () => {
         if (this.state.size !== '-') {
+            this.setState({sizeChosen: true});
             if (localStorage.getItem('cart') === null) {
                 localStorage.setItem('cart', JSON.stringify([]));
             }
@@ -43,7 +45,7 @@ class Item extends React.Component {
                 '_id': this.state.item._id,
                 'name': this.state.item.name,
                 'price': this.state.item.price,
-                'type': this.state.item.type,
+                'category': this.state.item.category,
                 'size': this.state.size,
                 'color': this.state.color,
                 'colors': this.state.item.colors,
@@ -65,13 +67,15 @@ class Item extends React.Component {
             this.props.checkCartHasItems();
             this.props.itemAdded(newItem, 'CART', this.state.color);
             this.props.openModel();
+        } else if (this.state.size === '-') {
+            this.setState({sizeChosen: false});
         }
     };
 
     onChange = (e) => {
-        console.log(e.target.value)
         if (e.target.name === 'size') {
             this.setState({'size': e.target.value});
+            this.setState({sizeChosen: true});
         } else if (e.target.name === 'color') {
             this.setState({'color': e.target.value});
             this.checkFavorited(e.target.value);
@@ -135,7 +139,7 @@ class Item extends React.Component {
     render () {
         if (this.state.loaded) {
             let images = this.state.item.images.map((img, index) => {
-                return <img key={index} style={{padding: '0 10px 10px 0'}} src={img}/>
+                return <img alt={img} key={index} style={{padding: '0 10px 10px 0'}} src={img}/>
             });
 
             let size = this.state.item.sizes.map((size, index) => {
@@ -154,12 +158,12 @@ class Item extends React.Component {
                         </div>
                         <div className='item-right'>
                             <div className='item-info'>
-                                <p className='item-type'>{this.state.item.type.toUpperCase()}</p>
+                                <p className='item-type'>{this.state.item.category.toUpperCase()}</p>
                                 <p className='item-price'>{'$' + this.state.item.price}</p>
                             </div>
                             <h1 className='item-name'>{this.state.item.name.toUpperCase()}</h1>
                             <p className='item-select-info'>SIZE</p>
-                            <select name='size' onChange={(e) => {this.onChange(e)}}>
+                            <select name='size' style={{border: this.state.sizeChosen ? '1px solid black':'1px solid red'}} onChange={(e) => {this.onChange(e)}}>
                                 <option value='-'>-</option>
                                 {size}
                             </select>
@@ -188,7 +192,7 @@ class Item extends React.Component {
                             <div className='item-option'>
                                 <div className='item-option-inner'>
                                     <Link to='/item'>
-                                        <img src={img}/>
+                                        <img alt='item img 1' src={img}/>
                                         <div className='input-align'>
                                             <p style={{fontWeight: 'bold'}}>TOM AND JERRY</p>
                                             <p style={{marginLeft: 'auto'}}>$150</p>
@@ -201,7 +205,7 @@ class Item extends React.Component {
                             <div className='item-option'>
                                 <div className='item-option-inner'>
                                     <Link to='/item'>
-                                        <img src={img}/>
+                                        <img alt='item img 2' src={img}/>
                                         <div className='input-align'>
                                             <p style={{fontWeight: 'bold'}}>TOM AND JERRY</p>
                                             <p style={{marginLeft: 'auto'}}>$150</p>
@@ -214,7 +218,7 @@ class Item extends React.Component {
                             <div className='item-option'>
                                 <div className='item-option-inner'>
                                     <Link to='/item'>
-                                        <img src={img}/>
+                                        <img alt='item img 3' src={img}/>
                                         <div className='input-align'>
                                             <p style={{fontWeight: 'bold'}}>TOM AND JERRY</p>
                                             <p style={{marginLeft: 'auto'}}>$150</p>
