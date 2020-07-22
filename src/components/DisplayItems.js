@@ -36,11 +36,15 @@ class DisplayItem extends React.Component {
 
     componentDidMount () {
         this.checkFavorited(this.state.color);
-    };
+    }; 
 
     componentDidUpdate () {
         if (this.props.itemArrayChanged) {
-            this.changeColor(Object.keys(this.props.item.colors)[0]);
+            if (Object.keys(this.state.colors).includes(this.props.q.toLowerCase()) && Object.keys(this.props.item.colors).includes(this.props.q.toLowerCase())) {
+                this.setState({color:this.props.q.toLowerCase()});
+            } else {
+                this.changeColor(Object.keys(this.props.item.colors)[0]);
+            }
             this.props.setItemArrayChangedFalse();
         }
     };
@@ -138,7 +142,8 @@ class DisplayItem extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        itemArrayChanged: state.search.itemArrayChanged
+        itemArrayChanged: state.search.itemArrayChanged,
+        q: state.search.q
     }
 };
 

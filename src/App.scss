@@ -66,12 +66,22 @@
   }
 }
 
+.no-items {
+  position: relative;
+  height: 100vh;
+
+  h1 {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
 // loading
 .loading-container {
   position: relative;
-  width: 100vh;
   height: 100vh;
-  margin: auto;
 
   .loader {
     position: absolute;
@@ -672,6 +682,7 @@
     .item-options-container {
       display: flex;
       overflow-x: auto;
+      padding-bottom: 20px;
     }
   }
 }

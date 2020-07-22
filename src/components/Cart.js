@@ -42,6 +42,7 @@ class Cart extends React.Component {
         localStorage.setItem('cart', JSON.stringify(cart));
         this.subtotal();
         this.props.checkCartHasItems();
+        this.setState({cart:cart});
     };
 
     render () {
@@ -49,20 +50,30 @@ class Cart extends React.Component {
             return <CartItem key={index} index={index} item={item} subtotal={this.subtotal} remove={this.remove}/>
         });
 
-        return (
-            <div className='cart'>
-                <div className='cart-items-container'>
-                    {cartItems}
+        if (this.state.cart.length > 0) {
+            return (
+                <div className='cart'>
+                    <div className='cart-items-container'>
+                        {cartItems}
+                    </div>
+                    <div className='summary'>
+                        <p>{'SUBTOTAL $' + this.state.subtotal}</p>
+                        <p>{'ESTIMATED DELIVERY $' + this.state.delivery}</p>
+                        <p className='total'>{'TOTAL $' + this.state.total}</p>
+                        <button>CHECKOUT</button>
+                        <button className='paypal'>PAYPAL</button>
+                    </div>
                 </div>
-                <div className='summary'>
-                    <p>{'SUBTOTAL $' + this.state.subtotal}</p>
-                    <p>{'ESTIMATED DELIVERY $' + this.state.delivery}</p>
-                    <p className='total'>{'TOTAL $' + this.state.total}</p>
-                    <button>CHECKOUT</button>
-                    <button className='paypal'>PAYPAL</button>
+            )
+        } else {
+            return (
+                <div className='cart'>
+                    <div className='cart-items-container'>
+                        <h4>YOUR CART IS EMPTY</h4>
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }
     }
 }
 

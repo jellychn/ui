@@ -41,11 +41,15 @@ class Display extends React.Component {
         }
 
         if (this.props.itemsLoaded) {
-            return (
-                <div className='display'>
-                    {items}
-                </div>
-            )
+            if (this.props.items.length > 0) {
+                return (
+                    <div className='display'>
+                        {items}
+                    </div>
+                )
+            } else {
+                return <div className='no-items'><h1>WE COULD NOT FIND ANYTHING</h1></div>
+            }
         } else {
             return <div className='loading-container'><div className='loader'/></div>
         }

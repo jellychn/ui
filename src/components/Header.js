@@ -21,6 +21,7 @@ class Header extends React.Component {
         displayPage: false,
         filterMsg: 'SHOW FILTERS',
         filters: [
+            'all',
             'shirts',
             'pants',
             'shorts',
@@ -93,7 +94,7 @@ class Header extends React.Component {
 
     render () {
         const filters = this.state.filters.map((filter, index) => {
-            return <Link onClick={() => {this.props.changeCategory(filter)}} key={index} to={`/display/woman/${filter}`}><p>{filter.toUpperCase()}</p></Link>
+            return <Link onClick={() => {this.props.changeCategory(filter); this.props.getItems()}} key={index} to={`/display/woman/${filter}`}><p>{filter.toUpperCase()}</p></Link>
         });
 
         return (

@@ -19,17 +19,47 @@ class Item extends React.Component {
         color: '',
         quantity: 1,
         favorited: false,
-        sizeChosen: true
+        sizeChosen: true,
+        youMightAlsoLike: []
     };
 
     componentDidMount() {
         window.scrollTo(0,0);
-        const itemId = window.location.pathname.split('/')[2];
+        this.getItem(window.location.pathname.split('/')[2]);
+    };
+
+    getItem = (itemId) => {
+        window.scrollTo(0,0);
+        this.setState({loaded:false});
         axios.get('http://localhost:4001/api/items/' + itemId).then(res => {
             const keys = Object.keys(res.data.colors);
-            this.setState({item:res.data, loaded: true, color: keys[0]});
+            this.setState({item:res.data, color: keys[0]});
             this.checkFavorited(keys[0]);
+
+            axios.get('http://localhost:4001/api/items/', {params: {gender:res.data.gender, category: res.data.category}}).then(res => {
+                const shuffled = this.shuffle(res.data);
+                this.setState({youMightAlsoLike:shuffled, loaded:true});
+            });
         });
+    };
+
+    shuffle = (array) => {
+        let currentIndex = array.length, temporaryValue, randomIndex;
+      
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+      
+          // Pick a remaining element...
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex -= 1;
+      
+          // And swap it with the current element.
+          temporaryValue = array[currentIndex];
+          array[currentIndex] = array[randomIndex];
+          array[randomIndex] = temporaryValue;
+        }
+        
+        return array.slice(0, 6);
     };
 
     addItemToCart = () => {
@@ -150,6 +180,23 @@ class Item extends React.Component {
                 return <option key={index} value={color}>{color.toUpperCase()}</option>
             });
 
+            let youMayAlsoLike = this.state.youMightAlsoLike.map((item, index) => {
+                return (
+                    <div key={index} className='item-option' style={{display: item._id === this.state.item._id ? 'none':'block'}}>
+                        <div className='item-option-inner'>
+                            <Link to={'/item/' + item._id} onClick={() => {this.getItem(item._id)}}>
+                                <img alt={item.name} src={item.images[0]}/>
+                                <div className='input-align'>
+                                    <p style={{fontWeight: 'bold'}}>{item.name.toUpperCase()}</p>
+                                    <p style={{marginLeft: 'auto'}}>{`$${item.price}`}</p>
+                                </div>
+                                <p>{item.category.toUpperCase()}</p>
+                            </Link>
+                        </div>
+                    </div>
+                )
+            });
+
             return (
                 <div className='item'>
                     <div className='item-top'>
@@ -189,44 +236,7 @@ class Item extends React.Component {
                     <div className='item-bottom'>
                         <h1>YOU MIGHT ALSO LIKE</h1>
                         <div className='item-options-container'>
-                            <div className='item-option'>
-                                <div className='item-option-inner'>
-                                    <Link to='/item'>
-                                        <img alt='item img 1' src={img}/>
-                                        <div className='input-align'>
-                                            <p style={{fontWeight: 'bold'}}>TOM AND JERRY</p>
-                                            <p style={{marginLeft: 'auto'}}>$150</p>
-                                        </div>
-                                        <p>SHIRT</p>
-                                    </Link>
-                                </div>
-                            </div>
-    
-                            <div className='item-option'>
-                                <div className='item-option-inner'>
-                                    <Link to='/item'>
-                                        <img alt='item img 2' src={img}/>
-                                        <div className='input-align'>
-                                            <p style={{fontWeight: 'bold'}}>TOM AND JERRY</p>
-                                            <p style={{marginLeft: 'auto'}}>$150</p>
-                                        </div>
-                                        <p>SHIRT</p>
-                                    </Link>
-                                </div>
-                            </div>
-    
-                            <div className='item-option'>
-                                <div className='item-option-inner'>
-                                    <Link to='/item'>
-                                        <img alt='item img 3' src={img}/>
-                                        <div className='input-align'>
-                                            <p style={{fontWeight: 'bold'}}>TOM AND JERRY</p>
-                                            <p style={{marginLeft: 'auto'}}>$150</p>
-                                        </div>
-                                        <p>SHIRT</p>
-                                    </Link>
-                                </div>
-                            </div>
+                            {youMayAlsoLike}
                         </div>
                     </div>
                 </div>

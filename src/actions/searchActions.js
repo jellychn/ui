@@ -38,8 +38,9 @@ export const getItems = () => {
         } else {
             url = 'http://localhost:4001/api/items?q=' + store.getState().search.q;
         }
-        axios.get(url, {params: {gender:store.getState().search.gender, catergory: store.getState().search.catergory}}).then(res => {
+        axios.get(url, {params: {gender:store.getState().search.gender, category: store.getState().search.category}}).then(res => {
             dispatch(recieveItemsSuccess(res.data));
+            console.log(res.data.length)
         }).catch(err => {
             dispatch(recieveItemsFailure(err));
         });

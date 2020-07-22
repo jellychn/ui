@@ -33,16 +33,29 @@ class Favorites extends React.Component {
             return <FavoriteItem key={index} item={item} index={index} removeItem={this.removeItem}/>
         });
 
-        return (
-            <div className='profile'>
-                <div className='navigation-header'>
-                    <h1 className='directory'>FAVORITES</h1>
+        if (this.state.favorites.length > 0) {
+            return (
+                <div className='profile'>
+                    <div className='navigation-header'>
+                        <h1 className='directory'>FAVORITES</h1>
+                    </div>
+                    <div className='favorites'>
+                        {favorites}
+                    </div>
                 </div>
-                <div className='favorites'>
-                    {favorites}
+            )
+        } else {
+            return (
+                <div className='profile'>
+                    <div className='navigation-header'>
+                        <h1 className='directory'>FAVORITES</h1>
+                    </div>
+                    <div className='favorites'>
+                        <h4 style={{padding:'0 0 0 20px'}}>YOU HAVE NO FAVORITES</h4>
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }
     }
 }
 
