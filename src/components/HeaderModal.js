@@ -1,47 +1,46 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
+import {
+    closeModal
+} from '../actions/modalAction';
 
 class HeaderModal extends React.Component {
     render () {
         if (this.props.added === 'CART') {
             return (
-                <div className='modal' style={{display: this.props.modal ? 'block':'none'}}>
-                    <div className='header-modal'>
-                        <h1>{'ITEM ADDED TO ' + this.props.added} </h1>
-                        <div className='img-container'>
-                            <img alt={this.props.item.name} src={this.props.item.colors[this.props.item.color]}/>
-                        </div>
-                        <div className='item-info'>
-                            <div style={{display:'flex'}}>
-                                <p>{this.props.item.name.toUpperCase()}</p>
-                                <p style={{margin: '0 0 0 auto'}}>{this.props.item.quantity + ' X $' + this.props.item.price}</p>
-                            </div>
-                            <p>{this.props.item.category.toUpperCase()}</p>
-                        </div>
-                        <Link to='/cart'><button className='cart-button' onClick={this.props.closeModel}>VIEW CART</button></Link>
-                        <button className='continue-button' onClick={this.props.closeModel}>CONTINUE SHOPPING</button>
+                <div className='header-modal' style={{display: this.props.headerModal ? 'block':'none'}}>
+                    <h1>{'ITEM ADDED TO ' + this.props.added} </h1>
+                    <div className='img-container'>
+                        <img alt={this.props.item.name} src={this.props.item.colors[this.props.item.color]}/>
                     </div>
+                    <div className='item-info'>
+                        <div style={{display:'flex'}}>
+                            <p>{this.props.item.name.toUpperCase()}</p>
+                            <p style={{margin: '0 0 0 auto'}}>{this.props.item.quantity + ' X $' + this.props.item.price}</p>
+                        </div>
+                        <p>{this.props.item.category.toUpperCase()}</p>
+                    </div>
+                    <Link to='/cart'><button className='cart-button' onClick={this.props.closeModal}>VIEW CART</button></Link>
+                    <button className='continue-button' onClick={this.props.closeModal}>CONTINUE SHOPPING</button>
                 </div>
             )
         } else {
             return (
-                <div className='modal' style={{display: this.props.modal ? 'block':'none'}}>
-                    <div className='header-modal'>
-                        <h1>{'ITEM ADDED TO ' + this.props.added} </h1>
-                        <div className='img-container'>
-                            <img alt={this.props.item.name} src={this.props.item.colors[this.props.item.color]}/>
-                        </div>
-                        <div className='item-info'>
-                            <div style={{display:'flex'}}>
-                                <p>{this.props.item.name.toUpperCase()}</p>
-                                <p style={{margin: '0 0 0 auto'}}>{'$' + this.props.item.price}</p>
-                            </div>
-                            <p>{this.props.item.category.toUpperCase()}</p>
-                        </div>
-                        <Link to='/favorites'><button className='cart-button' onClick={this.props.closeModel}>VIEW FAVORITES</button></Link>
-                        <button className='continue-button' onClick={this.props.closeModel}>CONTINUE SHOPPING</button>
+                <div className='header-modal' style={{display: this.props.headerModal ? 'block':'none'}}>
+                    <h1>{'ITEM ADDED TO ' + this.props.added} </h1>
+                    <div className='img-container'>
+                        <img alt={this.props.item.name} src={this.props.item.colors[this.props.item.color]}/>
                     </div>
+                    <div className='item-info'>
+                        <div style={{display:'flex'}}>
+                            <p>{this.props.item.name.toUpperCase()}</p>
+                            <p style={{margin: '0 0 0 auto'}}>{'$' + this.props.item.price}</p>
+                        </div>
+                        <p>{this.props.item.category.toUpperCase()}</p>
+                    </div>
+                    <Link to='/favorites'><button className='cart-button' onClick={this.props.closeModal}>VIEW FAVORITES</button></Link>
+                    <button className='continue-button' onClick={this.props.closeModal}>CONTINUE SHOPPING</button>
                 </div>
             )
         }
@@ -50,15 +49,15 @@ class HeaderModal extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        modal: state.item.modal,
         item: state.item.headerModalItem,
-        added: state.item.headerModalAdded
+        added: state.item.headerModalAdded,
+        headerModal: state.modal.headerModal
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        closeModel: () => dispatch({type:'CLOSE_MODEL'})
+        closeModal: () => dispatch(closeModal())
     }
 };
 

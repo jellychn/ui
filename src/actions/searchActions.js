@@ -40,7 +40,7 @@ export const getItems = () => {
         }
         axios.get(url, {params: {gender:store.getState().search.gender, category: store.getState().search.category}}).then(res => {
             dispatch(recieveItemsSuccess(res.data));
-            console.log(res.data.length)
+            window.scrollTo(0,0);
         }).catch(err => {
             dispatch(recieveItemsFailure(err));
         });

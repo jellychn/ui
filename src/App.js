@@ -20,7 +20,7 @@ import Profile from './pages/Profile';
 import Item from './pages/Item';
 import Checkout from './pages/Checkout';
 import Favorites from './pages/Favorites';
-import HeaderModal from './components/HeaderModal';
+import Modal from './components/Modal';
 
 class App extends React.Component {
   componentDidMount () {
@@ -42,7 +42,7 @@ class App extends React.Component {
       <div className="App">
           <Router>
           <Header/>
-          <HeaderModal/>
+          <Modal/>
           <div className='app-body'>
             <div className='container'>
               <Switch>
@@ -74,6 +74,12 @@ class App extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    modal: state.modal.modal
+  }
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     checkCartHasItems: () => dispatch(checkCartHasItems()),
@@ -81,4 +87,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

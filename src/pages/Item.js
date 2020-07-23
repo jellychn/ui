@@ -7,7 +7,9 @@ import {
     checkFavoritesHasItems,
     itemAdded
 } from '../actions/itemsActions';
-import img from '../assets/icons/primary.jpg';
+import {
+    openHeaderModal
+} from '../actions/modalAction';
 import heart_img from '../assets/icons/heart.svg';
 import heart_focus_img from '../assets/icons/heart-focus.svg';
 
@@ -96,7 +98,7 @@ class Item extends React.Component {
             localStorage.setItem('cart', JSON.stringify(cart));
             this.props.checkCartHasItems();
             this.props.itemAdded(newItem, 'CART', this.state.color);
-            this.props.openModel();
+            this.props.openHeaderModal();
         } else if (this.state.size === '-') {
             this.setState({sizeChosen: false});
         }
@@ -160,7 +162,7 @@ class Item extends React.Component {
             favorites.push(item);
             localStorage.setItem('favorites', JSON.stringify(favorites));
             this.setState({favorited: true});
-            this.props.openModel()
+            this.props.openHeaderModal()
         }
         checkFavoritesHasItems();
         this.checkFavorited(color);
@@ -252,7 +254,7 @@ const mapDispatchToProps = (dispatch) => {
         checkCartHasItems: () => dispatch(checkCartHasItems()),
         checkFavoritesHasItems: () => dispatch(checkFavoritesHasItems()),
         itemAdded: (item, added, color) => dispatch(itemAdded(item, added, color)),
-        openModel: () => dispatch({type: 'OPEN_MODEL'})
+        openHeaderModal: () => dispatch(openHeaderModal())
     }
 };
 

@@ -6,6 +6,9 @@ import {
     checkFavoritesHasItems,
     itemAdded
 } from '../actions/itemsActions';
+import {
+    openHeaderModal
+} from '../actions/modalAction';
 
 class FavoriteItem extends React.Component {
     state = {
@@ -19,7 +22,6 @@ class FavoriteItem extends React.Component {
     };
 
     addItemToCart = (item, name) => {
-        console.log(this.state.size)
         var e = document.getElementsByName(name)[0];
         var size = e.options[e.selectedIndex].value;
         if (size !== '-') {
@@ -56,7 +58,7 @@ class FavoriteItem extends React.Component {
             localStorage.setItem('cart', JSON.stringify(cart));
             this.props.checkCartHasItems();
             this.props.itemAdded(newItem, 'CART', item.color);
-            this.props.openModel();
+            this.props.openHeaderModal();
             
             this.props.removeItem(item);
         } else if (this.state.size === '-') {
@@ -101,7 +103,7 @@ const mapDispatchToProps = (dispatch) => {
         checkCartHasItems: () => dispatch(checkCartHasItems()),
         checkFavoritesHasItems: () => dispatch(checkFavoritesHasItems()),
         itemAdded: (item, added, color) => dispatch(itemAdded(item, added, color)),
-        openModel: () => dispatch({type: 'OPEN_MODEL'})
+        openHeaderModal: () => dispatch(openHeaderModal())
     }
 };
 

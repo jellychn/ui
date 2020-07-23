@@ -1,17 +1,14 @@
 import {
     CHECK_CART_HAS_ITEMS,
     CHECK_FAVORITES_HAS_ITEMS,
-    ITEM_ADDED,
-    CLOSE_MODEL,
-    OPEN_MODEL
+    ITEM_ADDED
 } from '../actions/actionTypes';
 
 const initialState = {
     cart: false,
     favorites: false,
     headerModalItem: {'colors':[],'color':'', 'images':[], name:'', category:''},
-    headerModalAdded: '',
-    modal: false
+    headerModalAdded: ''
 };
 
 const reducer = (state=initialState, action) => {
@@ -31,16 +28,6 @@ const reducer = (state=initialState, action) => {
             return {
                 ...state,
                 favorites: action.favorites
-            }
-        case CLOSE_MODEL:
-            return {
-                ...state,
-                modal: false
-            }
-        case OPEN_MODEL:
-            return {
-                ...state,
-                modal: true
             }
         default: return state;
     }

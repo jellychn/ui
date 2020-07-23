@@ -9,6 +9,9 @@ import {
     getItems,
     changeSortBy
 } from '../actions/searchActions';
+import {
+    openSearchModal
+} from '../actions/modalAction';
 
 import cart_img from '../assets/icons/cart.svg';
 import profile_img from '../assets/icons/profile.svg';
@@ -73,18 +76,6 @@ class Header extends React.Component {
         }
     }
 
-    handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            this.props.getItems();
-            this.props.history.push('/display/' + this.props.gender);
-        }
-    }
-
-    handleOnClick = () => {
-        this.props.getItems();
-        this.props.history.push('/display/' + this.props.gender);
-    };
-
     sortBy = () => {
         const e = document.getElementById("sort");
         const sort = e.options[e.selectedIndex].value;
@@ -105,8 +96,7 @@ class Header extends React.Component {
                         <Link className='display-link' to='/display/women' style={{borderBottom: this.props.gender === 'women' && this.state.onDisplayPage ? '3px solid black':'3px solid #eee'}} onClick={() => {this.props.updateGender('women')}}>WOMEN</Link>
                         <Link className='display-link' to='/display/men' style={{borderBottom: this.props.gender === 'men' && this.state.onDisplayPage ? '3px solid black':'3px solid #eee'}} onClick={() => {this.props.updateGender('men')}}>MEN</Link>
                         <div className='header-icons-container'>
-                            <div className='header-icons' onClick={() => {this.handleOnClick()}} style={{backgroundImage: `url(${search_img})`}}></div>
-                            <input type='search' onKeyPress={(e) => {this.handleKeyPress(e)}} onChange={(e) => {this.props.updateSearchQuery(e.target.value)}}/>
+                            <div className='header-icons' onClick={this.props.openSearchModal} style={{backgroundImage: `url(${search_img})`}}></div>
                             <Link to='/profile/settings' className='header-icons' style={{backgroundImage: `url(${profile_img})`}}></Link>
                             <Link to='/favorites' className='header-icons' style={{backgroundImage: `url(${favorite_img})`}}><div style={{display: this.props.favorites ? 'block':'none'}} className='favorites-indicator'/></Link>
                             <Link to='/cart' className='header-icons end-icon' style={{backgroundImage: `url(${cart_img})`}}><div style={{display: this.props.cart ? 'block':'none'}} className='cart-indicator'/></Link>
@@ -142,7 +132,7 @@ const mapStateToProps = (state) => {
     return {
         cart: state.item.cart,
         favorites: state.item.favorites,
-        modal: state.item.modal,
+        modal: state.modal.modal,
         gender: state.search.gender,
         category: state.search.category
     }
@@ -155,7 +145,8 @@ const mapDispatchToProps = (dispatch) => {
         updateGender: (gender) => {dispatch(updateGender(gender))},
         updateSearchQuery: (q) => {dispatch(updateSearchQuery(q))},
         getItems: () => {dispatch(getItems())},
-        changeSortBy: (sort) => {dispatch(changeSortBy(sort))}
+        changeSortBy: (sort) => {dispatch(changeSortBy(sort))},
+        openSearchModal: () => dispatch(openSearchModal())
     } 
 };
 

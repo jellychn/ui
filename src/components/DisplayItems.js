@@ -8,6 +8,9 @@ import {
 import {
     setItemArrayChangedFalse
 } from '../actions/searchActions';
+import {
+    openHeaderModal
+} from '../actions/modalAction';
 import heart_img from '../assets/icons/heart.svg';
 import heart_focus_img from '../assets/icons/heart-focus.svg';
 
@@ -100,7 +103,7 @@ class DisplayItem extends React.Component {
             favorites.push(item);
             localStorage.setItem('favorites', JSON.stringify(favorites));
             this.setState({favorited: true});
-            this.props.openModel()
+            this.props.openHeaderModal();
         }
         checkFavoritesHasItems();
         this.checkFavorited(color);
@@ -151,7 +154,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         checkFavoritesHasItems: () => dispatch(checkFavoritesHasItems()),
         itemAdded: (item, added, color) => dispatch(itemAdded(item, added, color)),
-        openModel: () => dispatch({type:'OPEN_MODEL'}),
+        openHeaderModal: () => dispatch(openHeaderModal()),
         setItemArrayChangedFalse: () => dispatch(setItemArrayChangedFalse())
     }
 };
