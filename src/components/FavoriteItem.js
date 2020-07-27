@@ -83,9 +83,9 @@ class FavoriteItem extends React.Component {
                         <img alt={this.props.item.name} src={this.props.item.colors[this.props.item.color]}/>
                         <div className='input-align'>
                             <p style={{fontSize: '15px', fontWeight: 'bold'}}>{this.props.item.name.toUpperCase()}</p>
-                            <p style={{marginLeft: 'auto', fontSize: '15px'}}>{'$' + this.props.item.price}</p>
+                            <p style={{marginLeft: 'auto', fontSize: '15px', fontWeight:'bold'}}>{'$' + this.props.item.price}</p>
                         </div>
-                        <p style={{fontSize: '15px'}}>{this.props.item.category.toUpperCase()}</p>
+                        <p style={{fontSize: '15px', fontWeight:'bold', color:'lightGray'}}>{this.props.item.category.toUpperCase()}</p>
                     </Link>
                     <select name={this.props.index} style={{border: this.state.sizeChosen ? '1px solid black':'1px solid red'}} onChange={(e) => {this.onChangeSize(e)}}>
                         <option value='-'>-</option>

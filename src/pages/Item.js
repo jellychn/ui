@@ -1,11 +1,12 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import axios from 'axios';
 import {connect} from 'react-redux';
 import {
     checkCartHasItems,
     checkFavoritesHasItems,
-    itemAdded
+    itemAdded,
+    getItem,
+    favorited
 } from '../actions/itemsActions';
 import {
     openHeaderModal
@@ -15,53 +16,14 @@ import heart_focus_img from '../assets/icons/heart-focus.svg';
 
 class Item extends React.Component {
     state = {
-        item: {},
-        loaded: false,
         size: '-',
-        color: '',
         quantity: 1,
-        favorited: false,
-        sizeChosen: true,
-        youMightAlsoLike: []
+        sizeChosen: true
     };
 
     componentDidMount() {
         window.scrollTo(0,0);
-        this.getItem(window.location.pathname.split('/')[2]);
-    };
-
-    getItem = (itemId) => {
-        window.scrollTo(0,0);
-        this.setState({loaded:false});
-        axios.get('http://localhost:4001/api/items/' + itemId).then(res => {
-            const keys = Object.keys(res.data.colors);
-            this.setState({item:res.data, color: keys[0]});
-            this.checkFavorited(keys[0]);
-
-            axios.get('http://localhost:4001/api/items/', {params: {gender:res.data.gender, category: res.data.category}}).then(res => {
-                const shuffled = this.shuffle(res.data);
-                this.setState({youMightAlsoLike:shuffled, loaded:true});
-            });
-        });
-    };
-
-    shuffle = (array) => {
-        let currentIndex = array.length, temporaryValue, randomIndex;
-      
-        // While there remain elements to shuffle...
-        while (0 !== currentIndex) {
-      
-          // Pick a remaining element...
-          randomIndex = Math.floor(Math.random() * currentIndex);
-          currentIndex -= 1;
-      
-          // And swap it with the current element.
-          temporaryValue = array[currentIndex];
-          array[currentIndex] = array[randomIndex];
-          array[randomIndex] = temporaryValue;
-        }
-        
-        return array.slice(0, 6);
+        this.props.getItem(window.location.pathname.split('/')[2]);
     };
 
     addItemToCart = () => {
@@ -74,14 +36,14 @@ class Item extends React.Component {
             let inCart = false;
             let cart = JSON.parse(localStorage.getItem('cart'));
             const newItem = {
-                '_id': this.state.item._id,
-                'name': this.state.item.name,
-                'price': this.state.item.price,
-                'category': this.state.item.category,
+                '_id': this.props.item._id,
+                'name': this.props.item.name,
+                'price': this.props.item.price,
+                'category': this.props.item.category,
                 'size': this.state.size,
-                'color': this.state.color,
-                'colors': this.state.item.colors,
-                'images': this.state.item.images,
+                'color': this.props.color,
+                'colors': this.props.item.colors,
+                'images': this.props.item.images,
                 'quantity': this.state.quantity
             }
     
@@ -97,7 +59,7 @@ class Item extends React.Component {
             }
             localStorage.setItem('cart', JSON.stringify(cart));
             this.props.checkCartHasItems();
-            this.props.itemAdded(newItem, 'CART', this.state.color);
+            this.props.itemAdded(newItem, 'CART', this.props.color);
             this.props.openHeaderModal();
         } else if (this.state.size === '-') {
             this.setState({sizeChosen: false});
@@ -110,28 +72,11 @@ class Item extends React.Component {
             this.setState({sizeChosen: true});
         } else if (e.target.name === 'color') {
             this.setState({'color': e.target.value});
-            this.checkFavorited(e.target.value);
+            this.props.checkFavorited(e.target.value, this.props.item);
         } else if (e.target.name === 'quantity') {
             this.setState({'quantity': parseInt(e.target.value)});
         }
     }
-
-    checkFavorited = (color) => {
-        if (localStorage.getItem('favorites') === null) {
-            localStorage.setItem('favorites', JSON.stringify([]))
-        }
-        const favorites = JSON.parse(localStorage.getItem('favorites'));
-        let inFavorites = false;
-
-        for (let i=0;i<favorites.length;i++) {
-            if (this.state.item._id === favorites[i]._id && favorites[i].color === color) {
-                inFavorites = true;
-                break;
-            }
-        }
-
-        this.setState({favorited: inFavorites});
-    };
 
     favorite = (item, checkFavoritesHasItems, color) => {
         if (localStorage.getItem('favorites') === null) {
@@ -156,35 +101,35 @@ class Item extends React.Component {
             // remove
             favorites.splice(index, 1);
             localStorage.setItem('favorites', JSON.stringify(favorites));
-            this.setState({favorited: false});
+            this.props.checkFavorited(color, item);
         } else {
             // add
             favorites.push(item);
             localStorage.setItem('favorites', JSON.stringify(favorites));
-            this.setState({favorited: true});
+            this.props.checkFavorited(color, item);
             this.props.openHeaderModal()
         }
         checkFavoritesHasItems();
-        this.checkFavorited(color);
+        this.props.checkFavorited(this.props.color, this.props.item);
     };
 
     render () {
-        if (this.state.loaded) {
-            let images = this.state.item.images.map((img, index) => {
+        if (this.props.itemLoaded) {
+            let images = this.props.item.images.map((img, index) => {
                 return <img alt={img} key={index} style={{padding: '0 10px 10px 0'}} src={img}/>
             });
 
-            let size = this.state.item.sizes.map((size, index) => {
+            let size = this.props.item.sizes.map((size, index) => {
                 return <option key={index} value={size}>{size.toUpperCase()}</option>
             });
 
-            let color = Object.keys(this.state.item.colors).map((color, index) => {
+            let color = Object.keys(this.props.item.colors).map((color, index) => {
                 return <option key={index} value={color}>{color.toUpperCase()}</option>
             });
 
-            let youMayAlsoLike = this.state.youMightAlsoLike.map((item, index) => {
+            let relatedItems = this.props.relatedItems.map((item, index) => {
                 return (
-                    <div key={index} className='item-option' style={{display: item._id === this.state.item._id ? 'none':'block'}}>
+                    <div key={index} className='item-option' style={{display: item._id === this.props.item._id ? 'none':'block'}}>
                         <div className='item-option-inner'>
                             <Link to={'/item/' + item._id} onClick={() => {this.getItem(item._id)}}>
                                 <img alt={item.name} src={item.images[0]}/>
@@ -207,10 +152,10 @@ class Item extends React.Component {
                         </div>
                         <div className='item-right'>
                             <div className='item-info'>
-                                <p className='item-type'>{this.state.item.category.toUpperCase()}</p>
-                                <p className='item-price'>{'$' + this.state.item.price}</p>
+                                <p className='item-type'>{this.props.item.category.toUpperCase()}</p>
+                                <p className='item-price'>{'$' + this.props.item.price}</p>
                             </div>
-                            <h1 className='item-name'>{this.state.item.name.toUpperCase()}</h1>
+                            <h1 className='item-name'>{this.props.item.name.toUpperCase()}</h1>
                             <p className='item-select-info'>SIZE</p>
                             <select name='size' style={{border: this.state.sizeChosen ? '1px solid black':'1px solid red'}} onChange={(e) => {this.onChange(e)}}>
                                 <option value='-'>-</option>
@@ -230,15 +175,15 @@ class Item extends React.Component {
                             </select>
                             <button className='add' onClick={this.addItemToCart}>ADD</button>
                             <div className='favorite-container'>
-                                <button className='favorite' onClick={() => {this.favorite(this.state.item, this.props.checkFavoritesHasItems, this.state.color); this.props.itemAdded(this.state.item, 'FAVORITES', this.state.color);}}>FAVORITE</button>
-                                <div className='favorite-icon' style={{backgroundImage: this.state.favorited ? `url(${heart_focus_img})`:`url(${heart_img})`}}/>
+                                <button className='favorite' onClick={() => {this.favorite(this.props.item, this.props.checkFavoritesHasItems, this.props.color); this.props.itemAdded(this.props.item, 'FAVORITES', this.props.color);}}>FAVORITE</button>
+                                <div className='favorite-icon' style={{backgroundImage: this.props.favorited ? `url(${heart_focus_img})`:`url(${heart_img})`}}/>
                             </div>
                         </div>
                     </div>
                     <div className='item-bottom'>
                         <h1>YOU MIGHT ALSO LIKE</h1>
                         <div className='item-options-container'>
-                            {youMayAlsoLike}
+                            {relatedItems}
                         </div>
                     </div>
                 </div>
@@ -249,13 +194,25 @@ class Item extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        item: state.item.item,
+        favorited: state.item.favorited,
+        color: state.item.color,
+        itemLoaded: state.item.itemLoaded,
+        relatedItems: state.item.relatedItems
+    }
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         checkCartHasItems: () => dispatch(checkCartHasItems()),
         checkFavoritesHasItems: () => dispatch(checkFavoritesHasItems()),
         itemAdded: (item, added, color) => dispatch(itemAdded(item, added, color)),
-        openHeaderModal: () => dispatch(openHeaderModal())
+        openHeaderModal: () => dispatch(openHeaderModal()),
+        getItem: (itemId) => dispatch(getItem(itemId)),
+        checkFavorited: (color, item) => dispatch(favorited(color, item))
     }
 };
 
-export default connect(null, mapDispatchToProps)(Item);
+export default connect(mapStateToProps, mapDispatchToProps)(Item);

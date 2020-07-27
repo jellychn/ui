@@ -78,9 +78,9 @@ code {
   }
 
   .search-modal {
-    padding: 80px 30px 30px 30px;
-    width: 100vw;
+    padding: 60px 10px 10px 10px;
     height: 100vh;
+    width: 100%;
 
     h4 {
       margin-top: 10px;
@@ -93,7 +93,7 @@ code {
 
     .results {
       .result {
-        width: 100%;
+        width: 50%;
       }
     }
   }
@@ -150,7 +150,7 @@ code {
   }
 
   .item-option {
-    width: 50%;
+    width: 33.33%;
 
     p {
       font-size: 10px;
@@ -247,9 +247,8 @@ code {
   }
 
   .search-modal {
-    padding: 100px 30px 30px 30px;
-    width: 100vw;
-    height: 100vh;
+    padding: 60px 10px 20px 10px;
+    width: 100%;
 
     h4 {
       margin: 10px;
@@ -262,7 +261,7 @@ code {
 
     .results {
       .result {
-        width: 50%;
+        width: 25%;
       }
     }
   }
@@ -323,7 +322,7 @@ code {
   }
 
   .item-option {
-    width: 33.33%;
+    width: 25%;
   }
 
   .item-top, .order, .cart {
@@ -410,10 +409,9 @@ code {
   }
 
   .search-modal {
-    padding: 100px 30px 30px 30px;
-    width: 50vw;
-    height: 100vh;
-
+    padding: 60px 10px 20px 10px;
+    width: 100%;
+    
     h4 {
       margin: 10px;
     }
@@ -425,7 +423,7 @@ code {
 
     .results {
       .result {
-        width: 50%;
+        width: 25%;
       }
     }
   }
@@ -485,7 +483,7 @@ code {
   }
 
   .item-option {
-    width: 33.33%;
+    width: 25%;
   }
 
   .item-top, .order, .cart {
@@ -573,10 +571,11 @@ code {
   }
 
   .search-modal {
-    padding: 100px 30px 30px 30px;
-    width: 50vw;
-    height: 50vh;
-
+    padding: 60px 10px 20px 10px;
+    width: 800px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  
     h4 {
       margin: 10px;
     }
@@ -648,7 +647,7 @@ code {
   }
 
   .item-option {
-    width: 33.33%;
+    width: 25%;
   }
 
   .item-top, .order, .cart {
@@ -727,7 +726,7 @@ code {
 
   .header-modal {
     height: auto;
-    padding: 100px 20px 20px 20px;
+    padding: 80px 20px 20px 20px;
     right: 0;
     top: 0;
 
@@ -737,9 +736,11 @@ code {
   }
 
   .search-modal {
-    padding: 100px 30px 30px 30px;
-    width: 25vw;
-    height: 50vh;
+    padding: 60px 10px 20px 10px;
+    width: 800px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
 
     h4 {
       margin: 10px;
@@ -812,7 +813,7 @@ code {
   }
 
   .item-option {
-    width: 33.33%;
+    width: 25%;
   }
 
   .item-top, .order, .cart {
@@ -820,7 +821,7 @@ code {
   }
 
   .item-right, .summary {
-    width: 400px;
+    width: 600px;
     margin-left: 60px;
   }
 

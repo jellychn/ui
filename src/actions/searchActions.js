@@ -7,22 +7,28 @@ import {
     CHANGE_CATEGORY,
     UPDATE_GENDER,
     CHANGE_SORT_BY,
-    SET_ITEM_ARRAY_CHANGED_FALSE
+    SET_ITEM_ARRAY_CHANGED_FALSE,
+    REQUEST_SEARCH_ITEMS,
+    RECIEVE_SEARCH_ITEMS_SUCCESS,
+    RECIEVE_SEARCH_ITEMS_FAILURE,
+    SET_TIMER,
+    SET_QUERY_CHANGED,
+    SET_SEARCH_ITEMS_LOADED
 } from './actionTypes';
 import axios from 'axios';
 
-export const requestItems = () => {
+const requestItems = () => {
     return {type:REQUEST_ITEMS}
 };
 
-export const recieveItemsSuccess = (data) => {
+const recieveItemsSuccess = (data) => {
     return {
         type: RECIEVE_ITEMS_SUCCESS,
         data: data
     }
 };
 
-export const recieveItemsFailure = error => {
+const recieveItemsFailure = error => {
     return {
         type: RECIEVE_ITEMS_FAILURE,
         error: error
@@ -38,7 +44,17 @@ export const getItems = () => {
         } else {
             url = 'http://localhost:4001/api/items?q=' + store.getState().search.q;
         }
-        axios.get(url, {params: {gender:store.getState().search.gender, category: store.getState().search.category}}).then(res => {
+
+        let params = {};
+        if (store.getState().search.gender !== null) {
+            params.gender = store.getState().search.gender;
+        }
+
+        if (store.getState().search.category !== 'all') {
+            params.category = store.getState().search.category;
+        }
+
+        axios.get(url, {params}).then(res => {
             dispatch(recieveItemsSuccess(res.data));
             window.scrollTo(0,0);
         }).catch(err => {
@@ -78,5 +94,62 @@ export const changeSortBy = (sortBy) => {
 export const setItemArrayChangedFalse = () => {
     return {
         type: SET_ITEM_ARRAY_CHANGED_FALSE
+    }
+};
+
+const requestSearchItems = () => {
+    return {
+        type: REQUEST_SEARCH_ITEMS
+    }
+};
+
+const recieveSearchItemsSuccess = data => {
+    return {
+        type: RECIEVE_SEARCH_ITEMS_SUCCESS,
+        data: data
+    }
+};
+
+const recieveSearchItemsFaliure = error => {
+    return {
+        type: RECIEVE_SEARCH_ITEMS_FAILURE,
+        error: error
+    }
+};
+
+export const getSearchItems = (reset) => {
+    return dispatch => {
+        if (reset) {
+            dispatch(recieveSearchItemsSuccess([]));
+        } else {
+            dispatch(requestSearchItems());
+            axios.get('http://localhost:4001/api/items?q=' + store.getState().search.q).then(res => {
+                console.log(res.data)
+                dispatch(recieveSearchItemsSuccess(res.data));
+            }).catch(err => {
+                dispatch(recieveSearchItemsFaliure(err));
+            });
+        }
+    };
+};
+
+export const setTimer = (time) => {
+    return {
+        type: SET_TIMER,
+        time: time
+    }
+};
+
+export const setSearchItemLoaded = (bol) => {
+    return {
+        type: SET_SEARCH_ITEMS_LOADED,
+        bol:bol
+    }
+};
+
+export const setQueryChanged = (bol) => {
+    return {
+        type: SET_QUERY_CHANGED,
+        bol:bol
     }
 };

@@ -6,7 +6,13 @@ import {
     CHANGE_CATEGORY,
     UPDATE_GENDER,
     CHANGE_SORT_BY,
-    SET_ITEM_ARRAY_CHANGED_FALSE
+    SET_ITEM_ARRAY_CHANGED_FALSE,
+    REQUEST_SEARCH_ITEMS,
+    RECIEVE_SEARCH_ITEMS_SUCCESS,
+    RECIEVE_SEARCH_ITEMS_FAILURE,
+    SET_TIMER,
+    SET_QUERY_CHANGED,
+    SET_SEARCH_ITEMS_LOADED
 } from '../actions/actionTypes';
 
 const inittialState = {
@@ -16,9 +22,13 @@ const inittialState = {
     loaded: false,
     error: null,
     q: '',
-    gender: 'women',
+    gender: null,
     sortBy: 'low price',
-    itemArrayChanged: false
+    itemArrayChanged: false,
+    searchItems: [],
+    timer: 0,
+    searchItemsloaded: true,
+    queryChanged: false
 };
 
 const reducer = (state=inittialState, action) => {
@@ -70,6 +80,37 @@ const reducer = (state=inittialState, action) => {
             return {
                 ...state,
                 itemArrayChanged: false
+            }
+        case REQUEST_SEARCH_ITEMS:
+                return {
+                    ...state,
+                    searchItemsloaded: false
+                }
+        case RECIEVE_SEARCH_ITEMS_SUCCESS:
+            return {
+                ...state,
+                searchItems: action.data,
+                searchItemsloaded: true
+            }
+        case RECIEVE_SEARCH_ITEMS_FAILURE:
+            return {
+                ...state,
+                searchItemsloaded: false
+            }
+        case SET_TIMER:
+            return {
+                ...state,
+                timer: action.time
+            }
+        case SET_QUERY_CHANGED:
+            return {
+                ...state,
+                queryChanged: action.bol
+            }
+        case SET_SEARCH_ITEMS_LOADED:
+            return {
+                ...state,
+                searchItemsloaded: action.bol
             }
         default: return state;
     }

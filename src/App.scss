@@ -32,17 +32,43 @@
   
     .header-icons-container {
       display: flex;
-      margin: 0 0 0 auto;
+      position: relative;
 
       input {
-        border: 1px solid lightgray;
         outline: none;
-        padding: 0 5px;
+        padding: 10px 35px;
         border-radius: 3px;
-        
+        border: 2px solid #eee;
+        background-color: #eee;
+        outline: none;
+        font-weight: bold;
+        outline: none;
+        margin-right: 5px;
+
         &:focus {
-          border: 1px solid gray;
+          border: 2px solid lightgray;
         }
+      }
+
+      .search {
+        background-size: cover;
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 10px;
+        width: 20px;
+        height: 20px;
+      }
+
+      .close {
+        margin: auto 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 3px;
+        background-size: cover;
+        background-image: url('./assets/icons/cross.svg');
+        cursor: pointer;
       }
   
       .header-icons {
@@ -125,6 +151,7 @@
 
     p {
       font-size: 12px;
+      font-weight: bold;
     }
   }
 
@@ -136,6 +163,7 @@
     margin: 20px 0 0 0;
     cursor: pointer;
     outline: none;
+    font-weight: bold;
   }
 
   .cart-button {
@@ -150,16 +178,20 @@
 }
 
 .search-modal {
-  position: absolute;
   background-color: white;
   right: 0px;
   display: flex;
   flex-direction: column;
-  overflow: auto;
-  box-sizing: border-box;
+  margin: 0 auto;
 
   .h4 {
     font-weight: bold;
+  }
+
+  .view {
+    font-weight: bold;
+    font-size: 12px;
+    margin-left: 10px;
   }
 
   input {
@@ -169,18 +201,7 @@
     font-weight: bold;
     background-color: #eee;
     outline: none;
-  }
-
-  .close {
-    width: 30px;
-    height: 30px;
-    margin: auto 0 auto 10px;
-    background-color: #eee;
-    border: 1px solid lightgray;
-    border-radius: 3px;
-    background-size: cover;
-    background-image: url('./assets/icons/cross.svg');
-    cursor: pointer;
+    width: 50;
   }
 
   button {
@@ -198,10 +219,7 @@
     position: relative;
 
     .loader {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%,-50%);
+      margin: auto;
       width: 100px;
       height: 100px;
       background-size: cover;
@@ -215,7 +233,6 @@
     
     .result {
       float: left;
-      // width: 50%;
 
       .result-inner {
         padding: 10px;
@@ -229,6 +246,7 @@
 
         p {
           font-size: 12px;
+          font-weight: bold;
         }
       }
     }
@@ -272,14 +290,10 @@
       width: 30px;
       height: 30px;
       border-radius: 100%;
-      background-color: rgba(255,255,255,0.5);
+      background-color: #eee;
       margin-left: auto;
       background-size: cover;
       cursor: pointer;
-
-      &:hover {
-        background-color: white;
-      }
     }
 
     .like {
@@ -314,13 +328,10 @@
       padding: 10px 20px;
       border-radius: 20px;
       border: 1px solid gray;
-      color: gray;
+      // color: gray;
       cursor: pointer;
       outline: none;
-
-      &:hover {
-        color: black;
-      }
+      font-weight: bold;
     }
   }
 
@@ -403,11 +414,17 @@
   .filter {
     margin: auto 10px 0 0;
     cursor: pointer;
+    font-weight: bold;
   }
 
   .options {
     border: none;
     outline: none;
+    font-weight: bold;
+
+    option {
+      font-weight: bold;
+    }
   }
 
   .sort-by-container {
@@ -558,6 +575,7 @@
   
       p {
         color: gray;
+        font-weight: bold;
       }
   
       button {
@@ -565,8 +583,8 @@
         background: white;
         border: none;
         cursor: pointer;
-        color: gray;
         outline: none;
+        font-weight: bold;
       }
     }
 
@@ -586,6 +604,7 @@
 
       p {
         font-size: 15px;
+        font-weight: bold;
       }
     }
   }
@@ -607,6 +626,10 @@
 
 // cart & order
 .summary {
+
+  p {
+    font-weight: bold;
+  }
 
   .total {
     font-size: 15px;
