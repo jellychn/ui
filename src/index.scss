@@ -17,7 +17,7 @@ a {
 
   .container {
     margin: 0 auto;
-    padding: 100px 20px 40px 20px;
+    padding: 60px 20px 40px 20px;
   }
 }
 
@@ -125,7 +125,7 @@ code {
 
   .navigation {
     h2 {
-      margin: 0 5px;
+      margin: 0 0 0 5px;
       font-size: 10px;
     }
   }
@@ -140,6 +140,7 @@ code {
   }
 
   .item-type-container {
+
     p {
       font-size: 10px;
     }
@@ -190,7 +191,7 @@ code {
     }
 
     p, button {
-      font-size: 10px;
+      font-size: 12px;
     }
 
     .quantity-container {
@@ -293,7 +294,7 @@ code {
 
   .navigation {
     h2 {
-      margin: 0 20px;
+      margin: 0 0 0 20px;
       font-size: 15px;
     }
   }
@@ -399,12 +400,12 @@ code {
 
   .header-modal {
     height: auto;
-    padding: 100px 20px 20px 20px;
+    padding: 70px 20px 30px 20px;
     right: 0;
     top: 0;
 
     .img-container {
-      width: 300px;
+      width: 400px;
     }
   }
 
@@ -460,7 +461,7 @@ code {
   }
 
   .directory {
-    font-size: 20px;
+    font-size: 15px;
   }
 
   .options {
@@ -561,12 +562,12 @@ code {
 
   .header-modal {
     height: auto;
-    padding: 100px 20px 20px 20px;
+    padding: 70px 20px 30px 20px;
     right: 0;
     top: 0;
 
     .img-container {
-      width: 300px;
+      width: 400px;
     }
   }
 
@@ -624,7 +625,7 @@ code {
   }
 
   .directory {
-    font-size: 20px;
+    font-size: 15px;
   }
 
   .options {
@@ -688,6 +689,10 @@ code {
   .header-inner {
     width: 100%;
   }
+
+  .display-header {
+    padding: 0 40px;
+  }
   
   .container, .display-header, .item-type-container {
     width: 2000px;
@@ -726,12 +731,12 @@ code {
 
   .header-modal {
     height: auto;
-    padding: 80px 20px 20px 20px;
+    padding: 70px 20px 30px 20px;
     right: 0;
     top: 0;
 
     .img-container {
-      width: 300px;
+      width: 400px;
     }
   }
 
@@ -790,7 +795,7 @@ code {
   }
 
   .directory {
-    font-size: 20px;
+    font-size: 15px;
   }
 
   .options {
@@ -803,6 +808,8 @@ code {
   }
 
   .item-type-container {
+    padding: 10px 40px 0 40px;
+
     p {
       font-size: 15px;
     }

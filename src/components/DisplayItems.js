@@ -12,7 +12,6 @@ import {
     openHeaderModal
 } from '../actions/modalAction';
 import heart_img from '../assets/icons/heart.svg';
-import heart_focus_img from '../assets/icons/heart-focus.svg';
 
 class DisplayItem extends React.Component {
     state = {
@@ -112,9 +111,9 @@ class DisplayItem extends React.Component {
     render () {
         let colors = Object.keys(this.props.item.colors).map((color, index) => {
             if (index === 0 || index === Object.keys(this.props.item).length - 1) {
-                return <div key={index} className='color-view' onClick={() => {this.changeColor(color)}} style={{backgroundColor:this.state.colors[color], border: color === this.state.color ? '3px solid #eee':'1px solid #eee'}}/>
+                return <div key={index} className='color-view' onClick={() => {this.changeColor(color)}} style={{backgroundColor:this.state.colors[color], border: color === this.state.color ? '5px solid #eee':'1px solid #eee'}}/>
             } else {
-                return <div key={index} className='color-view' onClick={() => {this.changeColor(color)}} style={{backgroundColor:this.state.colors[color], margin: '0 5px', border: color === this.state.color ? '3px solid #eee':'1px solid #eee'}}/>
+                return <div key={index} className='color-view' onClick={() => {this.changeColor(color)}} style={{backgroundColor:this.state.colors[color], margin: '0 5px', border: color === this.state.color ? '5px solid #eee':'1px solid #eee'}}/>
             }
         });
 
@@ -123,19 +122,19 @@ class DisplayItem extends React.Component {
                 <div className='display-item-inner'>
                     <div className='color-view-container'>
                             {colors}
-                            <div 
+                            {/* <div 
                                 className='like' 
                                 onClick={() => {this.favorite(this.props.item, this.props.checkFavoritesHasItems, this.state.color); this.props.itemAdded(this.props.item, 'FAVORITES', this.state.color)}}
-                                style={{backgroundImage: this.state.favorited ? `url(${heart_focus_img})`:`url(${heart_img})`}}
-                            />
+                                style={{backgroundColor: this.state.favorited ? '#ffebeb':'#eee', backgroundImage: `url(${heart_img})`}}
+                            /> */}
                     </div>
                     <Link to={'/item/' + this.props.item._id}>
                         <img alt={this.props.item.name} src={this.props.item.colors[this.state.color]}/>
                         <div className='input-align'>
-                            <p style={{fontSize: '15px', fontWeight: 'bold'}}>{this.props.item.name.toUpperCase()}</p>
-                            <p style={{marginLeft: 'auto', fontSize: '15px', fontWeight:'bold'}}>{'$' + this.props.item.price}</p>
+                            <p className='item-name'>{this.props.item.name.toUpperCase()}</p>
+                            <p className='item-price'>{'$' + this.props.item.price}</p>
                         </div>
-                        <p style={{fontSize: '15px', fontWeight:'bold', color:'lightGray'}}>{this.props.item.category.toUpperCase()}</p>
+                        <p className='item-type'>{this.props.item.category.toUpperCase()}</p>
                     </Link>
                 </div>
             </div>

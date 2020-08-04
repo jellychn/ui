@@ -107,10 +107,10 @@ class SearchModal extends React.Component {
                             {this.searchColor(item)}
                         </Link>
                         <div style={{display:'flex'}}>
-                            <p style={{fontWeight:'bold', margin:'3px 0 0 0'}}>{item.name.toUpperCase()}</p>
-                            <p style={{margin:'3px 0 0 auto'}}>{'$' + item.price}</p>
+                            <p className='result-name'>{item.name.toUpperCase()}</p>
+                            <p className='result-price'>{'$' + item.price}</p>
                         </div>
-                        <p style={{color:'lightGray'}}>{item.category.toUpperCase()}</p>
+                        <p className='result-type'>{item.category.toUpperCase()}</p>
                     </div>
                 </div>
             )

@@ -10,17 +10,16 @@
 
   .header-inner {
     margin: 0 auto;
-    padding: 20px 40px;
+    padding: 20px 40px 10px 40px;
 
     .header-container {
       display: flex;
-      padding-bottom: 10px;
   
       .logo {
         cursor: pointer;
         font-weight: bold;
         padding: 5px 15px 5px 0;
-        border-bottom: 3px solid #eee;
+        border-bottom: 5px solid #eee;
       }
   
       .display-link {
@@ -38,7 +37,7 @@
         outline: none;
         padding: 10px 35px;
         border-radius: 3px;
-        border: 2px solid #eee;
+        border: 3px solid #eee;
         background-color: #eee;
         outline: none;
         font-weight: bold;
@@ -46,7 +45,7 @@
         margin-right: 5px;
 
         &:focus {
-          border: 2px solid lightgray;
+          border: 3px solid lightgray;
         }
       }
 
@@ -62,10 +61,10 @@
       }
 
       .close {
-        margin: auto 0;
+        margin: auto 5px;
         width: 30px;
         height: 30px;
-        border-radius: 3px;
+        border-radius: 100%;
         background-size: cover;
         background-image: url('./assets/icons/cross.svg');
         cursor: pointer;
@@ -81,7 +80,7 @@
         }
 
         .cart-indicator {
-          background-color: #42aaf5;
+          background-color: #7ACFF8;
         }
 
         .favorites-indicator {
@@ -136,29 +135,47 @@
 
   h1 {
     font-size: 12px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 
   .img-container {
+
     img {
       width: 100%;
       height: 100%;
+      border-radius: 3px;
     }
   }
 
   .item-info {
     margin: 10px 0 0 0;
 
-    p {
+    .item-name {
       font-size: 12px;
       font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: 10px;
+    }
+
+    .item-price {
+      font-size: 12px;
+      font-weight: bold;
+      margin-left: auto;
+    }
+
+    .item-type {
+      font-size: 10px;
+      font-weight: bold;
+      color: lightgray;
     }
   }
 
   .cart-button, .continue-button {
     width: 100%;
     padding: 20px;
-    border-radius: 30px;
+    border-radius: 5px;
     border: none;
     margin: 20px 0 0 0;
     cursor: pointer;
@@ -183,6 +200,7 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
+  min-height: 100px;
 
   .h4 {
     font-weight: bold;
@@ -242,11 +260,29 @@
           height: 100%;
           cursor: pointer;
           border-radius: 3px;
+          margin-bottom: 5px;
         }
 
-        p {
+        .result-name {
           font-size: 12px;
           font-weight: bold;
+          margin: 0 5px 0 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .result-price {
+          font-size: 12px;
+          font-weight: bold;
+          margin: 3px 0 0 auto;
+        }
+
+        .result-type {
+          margin-top: 1px;
+          font-weight: bold;
+          color: lightgray;
+          font-size: 10px;
         }
       }
     }
@@ -286,52 +322,75 @@
     width: 100%;
 
     .like, .remove {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      border-radius: 100%;
-      background-color: #eee;
+      width: 25px;
+      height: 25px;
       margin-left: auto;
       background-size: cover;
       cursor: pointer;
+      border-radius: 100%;
     }
 
     .like {
       background-image: url('./assets/icons/heart.svg');
-      right: 30px;
-      top: 65px;
     }
 
     .remove {
       background-image: url('./assets/icons/cross.svg');
-      right: 30px;
-      top: 30px;
+      margin-bottom: 10px;
     }
 
     img {
       max-width: 100%;
       max-height: 100%;
       display: block;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
+      border-radius: 3px;
+    }
+
+    .item-name {
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: 10px;
+      font-weight: bold;
+    }
+
+    .item-price {
+      font-size: 13px;
+      font-weight: bold;
+      margin-left: auto;
+    }
+
+    .item-type {
+      font-size: 12px;
+      margin-top: 5px;
+      font-weight: bold;
+      color: lightgray;
     }
 
     select {
       flex: 1;
       padding: 10px;
       margin: 20px 10px 0 0;
-      border: 1px solid gray;
+      border: none;
       border-radius: 3px;
+      font-size: 12px;
+      outline: none;
+      font-weight: bold;
     }
 
     button {
       margin: 20px 0 0 auto;
       padding: 10px 20px;
-      border-radius: 20px;
-      border: 1px solid gray;
-      // color: gray;
+      border-radius: 5px;
+      border: 2px solid black;
+      background-color: black;
+      color: white;
       cursor: pointer;
       outline: none;
       font-weight: bold;
+      font-size: 12px;
     }
   }
 
@@ -393,12 +452,11 @@
 // display
 .display {
   overflow: hidden;
-  padding-top: 50px;
+  padding-top: 40px;
 }
 
 .display-header {
-  margin: 5px auto 0 auto;
-  border-top: 1px solid #eee;
+  margin: 10px auto 10px auto;
   display: flex;
   
   .directory {
@@ -421,6 +479,7 @@
     border: none;
     outline: none;
     font-weight: bold;
+    margin-left: 10px;
 
     option {
       font-weight: bold;
@@ -439,8 +498,6 @@
 
 .item-type-container {
   margin: 0 auto;
-  padding: 10px 0 0 0;
-  margin: auto 0 0 0;
 
   p {
     margin: 5px 0;
@@ -455,9 +512,10 @@
 
 // profile & checkout
 .navigation-header {
-  padding: 20px;
+  padding: 20px 0 10px 0;
   display: flex;
-  border-bottom: 1px solid #eee;
+  // border-bottom: 3px solid #eee;
+  margin: 0 20px;
 
   .navigation {
     margin: auto 0 auto auto;
@@ -492,31 +550,39 @@
   input {
     padding: 20px;
     width: 100%;
-    background-color: #eee;
-    border: 1px solid gray;
+    border: 3px solid #eee;
     margin: 10px 0 10px 0;
+    border-radius: 3px;
+    outline: none;
+    box-shadow: 0 0 3px white;
+
+    &:focus {
+      box-shadow: 0 0 3px #ddd;
+    }
   }
 
   button {
     padding: 10px 20px;
-    border: 1px solid gray;
-    border-radius: 30px;
-    background-color: #eee;
+    border-radius: 5px;
+    background-color: black;
     cursor: pointer;
     margin-top: 40px;
     float: right;
     outline: none;
+    color: white;
+    border: none;
+    font-weight: bold;
   }
 }
 
 // Orders
 .order-list {
-  margin-top: 30px;
   padding: 20px;
 
   .ordered {
     margin-bottom: 60px;
-    border: 1px solid gray;
+    border: 3px solid #eee;
+    border-radius: 3px;
 
     .order-header {
       background-color: #eee;
@@ -524,7 +590,7 @@
 
       p {
         font-weight: bold;
-        font-size: 10px;
+        font-size: 12px;
       }
     }
 
@@ -545,7 +611,7 @@
           border: none;
           font-weight: bold;
           outline: none;
-          font-size: 10px;
+          font-size: 12px;
         }
       }
     }
@@ -554,9 +620,7 @@
 
 // order & cart
 .order-item {
-  border-bottom: 1px solid #eee;
   padding-bottom: 30px;
-  margin-bottom: 30px;
 
   .order-item-inner {
 
@@ -566,6 +630,7 @@
       img {
         width: 100%;
         height: 100%;
+        border-radius: 3px;
       }  
     }
 
@@ -574,7 +639,6 @@
       height: 100%;
   
       p {
-        color: gray;
         font-weight: bold;
       }
   
@@ -585,6 +649,10 @@
         cursor: pointer;
         outline: none;
         font-weight: bold;
+        background-color: #eee;
+        padding: 10px;
+        border-radius: 3px;
+        font-size: 12px;
       }
     }
 
@@ -610,17 +678,12 @@
   }
 }
 
-// checkout
-.checkout {
-
-}
-
 // cart
 .cart {
   
   .cart-items-container {
     flex: 1;
-    padding: 40px 20px 0 20px;
+    padding: 20px 20px 0 20px;
   }
 }
 
@@ -635,15 +698,15 @@
     font-size: 15px;
     margin: 20px 0 40px 0;
     padding: 20px 0;
-    border-top: 1px solid gray;
-    border-bottom: 1px solid gray;
+    border-top: 3px solid #eee;
+    border-bottom: 3px solid #eee;
   }
 
   button {
     display: block;
     width: 100%;
     padding: 20px;
-    border-radius: 30px;
+    border-radius: 5px;
     font-weight: bold;
     cursor: pointer;
     outline: none;
@@ -667,19 +730,28 @@
 
     p {
       font-size: 10px;
+      font-weight: bold;
+      margin-top: 10px;
     }
 
     h1 {
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       font-size: 20px;
     }
   
     input, select {
       padding: 20px;
-      border: 1px solid black;
+      border: 3px solid #eee;
       width: 100%;
-      background-color: #eee;
       margin: 10px 0;
+      font-weight: bold;
+      border-radius: 3px;
+      outline: none;
+      box-shadow: 0 0 3px white;
+
+      &:focus {
+        box-shadow: 0 0 3px #ddd;
+      }
     }
   
     button {
@@ -691,12 +763,12 @@
 
 // favorites
 .favorites {
-  margin: 30px 0;
+  margin: 10px 0;
 }
 
 // item
 .item {
-  padding: 10px;
+  padding: 20px 10px 10px 10px;
   
   .item-top {
     padding: 0 10px;
@@ -714,6 +786,10 @@
     }
   
     .item-right {
+
+      p {
+        font-weight: bold;
+      }
   
       .item-info {
         display: flex;
@@ -742,13 +818,21 @@
         width: 100%;
         padding: 10px;
         margin-bottom: 30px;
+        font-weight: bold;
+        border: 3px solid #eee;
+        border-radius: 3px;
+        outline: none;
+      }
+
+      option {
+        font-weight: bold;
       }
   
       button {
         display: block;
         width: 100%;
         padding: 20px;
-        border-radius: 30px;
+        border-radius: 5px;
         font-weight: bold;
         cursor: pointer;
         outline: none;
@@ -759,24 +843,6 @@
         color: white;
         background-color: black;
         margin-bottom: 20px;
-      }
-
-      .favorite-container {
-        display: flex;
-
-        .favorite-icon {
-          height: 40px;
-          width: 40px;
-          background-color: #eee;
-          border-radius: 100%;
-          margin: auto 0 auto 10px;
-          background-size: cover;
-        }
-
-        .favorite {
-          background-color: #eee;
-          flex: 1;
-        }
       }
     }
   }

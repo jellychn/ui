@@ -16,10 +16,10 @@ class HeaderModal extends React.Component {
                     </div>
                     <div className='item-info'>
                         <div style={{display:'flex'}}>
-                            <p>{this.props.item.name.toUpperCase()}</p>
-                            <p style={{margin: '0 0 0 auto'}}>{this.props.item.quantity + ' X $' + this.props.item.price}</p>
+                            <p className='item-name'>{this.props.item.name.toUpperCase()}</p>
+                            <p className='item-price'>{this.props.item.quantity + ' X $' + this.props.item.price}</p>
                         </div>
-                        <p>{this.props.item.category.toUpperCase()}</p>
+                        <p className='item-type'>{this.props.item.category.toUpperCase()}</p>
                     </div>
                     <Link to='/cart'><button className='cart-button' onClick={this.props.closeModal}>VIEW CART</button></Link>
                     <button className='continue-button' onClick={this.props.closeModal}>CONTINUE SHOPPING</button>
@@ -34,10 +34,10 @@ class HeaderModal extends React.Component {
                     </div>
                     <div className='item-info'>
                         <div style={{display:'flex'}}>
-                            <p>{this.props.item.name.toUpperCase()}</p>
-                            <p style={{margin: '0 0 0 auto'}}>{'$' + this.props.item.price}</p>
+                            <p className='item-name'>{this.props.item.name.toUpperCase()}</p>
+                            <p className='item-price'>{'$' + this.props.item.price}</p>
                         </div>
-                        <p>{this.props.item.category.toUpperCase()}</p>
+                        <p className='item-type'>{this.props.item.category.toUpperCase()}</p>
                     </div>
                     <Link to='/favorites'><button className='cart-button' onClick={this.props.closeModal}>VIEW FAVORITES</button></Link>
                     <button className='continue-button' onClick={this.props.closeModal}>CONTINUE SHOPPING</button>

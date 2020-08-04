@@ -176,8 +176,8 @@ class Header extends React.Component {
                     <div className='header-inner'>
                         <div className='header-container'>
                             <Link className='logo' to='/' onClick={() => {this.props.updateGender('')}}>Ui</Link>
-                            <Link className='display-link' to='/display/women' style={{borderBottom: this.props.gender === 'women' && this.state.onDisplayPage ? '3px solid black':'3px solid #eee'}} onClick={() => {this.props.updateGender('women');this.props.getItems()}}>WOMEN</Link>
-                            <Link className='display-link' to='/display/men' style={{borderBottom: this.props.gender === 'men' && this.state.onDisplayPage ? '3px solid black':'3px solid #eee'}} onClick={() => {this.props.updateGender('men');this.props.getSearchItems()}}>MEN</Link>
+                            <Link className='display-link' to='/display/women' style={{borderBottom: this.props.gender === 'women' && this.state.onDisplayPage ? '5px solid black':'5px solid #eee'}} onClick={() => {this.props.updateGender('women');this.props.getItems()}}>WOMEN</Link>
+                            <Link className='display-link' to='/display/men' style={{borderBottom: this.props.gender === 'men' && this.state.onDisplayPage ? '5px solid black':'5px solid #eee'}} onClick={() => {this.props.updateGender('men');this.props.getSearchItems()}}>MEN</Link>
                             <div className='header-icons-container' style={{margin:'0 0 0 auto'}}>
                                 <div className='header-icons' onClick={this.props.openSearchModal} style={{backgroundImage: `url(${search_img})`}}></div>
                                 <Link to='/profile/settings' className='header-icons' style={{backgroundImage: `url(${profile_img})`}}></Link>

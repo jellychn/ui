@@ -12,7 +12,6 @@ import {
     openHeaderModal
 } from '../actions/modalAction';
 import heart_img from '../assets/icons/heart.svg';
-import heart_focus_img from '../assets/icons/heart-focus.svg';
 
 class Item extends React.Component {
     state = {
@@ -113,6 +112,14 @@ class Item extends React.Component {
         this.props.checkFavorited(this.props.color, this.props.item);
     };
 
+    favorited = () => {
+        if (this.props.favorited) {
+            return <button className='favorite' onClick={() => {this.favorite(this.props.item, this.props.checkFavoritesHasItems, this.props.color); this.props.itemAdded(this.props.item, 'FAVORITES', this.props.color);}}>FAVORITED</button>
+        } else {
+            return <button className='favorite' onClick={() => {this.favorite(this.props.item, this.props.checkFavoritesHasItems, this.props.color); this.props.itemAdded(this.props.item, 'FAVORITES', this.props.color);}}>FAVORITE</button>
+        }
+    };
+
     render () {
         if (this.props.itemLoaded) {
             let images = this.props.item.images.map((img, index) => {
@@ -134,10 +141,10 @@ class Item extends React.Component {
                             <Link to={'/item/' + item._id} onClick={() => {this.getItem(item._id)}}>
                                 <img alt={item.name} src={item.images[0]}/>
                                 <div className='input-align'>
-                                    <p style={{fontWeight: 'bold'}}>{item.name.toUpperCase()}</p>
-                                    <p style={{marginLeft: 'auto'}}>{`$${item.price}`}</p>
+                                    <p className='item-name'>{item.name.toUpperCase()}</p>
+                                    <p className='item-price'>{`$${item.price}`}</p>
                                 </div>
-                                <p>{item.category.toUpperCase()}</p>
+                                <p className='item-type'>{item.category.toUpperCase()}</p>
                             </Link>
                         </div>
                     </div>
@@ -157,7 +164,7 @@ class Item extends React.Component {
                             </div>
                             <h1 className='item-name'>{this.props.item.name.toUpperCase()}</h1>
                             <p className='item-select-info'>SIZE</p>
-                            <select name='size' style={{border: this.state.sizeChosen ? '1px solid black':'1px solid red'}} onChange={(e) => {this.onChange(e)}}>
+                            <select name='size' style={{border: this.state.sizeChosen ? '3px solid #eee':'3px solid #facfcf'}} onChange={(e) => {this.onChange(e)}}>
                                 <option value='-'>-</option>
                                 {size}
                             </select>
@@ -174,10 +181,7 @@ class Item extends React.Component {
                                 <option value={5}>5</option>
                             </select>
                             <button className='add' onClick={this.addItemToCart}>ADD</button>
-                            <div className='favorite-container'>
-                                <button className='favorite' onClick={() => {this.favorite(this.props.item, this.props.checkFavoritesHasItems, this.props.color); this.props.itemAdded(this.props.item, 'FAVORITES', this.props.color);}}>FAVORITE</button>
-                                <div className='favorite-icon' style={{backgroundImage: this.props.favorited ? `url(${heart_focus_img})`:`url(${heart_img})`}}/>
-                            </div>
+                            {this.favorited()}
                         </div>
                     </div>
                     <div className='item-bottom'>
