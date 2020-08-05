@@ -1,7 +1,8 @@
 import {
     CLOSE_MODAL,
     OPEN_HEADER_MODAL,
-    OPEN_SEARCH_MODAL
+    OPEN_SEARCH_MODAL,
+    OPEN_AUTHENTICATE_MODAL
 } from '../actions/actionTypes';
 import {store} from '../index';
 
@@ -17,5 +18,11 @@ export const openSearchModal = () => {
     return {
         type: OPEN_SEARCH_MODAL,
         modal: !store.getState().modal.searchModal
+    }
+};
+
+export const openAuthenticateModal = () => {
+    return {
+        type: OPEN_AUTHENTICATE_MODAL
     }
 };

@@ -45,10 +45,13 @@ code {
       margin: auto 3px;
     }
 
-    .header-icons {
-      width: 15px;
-      height: 15px;
+    .header-icons-wrapper {
       margin: auto 3px;
+
+      .header-icons {
+        width: 15px;
+        height: 15px;
+      }
     }
 
     .end-icon {
@@ -96,6 +99,10 @@ code {
         width: 50%;
       }
     }
+  }
+
+  .authenticate-modal {
+    width: 100vw;
   }
 
   .item-container {
@@ -215,10 +222,13 @@ code {
       margin: auto 3px;
     }
 
-    .header-icons {
-      width: 20px;
-      height: 20px;
+    .header-icons-wrapper {
       margin: auto 5px;
+
+      .header-icons {
+        width: 20px;
+        height: 20px;
+      }
     }
 
     .end-icon {
@@ -265,6 +275,10 @@ code {
         width: 25%;
       }
     }
+  }
+
+  .authenticate-modal {
+    width: 100vw;
   }
 
   .item-container {
@@ -376,10 +390,13 @@ code {
       margin: auto 10px;
     }
 
-    .header-icons {
-      width: 30px;
-      height: 30px;
+    .header-icons-wrapper {
       margin: auto 10px;
+
+      .header-icons {
+        width: 30px;
+        height: 30px;
+      }
     }
 
     .end-icon {
@@ -427,6 +444,10 @@ code {
         width: 25%;
       }
     }
+  }
+
+  .authenticate-modal {
+    width: 50vw;
   }
 
   .item-container {
@@ -538,10 +559,13 @@ code {
       margin: auto 10px;
     }
 
-    .header-icons {
-      width: 30px;
-      height: 30px;
+    .header-icons-wrapper {
       margin: auto 10px;
+
+      .header-icons {
+        width: 30px;
+        height: 30px;
+      }
     }
 
     .end-icon {
@@ -591,6 +615,10 @@ code {
         width: 25%;
       }
     }
+  }
+
+  .authenticate-modal {
+    width: 50vw;
   }
 
   .item-container {
@@ -707,10 +735,13 @@ code {
       margin: auto 10px;
     }
 
-    .header-icons {
-      width: 30px;
-      height: 30px;
+    .header-icons-wrapper {
       margin: auto 10px;
+
+      .header-icons {
+        width: 30px;
+        height: 30px;
+      }
     }
 
     .end-icon {
@@ -761,6 +792,10 @@ code {
         width: 25%;
       }
     }
+  }
+
+  .authenticate-modal {
+    width: 100vw;
   }
 
   .item-container {

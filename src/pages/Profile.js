@@ -1,15 +1,22 @@
 import React from 'react';
+import {withRouter, Link} from 'react-router-dom';
 import Settings from '../components/Settings';
 import Orders from '../components/Orders';
 
 class Profile extends React.Component {
     state = {
-        page: window.location.pathname.split('/')[2].toUpperCase() // take from url insted
+        page: window.location.pathname.split('/')[2].toUpperCase()
     }
 
     componentDidMount () {
         window.scrollTo(0,0);
     };
+
+    componentDidUpdate(prevProps) {
+        if (this.props.location.pathname !== prevProps.location.pathname) {
+            this.setState({page:window.location.pathname.split('/')[2].toUpperCase()});
+        }
+    }
 
     navigation = (to) => {
         this.setState({page: to});
@@ -29,8 +36,8 @@ class Profile extends React.Component {
                 <div className='navigation-header'>
                     <h1 className='directory'>{this.state.page}</h1>
                     <div className='navigation'>
-                        <h2 onClick={() => {this.navigation('SETTINGS')}}>SETTINGS</h2>
-                        <h2 onClick={() => {this.navigation('ORDERS')}}>ORDERS</h2>
+                        <Link to='/profile/settings'><h2 onClick={() => {this.navigation('SETTINGS')}}>SETTINGS</h2></Link>
+                        <Link to='/profile/orders'><h2 onClick={() => {this.navigation('ORDERS')}}>ORDERS</h2></Link>
                     </div>
                 </div>
                 {this.content()}
@@ -39,4 +46,4 @@ class Profile extends React.Component {
     };
 };
 
-export default Profile;
+export default withRouter(Profile);

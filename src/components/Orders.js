@@ -1,5 +1,4 @@
 import React from 'react';
-import img from '../assets/icons/primary.jpg';
 
 function Orders() {
     return (

@@ -15,8 +15,12 @@ import {
 } from '../actions/searchActions';
 import {
     openSearchModal,
+    openAuthenticateModal,
     closeModal
 } from '../actions/modalAction';
+import {
+    loginRegister
+} from '../actions/userActions';
 
 import cart_img from '../assets/icons/cart.svg';
 import profile_img from '../assets/icons/profile.svg';
@@ -25,6 +29,7 @@ import favorite_img from '../assets/icons/favorite.svg';
 
 class Header extends React.Component {
     state = {
+        userOptions: false,
         filter: false,
         displayPage: false,
         filterMsg: 'SHOW FILTERS',
@@ -35,7 +40,8 @@ class Header extends React.Component {
             'shorts',
             'tees'
         ],
-        onDisplayPage: false
+        onDisplayPage: false,
+        page: ''
     }
 
     componentDidMount() {
@@ -75,6 +81,16 @@ class Header extends React.Component {
             this.setState({displayPage: true});
         } else {
             this.setState({displayPage: false, filter: false, filterMsg: 'SHOW FILTERS'});
+        }
+
+        if (window.location.pathname.split('/').includes('profile')) {
+            this.setState({page:'profile'});
+        } else if (window.location.pathname.split('/').includes('favorites')) {
+            this.setState({page:'favorites'});
+        } else if (window.location.pathname.split('/').includes('cart')) {
+            this.setState({page:'cart'});
+        } else {
+            this.setState({page:''});
         }
     }
 
@@ -131,6 +147,10 @@ class Header extends React.Component {
         this.props.history.push('/display');
     };
 
+    userOptions = () => {
+        this.setState({userOptions:!this.state.userOptions})
+    };
+
     directory = () => {
         if (this.props.gender === null) {
             if (this.props.q.length > 0) {
@@ -179,11 +199,26 @@ class Header extends React.Component {
                             <Link className='display-link' to='/display/women' style={{borderBottom: this.props.gender === 'women' && this.state.onDisplayPage ? '5px solid black':'5px solid #eee'}} onClick={() => {this.props.updateGender('women');this.props.getItems()}}>WOMEN</Link>
                             <Link className='display-link' to='/display/men' style={{borderBottom: this.props.gender === 'men' && this.state.onDisplayPage ? '5px solid black':'5px solid #eee'}} onClick={() => {this.props.updateGender('men');this.props.getSearchItems()}}>MEN</Link>
                             <div className='header-icons-container' style={{margin:'0 0 0 auto'}}>
-                                <div className='header-icons' onClick={this.props.openSearchModal} style={{backgroundImage: `url(${search_img})`}}></div>
-                                <Link to='/profile/settings' className='header-icons' style={{backgroundImage: `url(${profile_img})`}}></Link>
-                                <Link to='/favorites' className='header-icons' style={{backgroundImage: `url(${favorite_img})`}}><div style={{display: this.props.favorites ? 'block':'none'}} className='favorites-indicator'/></Link>
-                                <Link to='/cart' className='header-icons end-icon' style={{backgroundImage: `url(${cart_img})`}}><div style={{display: this.props.cart ? 'block':'none'}} className='cart-indicator'/></Link>
+                                <div className='header-icons-wrapper' style={{borderBottom: '3px solid white'}}>
+                                    <div className='header-icons' onClick={this.props.openSearchModal} style={{backgroundImage: `url(${search_img})`}}></div>
+                                </div>
+                                <div className='header-icons-wrapper' style={{borderBottom: this.state.page === 'favorites' ? '3px solid #eee':'3px solid white'}}>
+                                    <Link to='/favorites' className='header-icons' style={{backgroundImage: `url(${favorite_img})`}}><div style={{display: this.props.favorites ? 'block':'none'}} className='favorites-indicator'/></Link>
+                                </div>
+                                <div className='header-icons-wrapper' style={{borderBottom: this.state.page === 'cart' ? '3px solid #eee':'3px solid white'}}>
+                                    <Link to='/cart' className='header-icons' style={{backgroundImage: `url(${cart_img})`}}><div style={{display: this.props.cart ? 'block':'none'}} className='cart-indicator'/></Link>
+                                </div>
+                                <div className='header-icons-wrapper' style={{borderBottom: this.state.page === 'profile' ? '3px solid #eee':'3px solid white'}}>
+                                    <div className='header-icons' style={{backgroundImage: `url(${profile_img})`}} onClick={this.userOptions}></div>
+                                </div>
                             </div>
+                        </div>
+
+                        <div className='user-options' style={{display: this.state.userOptions ? 'block':'none'}}>
+                            <Link to='/profile/settings' style={{display: this.props.authenticated ? 'block':'none'}}><p onClick={this.userOptions}>SETTINGS</p></Link>
+                            <Link to='/profile/orders' style={{display: this.props.authenticated ? 'block':'none'}}><p onClick={this.userOptions}>ORDERS</p></Link>
+                            <p onClick={() => {this.userOptions();this.props.openAuthenticateModal();this.props.loginRegister(true)}} style={{display: this.props.authenticated ? 'none':'block'}}>LOGIN</p>
+                            <p onClick={() => {this.userOptions();this.props.openAuthenticateModal();this.props.loginRegister(false)}} style={{display: this.props.authenticated ? 'none':'block'}}>REGISTER</p>
                         </div>
     
                         <div style={{display: this.props.modal ? 'none':'block'}}>
@@ -220,7 +255,8 @@ const mapStateToProps = (state) => {
         gender: state.search.gender,
         category: state.search.category,
         searchModal: state.modal.searchModal,
-        q: state.search.q
+        q: state.search.q,
+        authenticated: state.user.authenticated
     }
 }
 
@@ -236,7 +272,9 @@ const mapDispatchToProps = (dispatch) => {
         getSearchItems: (reset) => dispatch(getSearchItems(reset)),
         setSearchItemLoaded: (bol) => dispatch(setSearchItemLoaded(bol)),
         setQueryChanged: (bol) => dispatch(setQueryChanged(bol)),
-        setTimer: (time) => dispatch(setTimer(time))
+        setTimer: (time) => dispatch(setTimer(time)),
+        openAuthenticateModal: () => dispatch(openAuthenticateModal()),
+        loginRegister: (bol) => dispatch(loginRegister(bol))
     } 
 };
 

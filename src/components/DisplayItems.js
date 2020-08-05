@@ -11,7 +11,6 @@ import {
 import {
     openHeaderModal
 } from '../actions/modalAction';
-import heart_img from '../assets/icons/heart.svg';
 
 class DisplayItem extends React.Component {
     state = {
