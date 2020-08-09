@@ -1,13 +1,16 @@
 import React from 'react';
 import './App.scss';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 import {
   checkCartHasItems,
   checkFavoritesHasItems
 } from './actions/itemsActions';
+import {
+  checkAuthenticated
+} from './actions/userActions';
 
 import {
-  BrowserRouter as Router,
   Switch,
   Route
 } from 'react-router-dom';
@@ -24,6 +27,7 @@ import Modal from './components/Modal';
 
 class App extends React.Component {
   componentDidMount () {
+    this.props.checkAuthenticated();
     if (localStorage.getItem('cart') === null) {
       localStorage.setItem('cart', JSON.stringify([]));
     } else {
@@ -37,54 +41,65 @@ class App extends React.Component {
     }
   };
 
+  componentDidUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+        this.props.checkAuthenticated();
+    }
+}
+
   render () {
-    return (
-      <div className="App">
-          <Router>
-          <Header/>
-          <Modal/>
-          <div className='app-body'>
-            <div className='container'>
-              <Switch>
-                <Route path='/favorites'>
-                  <Favorites/>
-                </Route>
-                <Route path='/cart'>
-                  <Checkout/>
-                </Route>
-                <Route path='/item/:id'>
-                  <Item/>
-                </Route>
-                <Route path='/profile/:page'>
-                  <Profile/>
-                </Route>
-                <Route path={'/display' || '/display/women/:directory' || '/display/men/:directory'}>
-                  <Display/>
-                </Route>
-                <Route path='/'>
-                  <Home/>
-                </Route>
-              </Switch>
+    if (this.props.request) {
+      return <div/>
+    } else {
+      return (
+        <div className="App">
+            <Header/>
+            <Modal/>
+            <div className='app-body'>
+              <div className='container'>
+                <Switch>
+                  <Route path='/favorites'>
+                    <Favorites/>
+                  </Route>
+                  <Route path='/cart'>
+                    <Checkout/>
+                  </Route>
+                  <Route path='/item/:id'>
+                    <Item/>
+                  </Route>
+                  <Route path='/profile/:page'>
+                    <Profile/>
+                  </Route>
+                  <Route path={'/display' || '/display/women/:directory' || '/display/men/:directory'}>
+                    <Display/>
+                  </Route>
+                  <Route path='/'>
+                    <Home/>
+                  </Route>
+                </Switch>
+              </div>
             </div>
-          </div>
-          <Footer/>
-          </Router>
-      </div>
-    );
+            <Footer/>
+        </div>
+      );
+    }
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    modal: state.modal.modal
+    modal: state.modal.modal,
+    request: state.user.request,
+    loaded: state.search.loaded
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     checkCartHasItems: () => dispatch(checkCartHasItems()),
-    checkFavoritesHasItems: () => dispatch(checkFavoritesHasItems())
+    checkFavoritesHasItems: () => dispatch(checkFavoritesHasItems()),
+    checkAuthenticated: () => dispatch(checkAuthenticated())
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));

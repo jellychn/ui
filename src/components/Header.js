@@ -19,7 +19,8 @@ import {
     closeModal
 } from '../actions/modalAction';
 import {
-    loginRegister
+    authenticatePage,
+    authenticate
 } from '../actions/userActions';
 
 import cart_img from '../assets/icons/cart.svg';
@@ -167,6 +168,14 @@ class Header extends React.Component {
         }
     };
 
+    logout = () => {
+        window.localStorage.removeItem('token');
+        this.props.authenticate(false);
+        if (window.location.pathname.split('/').includes('profile')) {
+            this.props.history.push('/display');
+        }
+    };
+
     render () {
         const filters = this.state.filters.map((filter, index) => {
             if (this.props.gender === null) {
@@ -217,8 +226,9 @@ class Header extends React.Component {
                         <div className='user-options' style={{display: this.state.userOptions ? 'block':'none'}}>
                             <Link to='/profile/settings' style={{display: this.props.authenticated ? 'block':'none'}}><p onClick={this.userOptions}>SETTINGS</p></Link>
                             <Link to='/profile/orders' style={{display: this.props.authenticated ? 'block':'none'}}><p onClick={this.userOptions}>ORDERS</p></Link>
-                            <p onClick={() => {this.userOptions();this.props.openAuthenticateModal();this.props.loginRegister(true)}} style={{display: this.props.authenticated ? 'none':'block'}}>LOGIN</p>
-                            <p onClick={() => {this.userOptions();this.props.openAuthenticateModal();this.props.loginRegister(false)}} style={{display: this.props.authenticated ? 'none':'block'}}>REGISTER</p>
+                            <p onClick={this.logout} style={{display: this.props.authenticated ? 'block':'none'}}>LOGOUT</p>
+                            <p onClick={() => {this.userOptions();this.props.openAuthenticateModal();this.props.authenticatePage('login')}} style={{display: this.props.authenticated ? 'none':'block'}}>LOGIN</p>
+                            <p onClick={() => {this.userOptions();this.props.openAuthenticateModal();this.props.authenticatePage('register')}} style={{display: this.props.authenticated ? 'none':'block'}}>REGISTER</p>
                         </div>
     
                         <div style={{display: this.props.modal ? 'none':'block'}}>
@@ -274,7 +284,8 @@ const mapDispatchToProps = (dispatch) => {
         setQueryChanged: (bol) => dispatch(setQueryChanged(bol)),
         setTimer: (time) => dispatch(setTimer(time)),
         openAuthenticateModal: () => dispatch(openAuthenticateModal()),
-        loginRegister: (bol) => dispatch(loginRegister(bol))
+        authenticatePage: (page) => dispatch(authenticatePage(page)),
+        authenticate: (bol) => dispatch(authenticate(bol))
     } 
 };
 

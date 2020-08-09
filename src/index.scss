@@ -354,7 +354,7 @@ code {
     padding: 0 20px;
 
     p {
-      font-size: 15px;
+      font-size: 12px;
     }
   }
 
@@ -366,11 +366,11 @@ code {
     }
 
     p, button {
-      font-size: 15px;
+      font-size: 12px;
     }
 
     .quantity-container {
-      margin: 0 0 0 auto;
+      margin: auto 0 auto auto;
     }
   }
 }
@@ -410,8 +410,16 @@ code {
 
     .sort-by-container {
       p {
-        font-size: 15px;
+        font-size: 12px;
       }
+
+      select {
+        font-size: 12px;
+      }
+    }
+
+    .filter {
+      font-size: 12px;
     }
   }
 
@@ -519,7 +527,7 @@ code {
 
   .summary {
     p {
-      font-size: 15px;
+      font-size: 12px;
     }
   }
 
@@ -535,7 +543,7 @@ code {
     }
 
     .quantity-container {
-      margin: 0 0 0 auto;
+      margin: auto 0 auto auto;
     }
   }
 }
@@ -579,8 +587,16 @@ code {
 
     .sort-by-container {
       p {
-        font-size: 15px;
+        font-size: 12px;
       }
+
+      select {
+        font-size: 12px;
+      }
+    }
+
+    .filter {
+      font-size: 12px;
     }
   }
 
@@ -692,7 +708,7 @@ code {
     padding-top: 20px;
 
     p {
-      font-size: 15px;
+      font-size: 12px;
     }
   }
 
@@ -708,7 +724,7 @@ code {
     }
 
     .quantity-container {
-      margin: 0 0 0 auto;
+      margin: auto 0 auto auto;
     }
   }
 }
@@ -755,8 +771,16 @@ code {
 
     .sort-by-container {
       p {
-        font-size: 15px;
+        font-size: 12px;
       }
+
+      select {
+        font-size: 12px;
+      }
+    }
+
+    .filter {
+      font-size: 12px;
     }
   }
 
@@ -871,7 +895,7 @@ code {
     padding-top: 20px;
 
     p {
-      font-size: 15px;
+      font-size: 12px;
     }
   }
 
@@ -887,7 +911,7 @@ code {
     }
 
     .quantity-container {
-      margin: 0 0 0 auto;
+      margin: auto 0 auto auto;
     }
   }
 }
