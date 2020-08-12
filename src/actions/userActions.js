@@ -3,7 +3,10 @@ import {
     AUTHENTICATE,
     REQUEST_AUTHENTICATED,
     REQUEST_AUTHENTICATED_SUCCESS,
-    REQUEST_AUTHENTICATED_FALIURE
+    REQUEST_AUTHENTICATED_FALIURE,
+    GET_USER_REQUEST,
+    GET_USER_SUCCESS,
+    GET_USER_FAILURE
 } from './actionTypes';
 import axios from 'axios';
 
@@ -14,10 +17,12 @@ export const authenticatePage = (page) => {
     }
 };
 
-export const authenticate = (bol) => {
+export const authenticate = (bol, logout) => {
+
     return {
         type: AUTHENTICATE,
-        authenticate: bol
+        authenticate: bol,
+        logout: logout
     }
 };
 
@@ -49,6 +54,39 @@ export const checkAuthenticated = () => {
             });
         } else {
             dispatch(requestAuthenticatedFaliure());
+        }
+    }
+};
+
+const getUserRequest = () => {
+    return {type: GET_USER_REQUEST}
+};
+
+const getUserSuccess = (user) => {
+    return {
+        type: GET_USER_SUCCESS,
+        user: user
+    }
+};
+
+const getUserFailure = () => {
+    return {
+        type: GET_USER_FAILURE
+    }
+};
+
+export const getUser = () => {
+    return dispatch => {
+        dispatch(getUserRequest);
+        const token = window.localStorage.getItem('token');
+        if (token !== null || token !== undefined || token !== '') {
+            axios.post('http://localhost:4001/api/users/user', {'token':token}, {headers: {'Content-Type': 'application/json', 'X-Authorization': token}}).then((res) => {
+                dispatch(getUserSuccess(res.data));
+            }).catch(error => {
+                dispatch(getUserFailure())
+            });
+        } else {
+            dispatch(getUserFailure())
         }
     }
 };

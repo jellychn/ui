@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import HeaderModal from './HeaderModal';
 import SearchModal from './SearchModal';
 import AuthenticateModal from './AuthenticateModal';
+import UpdatePasswordModal from './UpdatePasswordModal';
 
 class Modal extends React.Component {
     render () {
@@ -11,6 +12,7 @@ class Modal extends React.Component {
                 <HeaderModal/>
                 <SearchModal/>
                 <AuthenticateModal/>
+                <UpdatePasswordModal/>
             </div>
         )
     }

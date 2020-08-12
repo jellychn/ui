@@ -394,6 +394,80 @@
   }
 }
 
+// notification modal
+.notification-modal {
+  width: 25%;
+  border-radius: 3px;
+  background-color: lightgray;
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  font-size: 8px;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+}
+
+// update password modal
+.update-password-modal {
+  position: fixed;
+  padding: 40px;
+  border-radius: 3px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  width: 50%;
+
+  h1 {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  input {
+    padding: 10px;
+    width: 100%;
+    border: 3px solid #eee;
+    outline: none;
+    border-radius: 3px;
+    margin-bottom: 20px;
+
+    &:focus {
+      box-shadow: 0 0 3px #ddd;  
+    }
+  }
+
+  .cancle {
+    background-color: lightgray;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  button {
+    background-color: black;
+  }
+  
+  button, .cancle {
+    padding: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    color: white;
+    border: none;
+    font-weight: bold;
+    font-size: 12px;
+    display: inline-block;
+    width: 100%;
+  }
+}
+
 // footer
 .footer {
   width: 100%;
@@ -644,7 +718,7 @@
 
 // settings
 .settings {
-  padding: 20px;
+  padding: 0 20px 20px 20px;
   width: 100%;
 
   form {
@@ -659,7 +733,12 @@
 
   h1 {
     font-size: 20px;
+    margin: 10px 0 30px 0;
+  }
+
+  h3 {
     margin-top: 10px;
+    font-size: 20px;
   }
 
   input {
@@ -670,23 +749,51 @@
     border-radius: 3px;
     outline: none;
     box-shadow: 0 0 3px white;
+    font-weight: bold;
 
     &:focus {
       box-shadow: 0 0 3px #ddd;
     }
   }
 
-  button {
+  .edit-password {
+    margin: 10px 0 30px 0;
     padding: 10px 20px;
     border-radius: 5px;
-    background-color: black;
+    background-color: lightgray;
     cursor: pointer;
-    margin-top: 40px;
-    float: right;
     outline: none;
     color: white;
     border: none;
     font-weight: bold;
+    display: inline-block;
+
+    &:hover {
+      background-color: black;
+    }
+  }
+
+  .cancle {
+    background-color: lightgray;
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  button {
+    background-color: black;
+  }
+  
+  button, .cancle {
+    padding: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    color: white;
+    border: none;
+    font-weight: bold;
+    font-size: 12px;
+    display: inline-block;
+    width: 100%;
   }
 }
 

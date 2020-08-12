@@ -3,14 +3,18 @@ import {
     AUTHENTICATE,
     REQUEST_AUTHENTICATED,
     REQUEST_AUTHENTICATED_SUCCESS,
-    REQUEST_AUTHENTICATED_FALIURE
+    REQUEST_AUTHENTICATED_FALIURE,
+    GET_USER_REQUEST,
+    GET_USER_SUCCESS,
+    GET_USER_FAILURE
 } from '../actions/actionTypes';
 
 const initialState = {
-    user: {},
     authenticated: false,
     page: 'login',
-    request: false
+    request: false,
+    requestUser: false,
+    user: null
 };
 
 const reducer = (state=initialState, action) => {
@@ -21,9 +25,17 @@ const reducer = (state=initialState, action) => {
                 page: action.page
             }
         case AUTHENTICATE:
-            return {
-                ...state,
-                authenticated: action.authenticate
+            if (action.logout) {
+                return {
+                    ...state,
+                    authenticated: action.authenticate,
+                    user: null
+                }
+            } else {
+                return {
+                    ...state,
+                    authenticated: action.authenticate
+                }
             }
         case REQUEST_AUTHENTICATED:
             return {
@@ -41,6 +53,22 @@ const reducer = (state=initialState, action) => {
                 ...state,
                 request: false,
                 authenticated: false
+            }
+        case GET_USER_REQUEST:
+            return {
+                ...state,
+                requestUser: true
+            }
+        case GET_USER_SUCCESS:
+            return {
+                ...state,
+                requestUser: false,
+                user: action.user
+            }
+        case GET_USER_FAILURE:
+            return {
+                ...state,
+                requestUser: false
             }
         default: return state
     }

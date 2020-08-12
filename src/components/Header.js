@@ -170,7 +170,7 @@ class Header extends React.Component {
 
     logout = () => {
         window.localStorage.removeItem('token');
-        this.props.authenticate(false);
+        this.props.authenticate(false, true);
         if (window.location.pathname.split('/').includes('profile')) {
             this.props.history.push('/display');
         }
@@ -285,7 +285,7 @@ const mapDispatchToProps = (dispatch) => {
         setTimer: (time) => dispatch(setTimer(time)),
         openAuthenticateModal: () => dispatch(openAuthenticateModal()),
         authenticatePage: (page) => dispatch(authenticatePage(page)),
-        authenticate: (bol) => dispatch(authenticate(bol))
+        authenticate: (bol, logout) => dispatch(authenticate(bol, logout))
     } 
 };
 

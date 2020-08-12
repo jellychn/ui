@@ -24,6 +24,7 @@ import Item from './pages/Item';
 import Checkout from './pages/Checkout';
 import Favorites from './pages/Favorites';
 import Modal from './components/Modal';
+import NotificationModal from './components/NotificationModal';
 
 class App extends React.Component {
   componentDidMount () {
@@ -49,12 +50,13 @@ class App extends React.Component {
 
   render () {
     if (this.props.request) {
-      return <div/>
+      return <div className='loading-container'><div className='loader'/></div>
     } else {
       return (
         <div className="App">
             <Header/>
             <Modal/>
+            <NotificationModal/>
             <div className='app-body'>
               <div className='container'>
                 <Switch>

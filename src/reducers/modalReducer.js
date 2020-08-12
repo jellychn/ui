@@ -2,14 +2,19 @@ import {
     CLOSE_MODAL,
     OPEN_HEADER_MODAL,
     OPEN_SEARCH_MODAL,
-    OPEN_AUTHENTICATE_MODAL
+    OPEN_AUTHENTICATE_MODAL,
+    TOGGLE_NOFTIFICATION,
+    OPEN_UPDATE_PASSWORD_MODAL
 } from '../actions/actionTypes';
 
 const initialState = {
     modal: false,
     headerModal: false,
     searchModal: false,
-    authenticateModal: false
+    authenticateModal: false,
+    notificationModal: false,
+    notificationText: '',
+    passwordModal: false
 };
 
 const reducer = (state=initialState, action) => {
@@ -20,6 +25,7 @@ const reducer = (state=initialState, action) => {
                 modal: false,
                 headerModal: false,
                 searchModal: false,
+                passwordModal: false,
                 authenticateModal: false
             }
         case OPEN_HEADER_MODAL:
@@ -28,6 +34,7 @@ const reducer = (state=initialState, action) => {
                 modal: true,
                 headerModal: true,
                 searchModal: false,
+                passwordModal: false,
                 authenticateModal: false
             }
         case OPEN_SEARCH_MODAL:
@@ -36,6 +43,7 @@ const reducer = (state=initialState, action) => {
                 modal: action.modal,
                 searchModal: action.modal,
                 headerModal: false,
+                passwordModal: false,
                 authenticateModal: false
             }
         case OPEN_AUTHENTICATE_MODAL:
@@ -44,7 +52,23 @@ const reducer = (state=initialState, action) => {
                 modal: true,
                 searchModal: false,
                 headerModal: false,
+                passwordModal: false,
                 authenticateModal: true
+            }
+        case TOGGLE_NOFTIFICATION:
+            return {
+                ...state,
+                notificationModal: action.bol,
+                notificationText: action.text
+            }
+        case OPEN_UPDATE_PASSWORD_MODAL:
+            return {
+                ...state,
+                modal: true,
+                passwordModal: true,
+                searchModal: false,
+                headerModal: false,
+                authenticateModal: false
             }
         default: return state;
     }

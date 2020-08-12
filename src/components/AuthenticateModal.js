@@ -43,7 +43,7 @@ class AuthenticateModal extends React.Component {
     validateEmail = (email) => {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
-    }
+    };
 
     onRegister = (e) => {
         e.preventDefault();
@@ -78,8 +78,8 @@ class AuthenticateModal extends React.Component {
             let data = {
                 email: this.state.email,
                 password: this.state.password,
-                firstname: this.state.firstname,
-                lastname: this.state.lastname
+                firstname: this.state.firstname.charAt(0).toUpperCase() + this.state.firstname.slice(1),
+                lastname: this.state.lastname.charAt(0).toUpperCase() + this.state.lastname.slice(1)
             };
             
             axios.post('http://localhost:4001/api/users/register', JSON.stringify(data), {headers: {'Content-Type': 'application/json'}}
@@ -127,7 +127,7 @@ class AuthenticateModal extends React.Component {
                 } else if (res.status === 200) {
                     this.setState({email:'', password:''});
                     localStorage.setItem('token', res.data.token);
-                    this.props.authenticate(true);
+                    this.props.authenticate(true, false);
                     this.props.closeModal();
                 } else {
                     this.setState({errorMsg:'SOMETHING WENT WRONG: PLEASE TRY AGAIN', error:true});
@@ -214,7 +214,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         closeModal: () => dispatch(closeModal()),
         authenticatePage: (page) => dispatch(authenticatePage(page)),
-        authenticate: (bol) => dispatch(authenticate(bol))
+        authenticate: (bol, logout) => dispatch(authenticate(bol, logout))
     }
 };
 
