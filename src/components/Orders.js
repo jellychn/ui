@@ -1,54 +1,80 @@
 import React from 'react';
+import axios from 'axios';
 
-function Orders() {
-    return (
-        <div className='order-list'>
-            <div className='ordered'>
-                <div className='order-header'>
-                    <p style={{fontWeight: 'bold'}}>ORDER NO. 1234567890</p>
-                    <p style={{marginBottom: '20px', color: 'gray'}}>PLACED ON 10/05/2020</p>
-                    <div className='input-align'>
-                        <p>ITEMS 2 | TOTAL $150 </p>
-                    </div>
-                </div>
-                <div className='order-body'>
-                    <div className='order-item'>
-                        <div className='order-item-inner'>
-                            <div className='img-link'>
-                                <img alt='' src='https://ae01.alicdn.com/kf/HTB1lWWEVQvoK1RjSZFNq6AxMVXaN/Spring-and-Autumn-New-men-s-printed-long-sleeved-T-shirt-teen-round-neck-bottom-top.jpg'/>
+class Orders extends React.Component {
+    state = {
+        orders: [],
+        featched: false
+    }
+
+    componentDidMount () {
+        const token = window.localStorage.getItem('token');
+        axios.post('http://localhost:4001/api/orders/userOrders', {}, {headers: {'Content-Type': 'application/json', 'X-Authorization': token}}).then(res => {
+            if (res.status === 200) {
+                this.setState({orders: res.data, featched: true});
+            }
+        });
+    };
+
+    render () {
+        if (this.state.featched) {
+            if (this.state.orders.length > 0) {
+                const orders = this.state.orders.map((order, index) => {
+                    const orderItems = order.order.map((item, index) => {
+                        return (
+                            <div key={index} className='order-item'>
+                                <div className='order-item-inner'>
+                                    <div className='img-link'>
+                                        <img alt={item.name} src={item.colors[item.color]}/>
+                                    </div>
+                                    <div className='order-info'>
+                                        <p style={{fontWeight: 'bold', color: 'black'}}>{item.name.toUpperCase()}</p>
+                                        <p>{item.category.toUpperCase()}</p>
+                                        <p>{`SIZE ${item.size.toUpperCase()}`}</p>
+                                        <p>{`COLOR ${item.color.toUpperCase()}`}</p>
+                                    </div>
+                                    <p style={{margin: '0 0 0 auto', fontWeight: 'bold'}}>{`${item.quantity} X $${item.price}`}</p>
+                                </div>
                             </div>
-                            <div className='order-info'>
-                                <p style={{fontWeight: 'bold', color: 'black'}}>TOM AND JERRY</p>
-                                <p>TEE</p>
-                                <p>SIZE L</p>
-                                <p>COLOR WHITE</p>
+                        )
+                    });
+        
+                    return (
+                        <div key={index} className='ordered'>
+                            <div className='order-header'>
+                                <p style={{fontWeight: 'bold'}}>{`ORDER NO. ${order._id.toUpperCase()}`}</p>
+                                <p style={{marginBottom: '20px', color: 'gray'}}>{`PLACED ON ${order.date}`}</p>
+                                <p>ORDER STATUS: {order.status.toUpperCase()}</p>
+                                <p>{`DELIVERY $${order.delivery}`} </p>
+                                <p>{`TOTAL $${order.total}`} </p>
                             </div>
-                            <p style={{margin: '0 0 0 auto', fontWeight: 'bold'}}>2 X $80</p>
+                            <div className='order-body'>
+                                {orderItems}
+                                <div className='order-options'>
+                                    <button style={{display: order.proccesed ? 'none':'block'}}>CANCLE ORDER</button>
+                                    <button style={{display: order.proccesed ? 'block':'none'}}>TRACK ORDER</button>
+                                </div>
+                            </div>
                         </div>
+                    )
+                });
+            
+                return (
+                    <div className='order-list'>
+                        {orders}
                     </div>
-                    <div className='order-item'>
-                        <div className='order-item-inner'>
-                            <div className='img-link'>
-                                <img alt='' src='https://ae01.alicdn.com/kf/HTB1PQ32M6DpK1RjSZFrq6y78VXaD/2020-new-men-t-shirt-casual-short-sleeve-men-s-basic-tops-tees-stretch-t-shirt.jpg'/>
-                            </div>
-                            <div className='order-info'>
-                                <p style={{fontWeight: 'bold', color: 'black'}}>TOM AND JERRY</p>
-                                <p>TEE</p>
-                                <p>SIZE L</p>
-                                <p>COLOR WHITE</p>
-                            </div>
-                            <p style={{margin: '0 0 0 auto', fontWeight: 'bold'}}>2 X $80</p>
-                        </div>
+                )
+            } else {
+                return (
+                    <div className='order-list'>
+                        <h4 style={{padding:'0 0 0 20px'}}>YOU HAVE NO ORDERS</h4>
                     </div>
-                    <div className='order-options'>
-                        <button>CANCLE X</button>
-                        <p>|</p>
-                        <button>TRACK</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    ) 
+                )
+            }
+        } else {
+            return <div className='loading-container'><div className='loader'/></div>
+        }
+    } 
 }
 
 export default Orders;

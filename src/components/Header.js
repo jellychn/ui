@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
+import axios from 'axios';
 import {
     changeCategory,
     updateGender,
@@ -16,7 +17,8 @@ import {
 import {
     openSearchModal,
     openAuthenticateModal,
-    closeModal
+    closeModal,
+    toggleNotification
 } from '../actions/modalAction';
 import {
     authenticatePage,
@@ -169,11 +171,18 @@ class Header extends React.Component {
     };
 
     logout = () => {
-        window.localStorage.removeItem('token');
-        this.props.authenticate(false, true);
-        if (window.location.pathname.split('/').includes('profile')) {
-            this.props.history.push('/display');
-        }
+        this.setState({userOptions: false});
+        const token = window.localStorage.getItem('token');
+        axios.post('http://localhost:4001/api/users/logout', {}, {headers: {'Content-Type': 'application/json', 'X-Authorization': token}}).then(res => {
+            if (res.status === 200) {
+                window.localStorage.removeItem('token');
+                this.props.authenticate(false, true);
+                this.props.toggleNotification(true, 'YOU HAVE LOGGED OUT');
+                if (window.location.pathname.split('/').includes('profile')) {
+                    this.props.history.push('/display');
+                }
+            }
+        });
     };
 
     render () {
@@ -285,7 +294,8 @@ const mapDispatchToProps = (dispatch) => {
         setTimer: (time) => dispatch(setTimer(time)),
         openAuthenticateModal: () => dispatch(openAuthenticateModal()),
         authenticatePage: (page) => dispatch(authenticatePage(page)),
-        authenticate: (bol, logout) => dispatch(authenticate(bol, logout))
+        authenticate: (bol, logout) => dispatch(authenticate(bol, logout)),
+        toggleNotification: (bol, text) => dispatch(toggleNotification(bol, text))
     } 
 };
 

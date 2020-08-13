@@ -1,28 +1,282 @@
 import React from 'react';
-import Cart from '../components/Cart';
-import Order from '../components/Order';
+import {connect} from 'react-redux';
+import {
+    checkCartHasItems
+} from '../actions/itemsActions';
+import {
+    getUser
+} from '../actions/userActions';
+import CartItem from '../components/CartItems';
+import axios from 'axios';
 
 class Checkout extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            page: 'CART'
+            page: 'CART',
+            paymentType: 'CARD',
+            subtotal: 0,
+            total: 0,
+            delivery: 10,
+            cart: JSON.parse(localStorage.getItem('cart')),
+            email: '',
+            name: '',
+            number: '',
+            mobile: '',
+            street: '',
+            appartment: '',
+            country: '-',
+            state: '',
+            city: '',
+            zipcode: '',
+            validatedEmail: true,
+            validatedName: true,
+            validatedNumber: true,
+            validatedMobileNumber: true,
+            validatedStreet: true,
+            validatedAppartment: true,
+            validatedCountry: true,
+            validatedState: true,
+            validatedCity: true,
+            validatedZipcode: true,
+            error: false,
+            errorMsg: ''
         }
     }
 
     componentDidMount () {
         window.scrollTo(0,0);
+        this.props.getUser();
+        if (localStorage.getItem('cart') === null) {
+            localStorage.setItem('cart', JSON.stringify([]));
+        }
+        this.subtotal();
     };
 
     navigation = (to) => {
         this.setState({page: to});
     }
 
+    subtotal = () => {
+        let subtotal = 0;
+        const cart = JSON.parse(localStorage.getItem('cart'))
+        for (let i=0;i<cart.length;i++) {
+            subtotal += parseInt(cart[i].quantity) * parseInt(cart[i].price);
+        }
+        this.setState({subtotal: subtotal, total: subtotal + this.state.delivery});
+    };
+
+    remove = (item) => {
+        let index = 0;
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        for (let i=0;i<cart.length;i++) {
+            if (cart[i]._id === item._id && cart[i].size === item.size && cart[i].color === item.color) {
+                break;
+            }
+            index += 1;
+        }
+        cart.splice(index, 1)
+        localStorage.setItem('cart', JSON.stringify(cart));
+        this.subtotal();
+        this.props.checkCartHasItems();
+        this.setState({cart:cart});
+    };
+
+    onChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+    };
+
+    validateEmail = (email) => {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    };
+
+    onPlaceOrder = (e) => {
+        console.log(this.props.user)
+        e.preventDefault();
+        let validated = true;
+        this.setState({
+            validatedEmail: true,
+            validatedName: true,
+            validatedNumber: true,
+            validatedMobileNumber: true,
+            validatedStreet: true,
+            validatedAppartment: true,
+            validatedCountry: true,
+            validatedState: true,
+            validatedCity: true,
+            validatedZipcode: true,
+            error: false,
+            errorMsg: ''
+        });
+        // validate address
+        if (this.state.email.length === 0 || !this.validateEmail(this.state.email)) {
+            this.setState({validatedEmail:false});
+            validated = false;
+        }
+        if (this.state.name.length === 0) {
+            this.setState({validatedName: false});
+            validated = false;
+        }
+        var regex = /^(\+?\d{1,3}|\d{1,4})$/gm
+        if (this.state.number.length === 0 || !this.state.number.match(regex)) {
+            this.setState({validatedNumber: false});
+            validated = false;
+        }
+        if (this.state.mobile.length === 0 || !/^\d+$/.test(this.state.mobile)) {
+            this.setState({validatedMobileNumber: false});
+            validated = false;
+        }
+        if (this.state.street.length === 0) {
+            this.setState({validatedStreet: false});
+            validated = false;
+        }
+        if (this.state.country === '-' || this.state.country.length === 0) {
+            this.setState({validatedCountry: false});
+            validated = false;
+        }
+        if (this.state.state.length === 0) {
+            this.setState({validatedState: false});
+            validated = false;
+        }
+        if (this.state.city.length === 0) {
+            this.setState({validatedCity: false});
+            validated = false;
+        }
+        if (this.state.zipcode.length === 0 || !/^\d+$/.test(this.state.zipcode)) {
+            this.setState({validatedZipcode: false});
+            validated = false;
+        }
+
+        // validate rest of data
+        if (this.state.paymentType.length === 0) {
+            validated = false;
+        }
+        if (!/^\d+$/.test(this.state.subtotal)) {
+            validated = false;
+        }
+        if (!/^\d+$/.test(this.state.total)) {
+            validated = false;
+        }
+        if (!/^\d+$/.test(this.state.delivery)) {
+            validated = false;
+        }
+        if (this.state.cart.length === 0) {
+            validated = false;
+        }
+
+        if (validated) {
+            const data = {
+                paymentType: this.state.paymentType,
+                subtotal: this.state.subtotal,
+                total: this.state.total,
+                delivery: this.state.delivery,
+                order: this.state.cart,
+                address: {
+                    email: this.state.email,
+                    name: this.state.name,
+                    number: this.state.number,
+                    mobile: this.state.mobile,
+                    street: this.state.street,
+                    appartment: this.state.appartment,
+                    country: this.state.country,
+                    state: this.state.state,
+                    city: this.state.city,
+                    zipcode: this.state.zipcode,
+                }
+            }
+
+            if (this.props.authenticated && this.props.user._id !== null &&  this.props.user._id !== undefined) {
+                data.userId = this.props.user._id;
+            } else {
+                data.userId = null;
+            }
+
+            axios.post('http://localhost:4001/api/orders/add', JSON.stringify(data), {headers: {'Content-Type': 'application/json'}}).then(res => {
+                console.log(res)
+                if (res.status === 201) {
+                    // notifiy, reset cart
+                } else {
+                    this.setState({error:true, errorMsg:'SOMETHING WENT WRONG, PLEASE TRY AGAIN.'});
+                }
+            }).catch(err => {
+                this.setState({error:true, errorMsg:'SOMETHING WENT WRONG, PLEASE TRY AGAIN.'});
+            });
+        }
+    };
+
     content = () => {
         if (this.state.page === 'CART') {
-            return <Cart/>
+            let cartItems = JSON.parse(localStorage.getItem('cart')).map((item, index) => {
+                return <CartItem key={index} index={index} item={item} subtotal={this.subtotal} remove={this.remove}/>
+            });
+    
+            if (this.state.cart.length > 0) {
+                return (
+                    <div className='cart'>
+                        <div className='cart-items-container'>
+                            {cartItems}
+                        </div>
+                        <div className='summary'>
+                            <p>{'SUBTOTAL $' + this.state.subtotal}</p>
+                            <p>{'ESTIMATED DELIVERY $' + this.state.delivery}</p>
+                            <p className='total'>{'TOTAL $' + this.state.total}</p>
+                            <button onClick={() => {this.navigation('ORDER')}}>CHECKOUT</button>
+                            <button className='paypal'>PAYPAL</button>
+                        </div>
+                    </div>
+                )
+            } else {
+                return (
+                    <div className='cart'>
+                        <div className='cart-items-container'>
+                            <h4>YOUR CART IS EMPTY</h4>
+                        </div>
+                    </div>
+                )
+            }
         } else if (this.state.page === 'ORDER') {
-            return <Order/>
+            return (
+                <form method='POST' className='order'>
+                    <div className='order-details'>
+                        <p style={{display: this.state.error ? 'block':'none', fontSize:'12px', color:'#facfcf', marginBottom:'10px'}}>{this.state.errorMsg}</p>
+                        <h1>SHIPPING</h1>
+                        <p>CONTACT</p>
+                        <input type='text' name='email' placeholder='EMAIL' onChange={(e) => {this.onChange(e)}} style={{border: this.state.validatedEmail ? '3px solid #eee':'3px solid #facfcf'}}/>
+                        <input type='text' name='name' placeholder='FULL NAME' onChange={(e) => {this.onChange(e)}} style={{border: this.state.validatedName ? '3px solid #eee':'3px solid #facfcf'}}/>
+                        <div className='input-align'>
+                            <input type='text' name='number' placeholder='+ [ ]' onChange={(e) => {this.onChange(e)}} style={{border: this.state.validatedNumber ? '3px solid #eee':'3px solid #facfcf', width: '100px'}}/>
+                            <input type='text' name='mobile' placeholder='MOBILE' onChange={(e) => {this.onChange(e)}} style={{border: this.state.validatedMobileNumber ? '3px solid #eee':'3px solid #facfcf'}}/>
+                        </div>
+                        <p>ADDRESS</p>
+                        <input type='text' name='street' placeholder='STREET' onChange={(e) => {this.onChange(e)}} style={{border: this.state.validatedStreet ? '3px solid #eee':'3px solid #facfcf'}}/>
+                        <input type='text' name='appartment' placeholder='Appartment, UNIT, etc' onChange={(e) => {this.onChange(e)}} style={{border: this.state.validatedAppartment ? '3px solid #eee':'3px solid #facfcf'}}/>
+                        <select name='country' onChange={(e) => {this.onChange(e)}} style={{border: this.state.validatedCountry ? '3px solid #eee':'3px solid #facfcf'}}>
+                            <option>-</option>
+                            <option>NEW ZEALAND</option>
+                        </select>
+                        <input type='text' name='state' placeholder='State/Province/Region' onChange={(e) => {this.onChange(e)}} style={{border: this.state.validatedState ? '3px solid #eee':'3px solid #facfcf'}}/>
+                        <input type='text' name='city' placeholder='City' onChange={(e) => {this.onChange(e)}} style={{border: this.state.validatedCity ? '3px solid #eee':'3px solid #facfcf'}}/>
+                        <input type='text' name='zipcode' placeholder='Zip Code' onChange={(e) => {this.onChange(e)}} style={{border: this.state.validatedZipcode ? '3px solid #eee':'3px solid #facfcf'}}/>
+                        <h1 style={{margin: '40px 0 10px 0'}}>PAYMENT</h1>
+                        <p>CARD NUMBER</p>
+                        <input type='text' placeholder='0000 0000 0000 0000'/>
+                        <p>CARD HOLDER</p>
+                        <input type='text' placeholder='NAME'/>
+                        <p>EXPIRES</p>
+                        <input type='text' placeholder='MM/YY'/>
+                        <p>CVV</p>
+                        <input type='text' placeholder='000'/>
+                    </div>
+        
+                    <div className='summary'>
+                        <p>SUBTOTAL $150</p>
+                        <p>ESTIMATED DELIVERY $10</p>
+                        <p className='total'>TOTAL $160</p>
+                        <button onClick={(e) => {this.onPlaceOrder(e)}}>PLACE ORDER</button>
+                    </div>
+                </form>
+            )
         }
     }
 
@@ -42,4 +296,19 @@ class Checkout extends React.Component {
     }
 }
 
-export default Checkout;
+const mapStateToProps = state => {
+    return {
+        user: state.user.user,
+        authenticated: state.user.authenticated
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        checkCartHasItems: () => dispatch(checkCartHasItems()),
+        getUser: () => dispatch(getUser())
+    }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

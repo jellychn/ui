@@ -52,7 +52,8 @@ const reducer = (state=initialState, action) => {
             return {
                 ...state,
                 request: false,
-                authenticated: false
+                authenticated: false,
+                user: null
             }
         case GET_USER_REQUEST:
             return {
