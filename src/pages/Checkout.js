@@ -1,24 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {
-    checkCartHasItems
-} from '../actions/itemsActions';
-import {
     getUser
 } from '../actions/userActions';
-import CartItem from '../components/CartItems';
 import axios from 'axios';
 
 class Checkout extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            page: 'CART',
             paymentType: 'CARD',
-            subtotal: 0,
-            total: 0,
-            delivery: 10,
-            cart: JSON.parse(localStorage.getItem('cart')),
             email: '',
             name: '',
             number: '',
@@ -47,39 +38,6 @@ class Checkout extends React.Component {
     componentDidMount () {
         window.scrollTo(0,0);
         this.props.getUser();
-        if (localStorage.getItem('cart') === null) {
-            localStorage.setItem('cart', JSON.stringify([]));
-        }
-        this.subtotal();
-    };
-
-    navigation = (to) => {
-        this.setState({page: to});
-    }
-
-    subtotal = () => {
-        let subtotal = 0;
-        const cart = JSON.parse(localStorage.getItem('cart'))
-        for (let i=0;i<cart.length;i++) {
-            subtotal += parseInt(cart[i].quantity) * parseInt(cart[i].price);
-        }
-        this.setState({subtotal: subtotal, total: subtotal + this.state.delivery});
-    };
-
-    remove = (item) => {
-        let index = 0;
-        let cart = JSON.parse(localStorage.getItem('cart'));
-        for (let i=0;i<cart.length;i++) {
-            if (cart[i]._id === item._id && cart[i].size === item.size && cart[i].color === item.color) {
-                break;
-            }
-            index += 1;
-        }
-        cart.splice(index, 1)
-        localStorage.setItem('cart', JSON.stringify(cart));
-        this.subtotal();
-        this.props.checkCartHasItems();
-        this.setState({cart:cart});
     };
 
     onChange = (e) => {
@@ -92,7 +50,6 @@ class Checkout extends React.Component {
     };
 
     onPlaceOrder = (e) => {
-        console.log(this.props.user)
         e.preventDefault();
         let validated = true;
         this.setState({
@@ -168,10 +125,10 @@ class Checkout extends React.Component {
         if (validated) {
             const data = {
                 paymentType: this.state.paymentType,
-                subtotal: this.state.subtotal,
-                total: this.state.total,
-                delivery: this.state.delivery,
-                order: this.state.cart,
+                // subtotal: this.state.subtotal,
+                // total: this.state.total,
+                // delivery: this.state.delivery,
+                // order: this.state.cart,
                 address: {
                     email: this.state.email,
                     name: this.state.name,
@@ -205,38 +162,12 @@ class Checkout extends React.Component {
         }
     };
 
-    content = () => {
-        if (this.state.page === 'CART') {
-            let cartItems = JSON.parse(localStorage.getItem('cart')).map((item, index) => {
-                return <CartItem key={index} index={index} item={item} subtotal={this.subtotal} remove={this.remove}/>
-            });
-    
-            if (this.state.cart.length > 0) {
-                return (
-                    <div className='cart'>
-                        <div className='cart-items-container'>
-                            {cartItems}
-                        </div>
-                        <div className='summary'>
-                            <p>{'SUBTOTAL $' + this.state.subtotal}</p>
-                            <p>{'ESTIMATED DELIVERY $' + this.state.delivery}</p>
-                            <p className='total'>{'TOTAL $' + this.state.total}</p>
-                            <button onClick={() => {this.navigation('ORDER')}}>CHECKOUT</button>
-                            <button className='paypal'>PAYPAL</button>
-                        </div>
-                    </div>
-                )
-            } else {
-                return (
-                    <div className='cart'>
-                        <div className='cart-items-container'>
-                            <h4>YOUR CART IS EMPTY</h4>
-                        </div>
-                    </div>
-                )
-            }
-        } else if (this.state.page === 'ORDER') {
-            return (
+    render () {
+        return (
+            <div className='checkout'>
+                <div className='navigation-header'>
+                    <h1 className='directory'>CHECKOUT</h1>
+                </div>
                 <form method='POST' className='order'>
                     <div className='order-details'>
                         <p style={{display: this.state.error ? 'block':'none', fontSize:'12px', color:'#facfcf', marginBottom:'10px'}}>{this.state.errorMsg}</p>
@@ -276,21 +207,6 @@ class Checkout extends React.Component {
                         <button onClick={(e) => {this.onPlaceOrder(e)}}>PLACE ORDER</button>
                     </div>
                 </form>
-            )
-        }
-    }
-
-    render () {
-        return (
-            <div className='checkout'>
-                <div className='navigation-header'>
-                    <h1 className='directory'>{this.state.page}</h1>
-                    <div className='navigation'>
-                        <h2 onClick={() => {this.navigation('CART')}}>CART</h2>
-                        <h2 onClick={() => {this.navigation('ORDER')}}>ORDER</h2>
-                    </div>
-                </div>
-                {this.content()}
             </div>
         )
     }
@@ -305,7 +221,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        checkCartHasItems: () => dispatch(checkCartHasItems()),
         getUser: () => dispatch(getUser())
     }
 };

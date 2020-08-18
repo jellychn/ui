@@ -1,5 +1,4 @@
 import {
-    CHECK_CART_HAS_ITEMS,
     CHECK_FAVORITES_HAS_ITEMS,
     ITEM_ADDED,
     REQUEST_ITEM,
@@ -31,11 +30,6 @@ const reducer = (state=initialState, action) => {
                 ...state,
                 headerModalItem: action.item,
                 headerModalAdded: action.added
-            }
-        case CHECK_CART_HAS_ITEMS:
-            return {
-                ...state,
-                cart: action.cart
             }
         case CHECK_FAVORITES_HAS_ITEMS:
             return {

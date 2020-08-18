@@ -3,7 +3,7 @@ import './App.scss';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {
-  checkCartHasItems,
+  // checkCartHasItems,
   checkFavoritesHasItems
 } from './actions/itemsActions';
 import {
@@ -21,6 +21,7 @@ import Home from './pages/Home';
 import Display from './pages/Display';
 import Profile from './pages/Profile';
 import Item from './pages/Item';
+import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Favorites from './pages/Favorites';
 import Modal from './components/Modal';
@@ -29,11 +30,6 @@ import NotificationModal from './components/NotificationModal';
 class App extends React.Component {
   componentDidMount () {
     this.props.checkAuthenticated();
-    if (localStorage.getItem('cart') === null) {
-      localStorage.setItem('cart', JSON.stringify([]));
-    } else {
-      this.props.checkCartHasItems();
-    }
 
     if (localStorage.getItem('favorites') === null) {
       localStorage.setItem('favorites', JSON.stringify([]));
@@ -64,6 +60,9 @@ class App extends React.Component {
                     <Favorites/>
                   </Route>
                   <Route path='/cart'>
+                    <Cart/>
+                  </Route>
+                  <Route path='/checkout'>
                     <Checkout/>
                   </Route>
                   <Route path='/item/:id'>
@@ -98,7 +97,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    checkCartHasItems: () => dispatch(checkCartHasItems()),
     checkFavoritesHasItems: () => dispatch(checkFavoritesHasItems()),
     checkAuthenticated: () => dispatch(checkAuthenticated())
   }

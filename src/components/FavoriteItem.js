@@ -2,13 +2,15 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {
-    checkCartHasItems,
     checkFavoritesHasItems,
     itemAdded
 } from '../actions/itemsActions';
 import {
     openHeaderModal
 } from '../actions/modalAction';
+import {
+    addItemToCart
+} from '../actions/cartActions';
 
 class FavoriteItem extends React.Component {
     state = {
@@ -26,13 +28,6 @@ class FavoriteItem extends React.Component {
         var size = e.options[e.selectedIndex].value;
         if (size !== '-') {
             this.setState({sizeChosen: true});
-            if (localStorage.getItem('cart') === null) {
-                localStorage.setItem('cart', JSON.stringify([]));
-            }
-            
-            let inCart = false;
-            let cart = JSON.parse(localStorage.getItem('cart'));
-    
             const newItem = {
                 '_id': item._id,
                 'name': item.name,
@@ -44,19 +39,7 @@ class FavoriteItem extends React.Component {
                 'images': item.images,
                 'quantity': 1
             }
-    
-            for (let i=0; i<cart.length; i++) {
-                if (cart[i]._id === newItem._id && cart[i].size === newItem.size && cart[i].color === newItem.color) {
-                    cart[i].quantity = cart[i].quantity += newItem.quantity;
-                    inCart = true;
-                }
-            }
-    
-            if (inCart === false) {
-                cart.push(newItem);
-            }
-            localStorage.setItem('cart', JSON.stringify(cart));
-            this.props.checkCartHasItems();
+            this.props.addItemToCart(newItem);
             this.props.itemAdded(newItem, 'CART', item.color);
             this.props.openHeaderModal();
             
@@ -100,10 +83,10 @@ class FavoriteItem extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        checkCartHasItems: () => dispatch(checkCartHasItems()),
         checkFavoritesHasItems: () => dispatch(checkFavoritesHasItems()),
         itemAdded: (item, added, color) => dispatch(itemAdded(item, added, color)),
-        openHeaderModal: () => dispatch(openHeaderModal())
+        openHeaderModal: () => dispatch(openHeaderModal()),
+        addItemToCart: (item) => dispatch(addItemToCart(item))
     }
 };
 

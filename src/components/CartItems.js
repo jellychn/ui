@@ -1,5 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {
+    updateCartItemQuantity
+} from '../actions/cartActions';
 
 class CartItem extends React.Component {
     state = {
@@ -18,20 +22,7 @@ class CartItem extends React.Component {
                 this.setState({quantity: this.state.quantity - 1});
             }
         }
-
-        if (localStorage.getItem('cart') === null) {
-            localStorage.setItem('cart', JSON.stringify([]));
-        }
-
-        let cart = JSON.parse(localStorage.getItem('cart'));
-        for (let i=0;i<cart.length;i++) {
-            if (cart[i]._id === item._id && cart[i].size === item.size && cart[i].color === item.color) {
-                cart[i].quantity = this.state.quantity;
-            }
-        }
-
-        localStorage.setItem('cart', JSON.stringify(cart));
-        this.props.subtotal();
+        this.props.updateCartItemQuantity(item, this.state.quantity);
     };
 
     render () {
@@ -60,4 +51,10 @@ class CartItem extends React.Component {
     }
 };
 
-export default CartItem;
+const mapDispatchToProps = dispatch => {
+    return {
+        updateCartItemQuantity: (item, quantity) => dispatch(updateCartItemQuantity(item, quantity))
+    }
+};
+
+export default connect(null, mapDispatchToProps)(CartItem);

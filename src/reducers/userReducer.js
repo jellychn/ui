@@ -6,11 +6,13 @@ import {
     REQUEST_AUTHENTICATED_FALIURE,
     GET_USER_REQUEST,
     GET_USER_SUCCESS,
-    GET_USER_FAILURE
+    GET_USER_FAILURE,
+    AUTHENTICATE_TRIGGERED
 } from '../actions/actionTypes';
 
 const initialState = {
     authenticated: false,
+    authenticateTriggered: true,
     page: 'login',
     request: false,
     requestUser: false,
@@ -36,6 +38,11 @@ const reducer = (state=initialState, action) => {
                     ...state,
                     authenticated: action.authenticate
                 }
+            }
+        case AUTHENTICATE_TRIGGERED:
+            return {
+                ...state,
+                authenticateTriggered: action.bol
             }
         case REQUEST_AUTHENTICATED:
             return {

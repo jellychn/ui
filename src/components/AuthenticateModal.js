@@ -4,8 +4,18 @@ import {closeModal} from '../actions/modalAction';
 import axios from 'axios';
 import {
     authenticatePage,
-    authenticate
+    authenticate,
+    authenticateTriggered
 } from '../actions/userActions';
+import {
+    addItemToCartOnLogin
+} from '../actions/cartActions';
+import {
+    toggleNotification
+} from '../actions/modalAction';
+import {
+    getCart
+ } from '../actions/cartActions';
 
 
 class AuthenticateModal extends React.Component {
@@ -128,6 +138,10 @@ class AuthenticateModal extends React.Component {
                     this.setState({email:'', password:''});
                     localStorage.setItem('token', res.data.token);
                     this.props.authenticate(true, false);
+                    this.props.authenticateTriggered(true);
+                    this.props.addItemToCartOnLogin();
+                    this.props.getCart();
+                    this.props.toggleNotification(true, 'YOU HAVE LOGGED IN');
                     this.props.closeModal();
                 } else {
                     this.setState({errorMsg:'SOMETHING WENT WRONG: PLEASE TRY AGAIN', error:true});
@@ -214,7 +228,11 @@ const mapDispatchToProps = (dispatch) => {
     return {
         closeModal: () => dispatch(closeModal()),
         authenticatePage: (page) => dispatch(authenticatePage(page)),
-        authenticate: (bol, logout) => dispatch(authenticate(bol, logout))
+        authenticate: (bol, logout) => dispatch(authenticate(bol, logout)),
+        authenticateTriggered: (bol) => dispatch(authenticateTriggered(bol)),
+        addItemToCartOnLogin: () => dispatch(addItemToCartOnLogin()),
+        toggleNotification: (bol, text) => dispatch(toggleNotification(bol, text)),
+        getCart: () => dispatch(getCart())
     }
 };
 

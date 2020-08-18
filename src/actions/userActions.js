@@ -6,9 +6,11 @@ import {
     REQUEST_AUTHENTICATED_FALIURE,
     GET_USER_REQUEST,
     GET_USER_SUCCESS,
-    GET_USER_FAILURE
+    GET_USER_FAILURE,
+    AUTHENTICATE_TRIGGERED
 } from './actionTypes';
 import axios from 'axios';
+import {getCart} from './cartActions';
 
 export const authenticatePage = (page) => {
     return {
@@ -18,11 +20,17 @@ export const authenticatePage = (page) => {
 };
 
 export const authenticate = (bol, logout) => {
-
     return {
         type: AUTHENTICATE,
         authenticate: bol,
         logout: logout
+    }
+};
+
+export const authenticateTriggered = (bol) => {
+    return {
+        type: AUTHENTICATE_TRIGGERED,
+        bol: bol
     }
 };
 
@@ -47,13 +55,17 @@ export const checkAuthenticated = () => {
         dispatch(requestAuthenticated());
         const token = window.localStorage.getItem('token');
         if (token !== null || token !== undefined || token !== '') {
-            axios.post('http://localhost:4001/api/users/authenticated', {}, {headers: {'Content-Type': 'application/json', 'X-Authorization': token}}).then(() => {
+            axios.post('http://localhost:4001/api/users/authenticated', {}, {headers: {'Content-Type': 'application/json', 'X-Authorization': token}}).then((res) => {
                 dispatch(requestAuthenticatedSuccess());
+                dispatch(getUser());
+                dispatch(getCart());
             }).catch(err => {
                 dispatch(requestAuthenticatedFaliure());
+                dispatch(getCart());
             });
         } else {
             dispatch(requestAuthenticatedFaliure());
+            dispatch(getCart());
         }
     }
 };

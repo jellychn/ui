@@ -22,8 +22,12 @@ import {
 } from '../actions/modalAction';
 import {
     authenticatePage,
-    authenticate
+    authenticate,
+    authenticateTriggered
 } from '../actions/userActions';
+import {
+    getCart
+} from '../actions/cartActions';
 
 import cart_img from '../assets/icons/cart.svg';
 import profile_img from '../assets/icons/profile.svg';
@@ -177,6 +181,8 @@ class Header extends React.Component {
             if (res.status === 200) {
                 window.localStorage.removeItem('token');
                 this.props.authenticate(false, true);
+                this.props.authenticateTriggered(true);
+                this.props.getCart();
                 this.props.toggleNotification(true, 'YOU HAVE LOGGED OUT');
                 if (window.location.pathname.split('/').includes('profile')) {
                     this.props.history.push('/display');
@@ -268,7 +274,7 @@ class Header extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        cart: state.item.cart,
+        cart: state.cart.hasItems,
         favorites: state.item.favorites,
         modal: state.modal.modal,
         gender: state.search.gender,
@@ -295,7 +301,9 @@ const mapDispatchToProps = (dispatch) => {
         openAuthenticateModal: () => dispatch(openAuthenticateModal()),
         authenticatePage: (page) => dispatch(authenticatePage(page)),
         authenticate: (bol, logout) => dispatch(authenticate(bol, logout)),
-        toggleNotification: (bol, text) => dispatch(toggleNotification(bol, text))
+        authenticateTriggered: (bol) => dispatch(authenticateTriggered(bol)),
+        toggleNotification: (bol, text) => dispatch(toggleNotification(bol, text)),
+        getCart: () => dispatch(getCart())
     } 
 };
 
