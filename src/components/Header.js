@@ -32,7 +32,6 @@ import {
 import cart_img from '../assets/icons/cart.svg';
 import profile_img from '../assets/icons/profile.svg';
 import search_img from '../assets/icons/search.svg';
-import favorite_img from '../assets/icons/favorite.svg';
 
 class Header extends React.Component {
     state = {
@@ -220,14 +219,11 @@ class Header extends React.Component {
                     <div className='header-inner'>
                         <div className='header-container'>
                             <Link className='logo' to='/' onClick={() => {this.props.updateGender('')}}>Ui</Link>
-                            <Link className='display-link' to='/display/women' style={{borderBottom: this.props.gender === 'women' && this.state.onDisplayPage ? '5px solid black':'5px solid #eee'}} onClick={() => {this.props.updateGender('women');this.props.getItems()}}>WOMEN</Link>
-                            <Link className='display-link' to='/display/men' style={{borderBottom: this.props.gender === 'men' && this.state.onDisplayPage ? '5px solid black':'5px solid #eee'}} onClick={() => {this.props.updateGender('men');this.props.getSearchItems()}}>MEN</Link>
+                            <Link className='display-link' to='/display/women' style={{borderBottom: this.props.gender === 'women' && this.state.onDisplayPage ? '5px solid black':'5px solid white'}} onClick={() => {this.props.updateGender('women');this.props.getItems()}}>WOMEN</Link>
+                            <Link className='display-link' to='/display/men' style={{borderBottom: this.props.gender === 'men' && this.state.onDisplayPage ? '5px solid black':'5px solid white'}} onClick={() => {this.props.updateGender('men');this.props.getSearchItems()}}>MEN</Link>
                             <div className='header-icons-container' style={{margin:'0 0 0 auto'}}>
                                 <div className='header-icons-wrapper' style={{borderBottom: '3px solid white'}}>
                                     <div className='header-icons' onClick={this.props.openSearchModal} style={{backgroundImage: `url(${search_img})`}}></div>
-                                </div>
-                                <div className='header-icons-wrapper' style={{borderBottom: this.state.page === 'favorites' ? '3px solid #eee':'3px solid white'}}>
-                                    <Link to='/favorites' className='header-icons' style={{backgroundImage: `url(${favorite_img})`}}><div style={{display: this.props.favorites ? 'block':'none'}} className='favorites-indicator'/></Link>
                                 </div>
                                 <div className='header-icons-wrapper' style={{borderBottom: this.state.page === 'cart' ? '3px solid #eee':'3px solid white'}}>
                                     <Link to='/cart' className='header-icons' style={{backgroundImage: `url(${cart_img})`}}><div style={{display: this.props.cart ? 'block':'none'}} className='cart-indicator'/></Link>
@@ -239,6 +235,7 @@ class Header extends React.Component {
                         </div>
 
                         <div className='user-options' style={{display: this.state.userOptions ? 'block':'none'}}>
+                            <Link to='/favorites' style={{display: this.props.authenticated ? 'block':'none'}}><p>FAVORITES</p></Link>
                             <Link to='/profile/settings' style={{display: this.props.authenticated ? 'block':'none'}}><p onClick={this.userOptions}>SETTINGS</p></Link>
                             <Link to='/profile/orders' style={{display: this.props.authenticated ? 'block':'none'}}><p onClick={this.userOptions}>ORDERS</p></Link>
                             <p onClick={this.logout} style={{display: this.props.authenticated ? 'block':'none'}}>LOGOUT</p>
